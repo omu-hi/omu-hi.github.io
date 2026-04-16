@@ -1,0 +1,108 @@
+/* ベース設定 */
+body {
+  font-family: 'Helvetica Neue', 'Noto Sans JP', sans-serif;
+  font-size: 16px;
+  color: #333;
+  background-color: #fdfdfd;
+  line-height: 1.8;
+  margin: 0;
+  padding: 0 15px;
+}
+
+/* 見出し */
+h2.ttl__style01 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #003366;
+  border-left: 6px solid #006699;
+  padding-left: 12px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+h4.ttl__style03 span {
+  font-size: 1.6rem;
+  color: #005588;
+  display: block;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+h6.ttl__style05 {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 4px 0;
+}
+
+/* 段落 */
+p {
+  margin: 12px 0;
+}
+
+/* リンク */
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 画像 */
+img {
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+}
+
+/* 教員画像のスタイル調整 */
+img[alt="honda"], img[alt="ubukata"] {
+  max-width: 300px;
+  height: auto;
+}
+
+/* テーブル */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  background-color: #fff;
+}
+
+table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 0.95rem;
+  background-color: #f9f9f9;
+}
+
+/* グリッドレイアウト */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.col {
+  flex: 1 1 45%;
+}
+
+/* レスポンシブ調整 */
+@media screen and (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .col {
+    width: 100%;
+  }
+
+  h2.ttl__style01 {
+    font-size: 1.8rem;
+  }
+
+  h4.ttl__style03 span {
+    font-size: 1.4rem;
+  }
+}

@@ -1,47 +1,45 @@
-/* ベース設定 */
-body {
-  font-family: 'Helvetica Neue', 'Noto Sans JP', sans-serif;
-  font-size: 16px;
-  color: #333;
-  background-color: #fdfdfd;
-  line-height: 1.8;
+/* ===== Base ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
-  padding: 0 15px;
+  padding: 0;
 }
 
-/* 見出し */
-h2.ttl__style01 {
-  font-size: 2.2rem;
-  font-weight: 600;
-  color: #003366;
-  border-left: 6px solid #006699;
-  padding-left: 12px;
-  margin-top: 40px;
-  margin-bottom: 20px;
+:root {
+  --color-bg: #ffffff;
+  --color-text: #171717;
+  --color-text-secondary: #4d4d4d;
+  --color-text-muted: #666666;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-surface: #fafafa;
+  --color-link: #0072f5;
+  --color-focus: hsla(212, 100%, 48%, 1);
+  --shadow-border: 0px 0px 0px 1px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0px 0px 0px 1px rgba(0, 0, 0, 0.08),
+                 0px 2px 2px rgba(0, 0, 0, 0.04),
+                 0px 0px 0px 1px #fafafa;
+  --font-sans: "Geist", "Helvetica Neue", "Noto Sans JP", Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, monospace;
+  --max-width: 880px;
 }
 
-h4.ttl__style03 span {
-  font-size: 1.6rem;
-  color: #005588;
-  display: block;
-  margin-top: 30px;
-  margin-bottom: 10px;
+html {
+  font-feature-settings: "liga";
 }
 
-h6.ttl__style05 {
-  font-size: 1.1rem;
-  color: #666;
-  margin: 4px 0;
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
 }
 
-/* 段落 */
-p {
-  margin: 12px 0;
-}
-
-/* リンク */
 a {
-  color: #0066cc;
+  color: var(--color-link);
   text-decoration: none;
 }
 
@@ -49,60 +47,214 @@ a:hover {
   text-decoration: underline;
 }
 
-/* 画像 */
+a:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
 img {
-  border-radius: 6px;
-  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-}
-
-/* 教員画像のスタイル調整 */
-img[alt="honda"], img[alt="ubukata"] {
-  max-width: 300px;
+  max-width: 100%;
   height: auto;
+  display: block;
 }
 
-/* テーブル */
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-top: 20px;
-  background-color: #fff;
+/* ===== Layout ===== */
+.site-header {
+  border-bottom: 1px solid #ebebeb;
+  padding: 24px 0;
 }
 
-table td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  font-size: 0.95rem;
-  background-color: #f9f9f9;
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-/* グリッドレイアウト */
-.row {
+.section {
+  padding: 64px 0;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+/* ===== Typography ===== */
+.site-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -2.4px;
+  color: var(--color-text);
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.33;
+  letter-spacing: -0.96px;
+  color: var(--color-text);
+  margin-bottom: 16px;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.5px;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+p {
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Staff List ===== */
+.staff-list {
+  list-style: none;
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.staff-list li {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+.staff-list strong {
+  font-weight: 600;
+}
+
+/* ===== News ===== */
+.news-date {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ===== Cards ===== */
+.card {
+  background: var(--color-bg);
+  box-shadow: var(--shadow-card);
+  border-radius: 8px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.card h3 {
+  margin-bottom: 12px;
+}
+
+.card p {
+  font-size: 0.94rem;
+}
+
+/* ===== Research Images ===== */
+.research-images {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
   flex-wrap: wrap;
-  gap: 30px;
-  margin-top: 30px;
 }
 
-.col {
-  flex: 1 1 45%;
+.research-images img {
+  border-radius: 8px;
+  box-shadow: var(--shadow-border);
+  width: calc(33.333% - 8px);
+  min-width: 140px;
+  object-fit: cover;
 }
 
-/* レスポンシブ調整 */
+.research-images.single img {
+  width: 40%;
+  min-width: 200px;
+}
+
+/* ===== Employment Table ===== */
+.employment-section h2 {
+  margin-bottom: 8px;
+}
+
+.employment-note {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.employment-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: var(--shadow-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.employment-table td {
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid #ebebeb;
+}
+
+.employment-table tr:last-child td {
+  border-bottom: none;
+}
+
+.employment-table tr:hover td {
+  background-color: var(--color-surface);
+}
+
+.year-label {
+  font-weight: 600;
+  color: var(--color-text);
+  display: inline;
+}
+
+/* ===== Footer ===== */
+.site-footer {
+  padding: 32px 0;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+/* ===== Responsive ===== */
 @media screen and (max-width: 768px) {
-  .row {
-    flex-direction: column;
+  .site-title {
+    font-size: 2rem;
+    letter-spacing: -1.6px;
   }
 
-  .col {
+  .section {
+    padding: 40px 0;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  .research-images img {
     width: 100%;
   }
 
-  h2.ttl__style01 {
-    font-size: 1.8rem;
+  .research-images.single img {
+    width: 100%;
   }
 
-  h4.ttl__style03 span {
-    font-size: 1.4rem;
+  .staff-list {
+    gap: 16px;
   }
 }
