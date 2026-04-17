@@ -5,17 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Katsuhiro Honda</title>
   <link rel="stylesheet" href="/style.css">
+  <style>
+    .profile{display:flex;gap:32px;align-items:flex-start;margin-bottom:32px}
+    .profile img{width:200px;border-radius:8px;box-shadow:var(--shadow-card);flex-shrink:0}
+    .profile-info{display:flex;flex-direction:column;gap:4px}
+    .profile-name{font-size:1.5rem;font-weight:600;letter-spacing:-.96px;margin-bottom:8px}
+    .profile-affiliation{font-size:1rem;font-weight:400;color:var(--color-text-secondary);line-height:1.6}
+    .profile-role{font-size:1rem;font-weight:600;color:var(--color-text);margin-top:4px}
+    .profile-contact{font-size:.875rem;color:var(--color-text-secondary);line-height:1.8;margin-top:12px}
+    .profile-contact span{font-family:var(--font-mono);font-size:.8125rem}
+    .link-section h3{margin-bottom:12px}
+    .link-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .link-list li{font-size:.9375rem;font-weight:500}
+    .link-list a{color:var(--color-link);text-decoration:none}
+    .link-list a:hover{text-decoration:underline}
+    @media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:160px}}
+  </style>
 </head>
 <body>
-<p><img alt="honda" style="float: left; margin: 0 20px 20px 0;" src="honda.jpg" width="300" height="381"></p>
-<h2 class="ttl__style01">本多 克宏 (Katsuhiro Honda)</h2>
-<h6 class="ttl__style05">大阪公立大学</h6>
-<h6 class="ttl__style05">大学院情報学研究科　基幹情報学専攻</h6>
-<h6 class="ttl__style05">工学部　情報工学科</h6>
-<h6 class="ttl__style05">教授</h6>
-<p>E-mail:&nbsp; khonda (at) omu.ac.jp<br><span>599-8531 大阪府堺市中区学園町1-1</span><br><span>Phone: 072-254-9352 FAX: 072-254-9352<br></span></p>
-<ul>
-<li>研究者紹介リンク<br><a href="https://kyoiku-kenkyudb.omu.ac.jp/html/100001586_ja.html" title="大阪公立大学　研究者情報" target="_blank" rel="noopener"><span style="text-decoration: underline;">大阪公立大学　研究者情報</span></a><br><span style="text-decoration: underline;"><a href="https://miraibook.jp/researcher/101" target="_blank" title="人のような、しなやかな意思決定をするコンピュータは実現可能か" rel="noopener">河合塾みらいぶっく学問・大学なび</a></span></li>
-</ul>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" style="font-size:.875rem;font-weight:500;color:var(--color-text-muted)">&larr; Top</a>
+  </div>
+</header>
+
+<main>
+<section class="section">
+  <div class="container">
+    <div class="profile">
+      <img alt="honda" src="honda.jpg">
+      <div class="profile-info">
+        <div class="profile-name">本多 克宏 (Katsuhiro Honda)</div>
+        <div class="profile-affiliation">大阪公立大学</div>
+        <div class="profile-affiliation">大学院情報学研究科 基幹情報学専攻</div>
+        <div class="profile-affiliation">工学部 情報工学科</div>
+        <div class="profile-role">教授</div>
+        <div class="profile-contact">
+          E-mail: <span>khonda (at) omu.ac.jp</span><br>
+          <span>599-8531</span> 大阪府堺市中区学園町1-1<br>
+          Phone: <span>072-254-9352</span> / FAX: <span>072-254-9352</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section link-section">
+  <div class="container">
+    <h3>研究者紹介リンク</h3>
+    <ul class="link-list">
+      <li><a href="https://kyoiku-kenkyudb.omu.ac.jp/html/100001586_ja.html" target="_blank" rel="noopener">大阪公立大学 研究者情報</a></li>
+      <li><a href="https://miraibook.jp/researcher/101" target="_blank" rel="noopener">河合塾みらいぶっく 学問・大学なび</a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 人間情報システム研究室 — 大阪公立大学
+  </div>
+</footer>
+
 </body>
 </html>
