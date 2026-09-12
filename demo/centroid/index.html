@@ -7,11 +7,12 @@
   <title>重心からk-meansへ — 代表点を動かして学ぶデモ</title>
   <link rel="stylesheet" href="../../style.css">
   <link rel="stylesheet" href="./vendor/katex/katex.min.css">
-  <link rel="stylesheet" href="./centroid.css">
+  <link rel="stylesheet" href="./centroid.css?v=20260912-mobile">
   <script defer src="./vendor/katex/katex.min.js"></script>
   <script defer src="./equations.js"></script>
-  <script type="module" src="./app.mjs"></script>
-  <script type="module" src="./separated.mjs"></script>
+  <script type="module" src="./app.mjs?v=20260912-mobile"></script>
+  <script type="module" src="./separated.mjs?v=20260912-mobile"></script>
+  <script type="module" src="./mobile-layout.mjs?v=20260912-mobile"></script>
 </head>
 <body>
   <a class="skip-link" href="#experiment">デモへ移動</a>
@@ -48,6 +49,7 @@
     <noscript><p class="notice">このデモを動かすには、ブラウザーでJavaScriptを有効にしてください。</p></noscript>
     <section id="experiment" class="experiment" aria-label="代表点を動かす実験">
       <div class="plot-panel panel">
+        <div class="live-view">
         <div class="plot-heading">
           <h3>青い代表点を動かそう</h3>
           <span class="data-count"><span id="point-count">40</span> 個のデータ</span>
@@ -81,6 +83,9 @@
           <text id="prototype-label" class="prototype-label" aria-hidden="true">代表点 p</text>
           <text id="mean-label" class="mean-label" hidden aria-hidden="true">重心 m</text>
         </svg>
+        <div class="mobile-history-slot"></div>
+        <p class="mobile-axis-note">グラフの横軸：位置を記録した順番 →</p>
+        </div>
         <p id="plot-help" class="plot-help">青い点をドラッグして動かします。図をクリック・タップするか、位置のスライダーでも動かせます。</p>
         <div class="plot-actions">
           <button id="new-data" class="button secondary" type="button">データを作り直す</button>
@@ -103,7 +108,7 @@
 
         <section class="history-block" aria-labelledby="history-heading">
           <div class="history-heading">
-            <h3 id="history-heading">動かすと、誤差はどう変わる？</h3>
+            <h3 id="history-heading">2乗誤差の推移</h3>
             <button id="clear-history" class="button text-button" type="button">記録をクリア</button>
           </div>
           <div class="history-legend">
@@ -116,11 +121,11 @@
               <desc id="history-chart-desc">縦軸は距離の2乗和、横軸は代表点の位置の更新順です。</desc>
               <defs>
                 <linearGradient id="history-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#0868d8" stop-opacity=".15"/><stop offset="100%" stop-color="#0868d8" stop-opacity=".01"/></linearGradient>
-                <clipPath id="history-clip"><rect x="62" y="22" width="319" height="155"/></clipPath>
+                <clipPath id="history-clip"><rect id="history-clip-area" x="62" y="22" width="319" height="155"/></clipPath>
               </defs>
-              <g class="history-grid" aria-hidden="true"><line x1="64" x2="378" y1="26" y2="26"/><line x1="64" x2="378" y1="100" y2="100"/><line x1="64" x2="378" y1="174" y2="174"/></g>
+              <g class="history-grid" aria-hidden="true"><line id="history-grid-top" x1="64" x2="378" y1="26" y2="26"/><line id="history-grid-mid" x1="64" x2="378" y1="100" y2="100"/><line id="history-grid-zero" x1="64" x2="378" y1="174" y2="174"/></g>
               <g class="history-ticks" aria-hidden="true">
-                <text id="history-y-top" x="52" y="32" text-anchor="end">—</text><text id="history-y-mid" x="52" y="106" text-anchor="end">—</text><text x="52" y="180" text-anchor="end">0</text>
+                <text id="history-y-top" x="52" y="32" text-anchor="end">—</text><text id="history-y-mid" x="52" y="106" text-anchor="end">—</text><text id="history-y-zero" x="52" y="180" text-anchor="end">0</text>
                 <text id="history-x-start" x="64" y="204" text-anchor="middle">0</text><text id="history-x-mid" x="221" y="204" text-anchor="middle">5</text><text id="history-x-end" x="378" y="204" text-anchor="middle">10</text>
               </g>
               <g clip-path="url(#history-clip)" aria-hidden="true">
@@ -129,6 +134,7 @@
                 <path id="history-line"/>
                 <circle id="history-current" r="4.5"/>
               </g>
+              <text id="history-minimum-label" class="compact-reference-label" x="378" text-anchor="end" hidden aria-hidden="true">重心での最小値</text>
             </svg>
             <p id="history-empty" class="history-empty">代表点を動かすと、<br>ここに変化が描かれます。</p>
           </div>
@@ -239,9 +245,13 @@
       </ol>
       <div class="experiment">
         <div class="plot-panel panel">
+          <div class="live-view">
           <div class="plot-heading"><h3>離れたデータを、1個で代表する</h3><span class="data-count">60 個のデータ</span></div>
           <div class="legend"><span><i class="symbol data-symbol"></i>データ</span><span><i class="symbol prototype-symbol"></i>代表点 <span data-tex="\mathbf{p}">p</span></span></div>
           <svg id="gap-plot" class="lesson-plot" viewBox="0 0 600 600" aria-labelledby="gap-title" aria-describedby="gap-help"><title id="gap-title">離れた2つの分布を1個の代表点で表す実験</title></svg>
+          <div class="mobile-history-slot"></div>
+          <p class="mobile-axis-note">グラフの横軸：位置を記録した順番 →</p>
+          </div>
           <p id="gap-help" class="plot-help">操作は先ほどと同じです。青い点をドラッグするか、図の中をクリック・タップして動かします。</p>
           <div class="plot-actions"><button type="button" id="separated-new-data" class="button secondary">STEP 02・03のデータを作り直す</button><button type="button" id="gap-reset" class="button text-button">代表点を最初の位置に戻す</button></div>
         </div>
@@ -253,7 +263,7 @@
             <p class="score-note">ここでも、60本すべての線の長さをそれぞれ2乗して足しています。</p>
           </div>
           <div class="history-block">
-            <div class="history-heading"><h3>動かすと、誤差はどう変わる？</h3><button type="button" id="gap-clear-history" class="button text-button">記録をクリア</button></div>
+            <div class="history-heading"><h3>2乗誤差の推移</h3><button type="button" id="gap-clear-history" class="button text-button">記録をクリア</button></div>
             <div id="gap-history" class="mini-history"></div>
             <p class="history-note">縦が2乗誤差、横が位置を記録した順番です。<span id="gap-history-key" hidden>ピンクの破線は、全体の重心での最小値です。</span></p>
           </div>
@@ -301,9 +311,13 @@
       </ol>
       <div class="experiment">
         <div class="plot-panel panel">
+          <div class="live-view">
           <div class="plot-heading"><h3>色と線が、今の担当を表す</h3><span class="data-count">同じ60個のデータ</span></div>
-          <div class="legend"><span><i class="symbol prototype-symbol"></i>代表点1・丸のデータ</span><span><i class="symbol second-symbol"></i>代表点2・四角のデータ</span></div>
+          <div class="legend"><span><i class="symbol prototype-symbol"></i><span class="wide-legend">代表点1・丸のデータ</span><span class="compact-legend">1の担当：丸</span></span><span><i class="symbol second-symbol"></i><span class="wide-legend">代表点2・四角のデータ</span><span class="compact-legend">2の担当：四角</span></span></div>
           <svg id="pair-plot" class="lesson-plot" viewBox="0 0 600 600" aria-labelledby="pair-title" aria-describedby="pair-help"><title id="pair-title">2個の代表点と、近い方へのデータの割り当て</title></svg>
+          <div class="mobile-history-slot"></div>
+          <p class="mobile-axis-note">グラフの横軸：位置を記録した順番 →</p>
+          </div>
           <p id="pair-help" class="plot-help">1・2の点をそれぞれドラッグできます。空いている場所をクリックすると、選択中の代表点が動きます。</p>
           <p class="plot-help">データの位置は変わりません。色と線だけが、近い代表点に合わせて自動で切り替わります。</p>
           <div class="plot-actions"><button type="button" id="pair-reset" class="button secondary">2個の代表点を最初に戻す</button></div>
@@ -318,7 +332,7 @@
             <div class="comparison-baseline"><span>STEP 02の最小値（1個）</span><output id="pair-baseline">—</output><strong id="pair-improvement">—</strong></div>
           </div>
           <div class="history-block">
-            <div class="history-heading"><h3>動かすと、誤差はどう変わる？</h3><button type="button" id="pair-clear-history" class="button text-button">記録をクリア</button></div>
+            <div class="history-heading"><h3>2乗誤差の推移</h3><button type="button" id="pair-clear-history" class="button text-button">記録をクリア</button></div>
             <div id="pair-history" class="mini-history"></div>
             <p class="history-note">ピンクの破線より下なら、STEP 02の最小値より小さい誤差です。横軸は移動中の記録順で、ボタンを押した回数とは別です。</p>
           </div>

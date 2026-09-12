@@ -230,3 +230,43 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--mean);cursor:poin
 .button:disabled{opacity:.65;cursor:wait}
 @media(min-width:741px) and (min-height:650px){#experiment .plot-panel{position:sticky;top:18px}#plot{max-height:calc(100dvh - 250px)}.next-lesson .lesson-plot{max-height:calc(100dvh - 300px)}}
 @media(max-width:740px){.lesson-roadmap{gap:8px;margin-bottom:28px}.lesson-roadmap a{display:block;padding:12px 10px;font-size:.8125rem}.lesson-roadmap a>span{display:block;margin-bottom:5px}.experiment-guide{grid-template-columns:1fr;gap:14px;padding:19px 20px}.experiment-guide strong{margin-bottom:0}.math-supplement>summary{padding:19px 18px}.math-supplement .explanation{padding:6px 18px 12px}.lesson-bridge{font-size:1rem}.lesson-readout .position-block{align-self:start}.readout .answer-controls{align-self:start}}
+
+.mobile-history-slot,.mobile-axis-note,.compact-legend{display:none}
+.compact-reference-label{font-family:var(--font-sans);font-size:14px;fill:var(--mean);paint-order:stroke;stroke:#fff;stroke-width:4;stroke-linejoin:round}
+@media(max-width:740px),(max-width:1000px) and (max-height:500px){
+  .experiment{grid-template-columns:minmax(0,1fr);gap:12px;isolation:isolate}
+  .experiment .plot-panel{display:contents}
+  .live-view{position:sticky;top:6px;z-index:2;min-width:0;padding:10px;background:#fff;border-radius:10px;box-shadow:var(--shadow-card)}
+  .live-view .plot-heading h3{font-size:.8125rem;line-height:1.6}
+  .live-view .data-count{display:none}
+  .live-view .legend{font-size:.75rem;gap:8px 14px;margin-top:4px;min-height:22px;line-height:1.6}
+  .live-view .wide-legend{display:none}.live-view .compact-legend{display:inline}
+  .live-view #plot,.live-view .lesson-plot{width:100%;height:auto;max-height:max(160px,min(350px,calc(100svh - 340px)));margin:auto}
+  .mobile-history-slot{display:block;min-width:0;border-top:1px solid #e5eaf0;padding-top:4px}
+  .mobile-history-slot .history-block{padding:0;border:0;min-width:0}
+  .mobile-history-slot .history-heading{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;min-height:38px}
+  .mobile-history-slot .history-heading h3{font-size:.75rem;line-height:1.5;white-space:nowrap;margin:0}
+  .mobile-history-slot .score{margin:0 0 0 auto;gap:0;flex-wrap:nowrap}
+  .mobile-history-slot .score-symbol{display:none}
+  .mobile-history-slot .score output{font-size:1.1rem;letter-spacing:-.04em;white-space:nowrap;line-height:1.4}
+  .mobile-history-slot .history-heading .button{font-size:.6875rem;white-space:nowrap;padding:8px 0 8px 4px;min-height:38px}
+  .mobile-history-slot .history-surface,.mobile-history-slot .mini-history-chart{margin:0}
+  .mobile-history-slot .history-legend,.mobile-history-slot .history-note,.mobile-history-slot .history-axis-caption{display:none}
+  .mobile-history-slot .history-empty{font-size:.75rem;line-height:1.4;top:10%;margin:0}
+  .mobile-axis-note{display:block;font-size:.6875rem;line-height:1.5;color:#657080;text-align:right;margin:-6px 0 0}
+  .experiment .plot-help{margin:0;padding:0 8px}
+  .experiment .plot-actions{padding:8px;gap:8px}
+  .experiment .readout{display:flex;flex-direction:column}
+  .experiment .position-block{order:1;border-right:0;border-bottom:1px solid #ebebeb;align-self:stretch}
+  .experiment .answer-controls{order:2;align-self:stretch}
+  .experiment .mean-result{order:3}
+  .experiment .objective-block{order:4;border-top:1px solid #ebebeb;border-bottom:0}
+  .experiment .readout input,.experiment .readout button,.experiment .plot-actions button{scroll-margin-top:calc(var(--live-height,520px) + 18px);scroll-margin-bottom:16px}
+}
+@media(orientation:landscape) and (max-width:1000px) and (max-height:500px){
+  .live-view{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:18px;align-items:center}
+  .live-view .plot-heading{grid-column:1}.live-view .legend{grid-column:1}
+  .live-view #plot,.live-view .lesson-plot{grid-column:1;grid-row:3/5;max-height:calc(100svh - 185px)}
+  .mobile-history-slot{grid-column:2;grid-row:1/4;border:0;padding:0}
+  .mobile-axis-note{grid-column:2;grid-row:4}
+}

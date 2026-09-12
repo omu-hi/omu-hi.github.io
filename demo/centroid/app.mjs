@@ -1,5 +1,6 @@
 import { createDataset, centroid, objective, squaredDistance, INITIAL_POINT, clamp, toScreen, fromScreen } from './math.mjs';
 import { LossHistory } from './history.mjs';
+import { compactScreen } from './responsive-mode.mjs';
 
 const $ = id => document.getElementById(id);
 const svg = $('plot');
@@ -70,12 +71,25 @@ function setVisibility(id, visible) {
 
 function renderHistory() {
   const { samples, first, last, ceiling } = history.view;
+  const compact = compactScreen.matches;
+  const top = compact ? 14 : 26;
+  const bottom = compact ? 88 : 174;
+  const height = compact ? 124 : 224;
+  $('history-chart').setAttribute('viewBox', `0 0 400 ${height}`);
+  $('history-clip-area').setAttribute('y', top - 4);
+  $('history-clip-area').setAttribute('height', bottom - top + 8);
+  for (const [name, position] of [['top', top], ['mid', (top + bottom) / 2], ['zero', bottom]]) {
+    $('history-grid-' + name).setAttribute('y1', position);
+    $('history-grid-' + name).setAttribute('y2', position);
+    $('history-y-' + name).setAttribute('y', position + 5);
+  }
+  for (const name of ['start', 'mid', 'end']) $('history-x-' + name).setAttribute('y', height - 20);
   const x = index => 64 + (index - first) / (last - first) * 314;
-  const y = loss => 174 - loss / ceiling * 148;
+  const y = loss => bottom - loss / ceiling * (bottom - top);
   const current = samples[samples.length - 1];
   const path = samples.map((sample, index) => `${index ? 'L' : 'M'} ${x(sample.index).toFixed(2)} ${y(sample.loss).toFixed(2)}`).join(' ');
   $('history-line').setAttribute('d', path);
-  $('history-area').setAttribute('d', samples.length < 2 ? '' : `${path} L ${x(current.index)} 174 L ${x(first)} 174 Z`);
+  $('history-area').setAttribute('d', samples.length < 2 ? '' : `${path} L ${x(current.index)} ${bottom} L ${x(first)} ${bottom} Z`);
   $('history-current').setAttribute('cx', x(current.index));
   $('history-current').setAttribute('cy', y(current.loss));
   $('history-minimum').setAttribute('y1', y(minimum));
@@ -83,6 +97,8 @@ function renderHistory() {
   // After clearing at a near-minimum point the minimum still lies in the scale.
   setVisibility('history-minimum', $('show-mean').checked);
   setVisibility('history-minimum-legend', $('show-mean').checked);
+  setVisibility('history-minimum-label', compact && $('show-mean').checked);
+  $('history-minimum-label').setAttribute('y', y(minimum) - 6);
   $('history-y-top').textContent = Math.round(ceiling).toLocaleString('ja-JP');
   $('history-y-mid').textContent = (ceiling / 2).toLocaleString('ja-JP');
   $('history-x-start').textContent = first;
@@ -260,3 +276,4 @@ $('clear-history').addEventListener('click', () => {
 buildGrid();
 buildData();
 render();
+compactScreen.addEventListener?.('change', renderHistory);

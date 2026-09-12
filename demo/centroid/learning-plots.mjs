@@ -1,5 +1,6 @@
 import { toScreen, fromScreen, clamp, assignToPrototypes } from './math.mjs';
 import { LossHistory } from './history.mjs';
+import { compactScreen } from './responsive-mode.mjs';
 
 const NS = 'http://www.w3.org/2000/svg';
 export const format = value => value.toLocaleString('ja-JP', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -192,24 +193,43 @@ export class MiniHistory {
     this.line = svgElement('path', { class: 'mini-history-line' });
     this.dot = svgElement('circle', { r: 4, class: 'mini-history-dot' });
     this.reference = svgElement('line', { x1: 66, x2: 378, class: 'mini-history-reference', hidden: '' });
+    this.referenceLabel = svgElement('text', { x: 378, 'text-anchor': 'end', class: 'compact-reference-label', hidden: '', 'aria-hidden': true }, '1個の最小値');
+    this.zero = svgElement('text', { x: 54, y: 157, 'text-anchor': 'end', class: 'grid-label' }, '0');
     const grid = svgElement('g', { class: 'history-grid' });
     [20, 86, 152].forEach(y => grid.append(svgElement('line', { x1: 66, x2: 378, y1: y, y2: y })));
-    svg.append(grid, this.top, this.middle, svgElement('text', { x: 54, y: 157, 'text-anchor': 'end', class: 'grid-label' }, '0'), this.first, this.last, this.reference, this.line, this.dot);
+    this.grid = grid;
+    svg.append(grid, this.top, this.middle, this.zero, this.first, this.last, this.reference, this.line, this.dot, this.referenceLabel);
     root.append(svg);
     this.draw();
+    compactScreen.addEventListener?.('change', () => this.draw(this.currentReference));
   }
   reset(loss) { this.history.reset(loss); this.draw(); }
   record(loss) { this.history.record(loss); this.draw(); }
   draw(reference = null) {
+    this.currentReference = reference;
+    const compact = compactScreen.matches;
+    const top = compact ? 14 : 20;
+    const bottom = compact ? 88 : 152;
+    const height = compact ? 124 : 200;
+    this.svg.setAttribute('viewBox', `0 0 400 ${height}`);
+    [top, (top + bottom) / 2, bottom].forEach((position, j) => {
+      this.grid.children[j].setAttribute('y1', position);
+      this.grid.children[j].setAttribute('y2', position);
+      [this.top, this.middle, this.zero][j].setAttribute('y', position + 5);
+    });
+    this.first.setAttribute('y', height - 20);
+    this.last.setAttribute('y', height - 20);
     const { first, last, samples } = this.history.view;
     const ceiling = Math.max(this.history.ceiling, reference === null ? 0 : reference * 1.1);
     const x = index => 66 + (index - first) / (last - first) * 312;
-    const y = value => 152 - value / ceiling * 132;
+    const y = value => bottom - value / ceiling * (bottom - top);
     const latest = samples[samples.length - 1];
     this.line.setAttribute('d', samples.map((sample, i) => `${i ? 'L' : 'M'}${x(sample.index).toFixed(2)} ${y(sample.loss).toFixed(2)}`).join(' '));
     this.dot.setAttribute('cx', x(latest.index));
     this.dot.setAttribute('cy', y(latest.loss));
     this.reference.toggleAttribute('hidden', reference === null);
+    this.referenceLabel.toggleAttribute('hidden', !compact || reference === null);
+    if (reference !== null) this.referenceLabel.setAttribute('y', y(reference) - 6);
     if (reference !== null) { this.reference.setAttribute('y1', y(reference)); this.reference.setAttribute('y2', y(reference)); }
     this.top.textContent = Math.ceil(ceiling).toLocaleString('ja-JP');
     this.middle.textContent = Math.round(ceiling / 2).toLocaleString('ja-JP');
