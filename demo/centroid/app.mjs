@@ -1,4 +1,5 @@
 import { createDataset, centroid, objective, squaredDistance, INITIAL_POINT, clamp, toScreen, fromScreen } from './math.mjs';
+import { LossHistory } from './history.mjs';
 
 const $ = id => document.getElementById(id);
 const svg = $('plot');
@@ -12,6 +13,7 @@ let prototype = { ...INITIAL_POINT };
 let lines = [];
 let dragId = null;
 let animation = null;
+const history = new LossHistory(objective(points, prototype));
 
 function element(name, attributes, text) {
   const node = document.createElementNS(NS, name);
@@ -66,6 +68,31 @@ function setVisibility(id, visible) {
   $(id).toggleAttribute('hidden', !visible);
 }
 
+function renderHistory() {
+  const { samples, first, last, ceiling } = history.view;
+  const x = index => 64 + (index - first) / (last - first) * 314;
+  const y = loss => 174 - loss / ceiling * 148;
+  const current = samples[samples.length - 1];
+  const path = samples.map((sample, index) => `${index ? 'L' : 'M'} ${x(sample.index).toFixed(2)} ${y(sample.loss).toFixed(2)}`).join(' ');
+  $('history-line').setAttribute('d', path);
+  $('history-area').setAttribute('d', samples.length < 2 ? '' : `${path} L ${x(current.index)} 174 L ${x(first)} 174 Z`);
+  $('history-current').setAttribute('cx', x(current.index));
+  $('history-current').setAttribute('cy', y(current.loss));
+  $('history-minimum').setAttribute('y1', y(minimum));
+  $('history-minimum').setAttribute('y2', y(minimum));
+  // After clearing at a near-minimum point the minimum still lies in the scale.
+  setVisibility('history-minimum', $('show-mean').checked);
+  setVisibility('history-minimum-legend', $('show-mean').checked);
+  $('history-y-top').textContent = Math.round(ceiling).toLocaleString('ja-JP');
+  $('history-y-mid').textContent = (ceiling / 2).toLocaleString('ja-JP');
+  $('history-x-start').textContent = first;
+  $('history-x-mid').textContent = Math.round((first + last) / 2);
+  $('history-x-end').textContent = last;
+  $('history-count').textContent = `${history.index.toLocaleString('ja-JP')} 回の位置更新`;
+  $('history-chart-desc').textContent = `縦軸は距離の2乗和、横軸は位置の更新順。最新値は ${format(current.loss)}。${first} 回目から ${current.index} 回目までの記録。`;
+  $('history-empty').toggleAttribute('hidden', samples.length > 1);
+}
+
 function render() {
   const p = toScreen(prototype);
   const loss = objective(points, prototype);
@@ -98,6 +125,7 @@ function render() {
   $('discovery').textContent = revealed
     ? (atMean ? '少し動かして、値が増えることも確かめよう。' : 'ピンクのひし形が重心です。近づけると、値はどう変わる？')
     : 'まずは自分で、小さくなる場所を探してみよう。';
+  renderHistory();
 }
 
 function cancelMotion() {
@@ -105,8 +133,11 @@ function cancelMotion() {
   animation = null;
 }
 
-function setPrototype(point) {
-  prototype = { x: clamp(point.x), y: clamp(point.y) };
+function setPrototype(point, record = true) {
+  const next = { x: clamp(point.x), y: clamp(point.y) };
+  const moved = next.x !== prototype.x || next.y !== prototype.y;
+  prototype = next;
+  if (record && moved) history.record(objective(points, prototype));
   render();
 }
 
@@ -213,9 +244,17 @@ $('new-data').addEventListener('click', () => {
   mean = centroid(points);
   minimum = objective(points, mean);
   $('show-mean').checked = false;
+  history.reset(objective(points, INITIAL_POINT));
   buildData();
-  setPrototype(INITIAL_POINT);
+  setPrototype(INITIAL_POINT, false);
   announce('新しい40個のデータを作りました。重心は非表示です。代表点を動かして確かめてください。');
+});
+
+$('clear-history').addEventListener('click', () => {
+  cancelMotion();
+  history.reset(objective(points, prototype));
+  renderHistory();
+  announce('現在の代表点の位置から、誤差の記録をやり直します。');
 });
 
 buildGrid();

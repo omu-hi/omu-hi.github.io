@@ -6,7 +6,10 @@
   <meta name="description" content="代表点を動かして、データとの距離の2乗和を小さくしよう。2次元データの重心と、距離の2乗和が最小になる理由を体験できるデモ。">
   <title>データを1つの点で代表する — 重心を学ぶデモ</title>
   <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="./vendor/katex/katex.min.css">
   <link rel="stylesheet" href="./centroid.css">
+  <script defer src="./vendor/katex/katex.min.js"></script>
+  <script defer src="./equations.js"></script>
   <script type="module" src="./app.mjs"></script>
 </head>
 <body>
@@ -33,8 +36,8 @@
         </div>
         <div class="legend" aria-label="図の凡例">
           <span><i class="symbol data-symbol"></i>データ</span>
-          <span><i class="symbol prototype-symbol"></i>代表点 <var>p</var></span>
-          <span id="mean-legend" hidden><i class="symbol mean-symbol"></i>重心 <var>m</var></span>
+          <span><i class="symbol prototype-symbol"></i>代表点 <span data-tex="\mathbf{p}">p</span></span>
+          <span id="mean-legend" hidden><i class="symbol mean-symbol"></i>重心 <span data-tex="\mathbf{m}">m</span></span>
         </div>
         <svg id="plot" viewBox="0 0 600 600" aria-labelledby="plot-title plot-desc">
           <title id="plot-title">2次元データと1つの代表点</title>
@@ -70,23 +73,54 @@
       <aside class="readout panel" aria-label="距離の2乗和と操作">
         <div class="objective-block">
           <div class="readout-label"><h2>距離の2乗和</h2><span class="small-tag">小さいほどよい</span></div>
-          <div class="score"><span class="score-symbol">J(<var>p</var>)</span><output id="loss">—</output></div>
+          <div class="score"><span class="score-symbol" data-tex="J(\mathbf{p})">J(p)</span><output id="loss">—</output></div>
           <p class="score-note">薄い線の長さを、それぞれ2乗して足した値。</p>
-          <div class="formula objective-formula" aria-label="J p イコール、iが1からnまでの、x i ひく p x の2乗と y i ひく p y の2乗の和">
-            <span>J(<var>p</var>) =</span>
-            <span class="sum"><span>n</span><span>∑</span><span>i = 1</span></span>
-            <span>[(<var>x</var><sub>i</sub> − <var>p</var><sub>x</sub>)<sup>2</sup><br class="formula-break"> + (<var>y</var><sub>i</sub> − <var>p</var><sub>y</sub>)<sup>2</sup>]</span>
-          </div>
+          <div class="tex-display objective-formula" data-display="true" data-tex="J(\mathbf{p})=\sum_{i=1}^{n}\lVert\mathbf{x}_i-\mathbf{p}\rVert^{2}">J(p) = ∑ ‖xᵢ − p‖²</div>
         </div>
 
+        <section class="history-block" aria-labelledby="history-heading">
+          <div class="history-heading">
+            <h2 id="history-heading">2乗誤差の推移</h2>
+            <button id="clear-history" class="button text-button" type="button">記録をクリア</button>
+          </div>
+          <div class="history-legend">
+            <span><i class="history-line-key"></i>距離の2乗和 <span data-tex="J(\mathbf{p})">J(p)</span></span>
+            <span id="history-minimum-legend" hidden><i class="history-min-key"></i>重心での最小値</span>
+          </div>
+          <div class="history-surface">
+            <svg id="history-chart" viewBox="0 0 400 224" role="img" aria-labelledby="history-chart-title history-chart-desc">
+              <title id="history-chart-title">代表点の移動に伴う距離の2乗和の推移</title>
+              <desc id="history-chart-desc">縦軸は距離の2乗和、横軸は代表点の位置の更新順です。</desc>
+              <defs>
+                <linearGradient id="history-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#0868d8" stop-opacity=".15"/><stop offset="100%" stop-color="#0868d8" stop-opacity=".01"/></linearGradient>
+                <clipPath id="history-clip"><rect x="62" y="22" width="319" height="155"/></clipPath>
+              </defs>
+              <g class="history-grid" aria-hidden="true"><line x1="64" x2="378" y1="26" y2="26"/><line x1="64" x2="378" y1="100" y2="100"/><line x1="64" x2="378" y1="174" y2="174"/></g>
+              <g class="history-ticks" aria-hidden="true">
+                <text id="history-y-top" x="52" y="32" text-anchor="end">—</text><text id="history-y-mid" x="52" y="106" text-anchor="end">—</text><text x="52" y="180" text-anchor="end">0</text>
+                <text id="history-x-start" x="64" y="204" text-anchor="middle">0</text><text id="history-x-mid" x="221" y="204" text-anchor="middle">5</text><text id="history-x-end" x="378" y="204" text-anchor="middle">10</text>
+              </g>
+              <g clip-path="url(#history-clip)" aria-hidden="true">
+                <path id="history-area" fill="url(#history-fill)"/>
+                <line id="history-minimum" x1="64" x2="378" y1="174" y2="174" hidden/>
+                <path id="history-line"/>
+                <circle id="history-current" r="4.5"/>
+              </g>
+            </svg>
+            <p id="history-empty" class="history-empty">代表点を動かすと、<br>ここに変化が描かれます。</p>
+          </div>
+          <div class="history-axis-caption"><span>位置の更新順 →</span><output id="history-count">0 回の位置更新</output></div>
+          <p class="history-note">ドラッグ中も連続して記録します。横軸は秒数ではなく更新順。直近360回分を表示します。</p>
+        </section>
+
         <div class="position-block">
-          <h3>代表点の位置 <var>p</var></h3>
+          <h3>代表点の位置 <span data-tex="\mathbf{p}">p</span></h3>
           <div class="coordinate-control">
-            <label for="position-x">横の位置 <var>p</var><sub>x</sub></label><output id="position-x-value" for="position-x">—</output>
+            <label for="position-x">横の位置 <span data-tex="p_x">pₓ</span></label><output id="position-x-value" for="position-x">—</output>
             <input type="range" id="position-x" min="0" max="10" step="0.01" value="8.2">
           </div>
           <div class="coordinate-control">
-            <label for="position-y">縦の位置 <var>p</var><sub>y</sub></label><output id="position-y-value" for="position-y">—</output>
+            <label for="position-y">縦の位置 <span data-tex="p_y">pᵧ</span></label><output id="position-y-value" for="position-y">—</output>
             <input type="range" id="position-y" min="0" max="10" step="0.01" value="2">
           </div>
           <p class="keyboard-help">点にフォーカスして矢印キーでも操作可能。<br>Shift + 矢印キーで細かく動かせます。</p>
@@ -98,8 +132,8 @@
           <p class="discovery" id="discovery">まずは自分で、小さくなる場所を探してみよう。</p>
         </div>
         <div id="mean-result" class="mean-result" hidden>
-          <div><span>重心 <var>m</var></span><output id="mean-position">—</output></div>
-          <div><span>重心での最小値 J(<var>m</var>)</span><output id="minimum-loss">—</output></div>
+          <div><span>重心 <span data-tex="\mathbf{m}">m</span></span><output id="mean-position">—</output></div>
+          <div><span>重心での最小値 <span data-tex="J(\mathbf{m})">J(m)</span></span><output id="minimum-loss">—</output></div>
           <div class="excess-row"><span>最小値からの増加分</span><output id="excess-loss">—</output></div>
           <p id="minimum-status">—</p>
         </div>
@@ -113,14 +147,14 @@
         <article class="equation-card">
           <span class="card-label">1本の線について</span>
           <h3>横と縦のずれを、それぞれ2乗</h3>
-          <div class="formula">d<sub>i</sub><sup>2</sup> = (<var>x</var><sub>i</sub> − <var>p</var><sub>x</sub>)<sup>2</sup> + (<var>y</var><sub>i</sub> − <var>p</var><sub>y</sub>)<sup>2</sup></div>
-          <p>データ (<var>x</var><sub>i</sub>, <var>y</var><sub>i</sub>) と代表点 (<var>p</var><sub>x</sub>, <var>p</var><sub>y</sub>) の距離を <var>d</var><sub>i</sub> とします。三平方の定理から、距離の2乗は横と縦のずれの2乗を足したものです。</p>
+          <div class="tex-display" data-display="true" data-tex="d_i^2=(x_i-p_x)^2+(y_i-p_y)^2">dᵢ² = (xᵢ − pₓ)² + (yᵢ − pᵧ)²</div>
+          <p>データ <span data-tex="\mathbf{x}_i=(x_i,y_i)">xᵢ = (xᵢ, yᵢ)</span> と代表点 <span data-tex="\mathbf{p}=(p_x,p_y)">p = (pₓ, pᵧ)</span> の距離を <span data-tex="d_i">dᵢ</span> とします。三平方の定理から、距離の2乗は横と縦のずれの2乗を足したものです。</p>
         </article>
         <article class="equation-card">
           <span class="card-label">すべての線について</span>
           <h3>2乗した値を、全部足す</h3>
-          <div class="formula">J(<var>p</var>) = d<sub>1</sub><sup>2</sup> + d<sub>2</sub><sup>2</sup> + … + d<sub>n</sub><sup>2</sup></div>
-          <p><var>n</var> はデータの個数です。先に各距離を2乗し、そのあと合計します。遠いデータほど大きく効き、距離が2倍なら、そのデータの寄与は4倍になります。</p>
+          <div class="tex-display" data-display="true" data-tex="J(\mathbf{p})=\sum_{i=1}^{n}d_i^2=d_1^2+d_2^2+\cdots+d_n^2">J(p) = ∑ dᵢ² = d₁² + d₂² + ⋯ + dₙ²</div>
+          <p><span data-tex="n">n</span> はデータの個数です。先に各距離を2乗し、そのあと合計します。遠いデータほど大きく効き、距離が2倍なら、そのデータの寄与は4倍になります。</p>
         </article>
       </div>
     </section>
@@ -129,23 +163,24 @@
       <summary><span><span class="section-number">02</span>なぜ、重心で最小になる？</span><span class="expand-icon" aria-hidden="true">＋</span></summary>
       <div class="proof-content">
         <h3>重心は、横と縦それぞれの平均。</h3>
-        <div class="formula mean-formula">
-          <span>m<sub>x</sub> = <span class="fraction"><span>x<sub>1</sub> + x<sub>2</sub> + … + x<sub>n</sub></span><span>n</span></span></span>
-          <span>m<sub>y</sub> = <span class="fraction"><span>y<sub>1</sub> + y<sub>2</sub> + … + y<sub>n</sub></span><span>n</span></span></span>
+        <div class="mean-formula">
+          <div class="tex-display" data-display="true" data-tex="m_x=\frac{1}{n}\sum_{i=1}^{n}x_i=\frac{x_1+x_2+\cdots+x_n}{n}">mₓ = (x₁ + x₂ + ⋯ + xₙ) / n</div>
+          <div class="tex-display" data-display="true" data-tex="m_y=\frac{1}{n}\sum_{i=1}^{n}y_i=\frac{y_1+y_2+\cdots+y_n}{n}">mᵧ = (y₁ + y₂ + ⋯ + yₙ) / n</div>
         </div>
-        <p>この点を <var>m</var> = (<var>m</var><sub>x</sub>, <var>m</var><sub>y</sub>) とすると、どこに代表点 <var>p</var> を置いても、次の関係が成り立ちます。</p>
+        <p>この点を <span data-tex="\mathbf{m}=(m_x,m_y)">m = (mₓ, mᵧ)</span> とすると、どこに代表点 <span data-tex="\mathbf{p}">p</span> を置いても、次の関係が成り立ちます。</p>
         <div class="identity">
-          <div><span class="formula">J(<var>p</var>)</span><span>現在の2乗和</span></div><span class="operator">=</span>
-          <div><span class="formula">J(<var>m</var>)</span><span>重心での2乗和</span></div><span class="operator">+</span>
-          <div class="extra-term"><span class="formula">n ‖<var>p</var> − <var>m</var>‖<sup>2</sup></span><span>重心から離れた分の増加</span></div>
+          <div><span data-tex="J(\mathbf{p})">J(p)</span><span>現在の2乗和</span></div><span class="operator">=</span>
+          <div><span data-tex="J(\mathbf{m})">J(m)</span><span>重心での2乗和</span></div><span class="operator">+</span>
+          <div class="extra-term"><span data-tex="n\lVert\mathbf{p}-\mathbf{m}\rVert^2">n ‖p − m‖²</span><span>重心から離れた分の増加</span></div>
         </div>
-        <p>‖<var>p</var> − <var>m</var>‖ は代表点から重心までの距離です。最後の項は必ず0以上で、<strong>代表点が重心に一致したときだけ0</strong>になります。だから、重心は距離の2乗和を最小にする唯一の位置です。</p>
+        <p><span data-tex="\lVert\mathbf{p}-\mathbf{m}\rVert">‖p − m‖</span> は代表点から重心までの距離です。最後の項は必ず0以上で、<strong>代表点が重心に一致したときだけ0</strong>になります。だから、重心は距離の2乗和を最小にする唯一の位置です。</p>
         <p>データがばらついていれば、重心に置いても最小値は0にはなりません。代表点は、実際のデータ点のどれかである必要もありません。</p>
         <details class="derivation">
           <summary>式の導出も見る</summary>
-          <p>横方向だけを考え、<var>x</var><sub>i</sub> − <var>p</var><sub>x</sub> = (<var>x</var><sub>i</sub> − <var>m</var><sub>x</sub>) + (<var>m</var><sub>x</sub> − <var>p</var><sub>x</sub>) と分けて2乗します。</p>
-          <div class="formula derivation-formula">∑<sub>i=1</sub><sup>n</sup> (<var>x</var><sub>i</sub> − <var>p</var><sub>x</sub>)<sup>2</sup><br>= ∑<sub>i=1</sub><sup>n</sup> (<var>x</var><sub>i</sub> − <var>m</var><sub>x</sub>)<sup>2</sup> + 2(<var>m</var><sub>x</sub> − <var>p</var><sub>x</sub>) ∑<sub>i=1</sub><sup>n</sup> (<var>x</var><sub>i</sub> − <var>m</var><sub>x</sub>) + n(<var>m</var><sub>x</sub> − <var>p</var><sub>x</sub>)<sup>2</sup></div>
-          <p>平均からのずれの和 ∑(<var>x</var><sub>i</sub> − <var>m</var><sub>x</sub>) は0なので、中央の項は消えます。縦方向も同じように展開して足すと、上の式になります。</p>
+          <p>横方向だけを考え、ずれを次のように分けて2乗します。</p>
+          <div class="tex-display" data-display="true" data-tex="x_i-p_x=(x_i-m_x)+(m_x-p_x)">xᵢ − pₓ = (xᵢ − mₓ) + (mₓ − pₓ)</div>
+          <div class="tex-display derivation-formula" data-display="true" data-tex="\begin{aligned}\sum_{i=1}^{n}(x_i-p_x)^2 &amp;= \sum_{i=1}^{n}(x_i-m_x)^2\\ &amp;\quad+2(m_x-p_x)\underbrace{\sum_{i=1}^{n}(x_i-m_x)}_{=\,0}\\ &amp;\quad+n(m_x-p_x)^2.\end{aligned}">∑(xᵢ − pₓ)² = ∑(xᵢ − mₓ)² + 2(mₓ − pₓ)∑(xᵢ − mₓ) + n(mₓ − pₓ)²</div>
+          <p>平均からのずれの和 <span data-tex="\sum_{i=1}^{n}(x_i-m_x)=0">∑(xᵢ − mₓ) = 0</span> なので、中央の項は消えます。縦方向も同じように展開して足すと、上の式になります。</p>
         </details>
       </div>
     </details>
