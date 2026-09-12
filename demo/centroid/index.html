@@ -23,16 +23,33 @@
   </header>
   <main class="lesson-shell">
     <div class="intro">
-      <p class="eyebrow">まずは、1つの重心から。</p>
+      <p class="eyebrow">点を動かして学ぶ、k-meansの入口</p>
       <h1>データを1つの点で代表するなら、<br class="wide-break">どこに置く？</h1>
-      <p>青い<strong>代表点（プロトタイプ）</strong>を動かして、<strong>距離の2乗和</strong>がいちばん小さくなる場所を探そう。</p>
+      <p>1個の代表点から、2個でデータを分担する考え方へ。点を動かしながら、k-meansの基本をたどります。</p>
     </div>
+    <nav class="lesson-roadmap" aria-label="学ぶ順番">
+      <a href="#one-prototype"><span>01</span>1個の代表点を置く</a>
+      <a href="#separated-lesson"><span>02</span>1個では伝わらないこと</a>
+      <a href="#two-prototypes"><span>03</span>2個で分担する</a>
+    </nav>
+
+    <div class="lesson-intro first-lesson" id="one-prototype">
+      <span class="step">STEP 01 · 1個の代表点を置く</span>
+      <h2>どこに置くと、全体に近づける？</h2>
+      <p>灰色の点1つが、データ1個です。全体を1つの位置で表すために置く青い点を、<strong>代表点</strong>と呼びます。この青い点を動かして、置き場所を考えます。</p>
+      <p>各データまでの距離を<strong>それぞれ2乗して足した値</strong>が、<strong>2乗誤差（距離の2乗和）</strong>です。この値が小さくなる場所を探しましょう。</p>
+    </div>
+    <ol class="experiment-guide" aria-label="STEP 01で試すこと">
+      <li><strong>動かす</strong><span>青い点を、データから遠い場所と中央付近に置いてみよう。</span></li>
+      <li><strong>比べる</strong><span>2乗誤差の値とグラフを見て、小さくなる場所を探そう。</span></li>
+      <li><strong>確かめる</strong><span>探せたら「重心へ移動」で、平均の位置と比べよう。</span></li>
+    </ol>
 
     <noscript><p class="notice">このデモを動かすには、ブラウザーでJavaScriptを有効にしてください。</p></noscript>
     <section id="experiment" class="experiment" aria-label="代表点を動かす実験">
       <div class="plot-panel panel">
         <div class="plot-heading">
-          <h2>代表点を動かしてみよう</h2>
+          <h3>青い代表点を動かそう</h3>
           <span class="data-count"><span id="point-count">40</span> 個のデータ</span>
         </div>
         <div class="legend" aria-label="図の凡例">
@@ -64,7 +81,7 @@
           <text id="prototype-label" class="prototype-label" aria-hidden="true">代表点 p</text>
           <text id="mean-label" class="mean-label" hidden aria-hidden="true">重心 m</text>
         </svg>
-        <p id="plot-help" class="plot-help">青い点をドラッグ。図の中をクリック・タップしても移動できます。</p>
+        <p id="plot-help" class="plot-help">青い点をドラッグして動かします。図をクリック・タップするか、位置のスライダーでも動かせます。</p>
         <div class="plot-actions">
           <button id="new-data" class="button secondary" type="button">データを作り直す</button>
           <button id="reset-point" class="button text-button" type="button">代表点を最初の位置に戻す</button>
@@ -73,19 +90,24 @@
 
       <aside class="readout panel" aria-label="距離の2乗和と操作">
         <div class="objective-block">
-          <div class="readout-label"><h2>距離の2乗和</h2><span class="small-tag">小さいほどよい</span></div>
+          <div class="readout-label"><h3>2乗誤差</h3><span class="small-tag">小さくなる位置を探そう</span></div>
           <div class="score"><span class="score-symbol" data-tex="J(\mathbf{p})">J(p)</span><output id="loss">—</output></div>
-          <p class="score-note">薄い線の長さを、それぞれ2乗して足した値。</p>
+          <p class="score-note">薄い線の長さが、各データまでの距離です。2乗は同じ数を2回かけること。長さ3の線なら、3 × 3 = 9として足します。</p>
           <div class="tex-display objective-formula" data-display="true" data-tex="J(\mathbf{p})=\sum_{i=1}^{n}\lVert\mathbf{x}_i-\mathbf{p}\rVert^{2}">J(p) = ∑ ‖xᵢ − p‖²</div>
+          <details class="formula-key">
+            <summary>この式の読み方</summary>
+            <p><span data-tex="\mathbf{p}">p</span> は代表点の位置、<span data-tex="\mathbf{x}_i">xᵢ</span> は <span data-tex="i">i</span> 番目のデータの位置です。<span data-tex="\lVert\mathbf{x}_i-\mathbf{p}\rVert">‖xᵢ − p‖</span> は、その2点の距離を表します。</p>
+            <p><span data-tex="\sum_{i=1}^{n}">∑</span> は「1番目から最後の <span data-tex="n">n</span> 番目まで、全部足す」という記号です。<span data-tex="J(\mathbf{p})">J(p)</span> は、代表点を <span data-tex="\mathbf{p}">p</span> に置いたときの2乗誤差を表します。</p>
+          </details>
         </div>
 
         <section class="history-block" aria-labelledby="history-heading">
           <div class="history-heading">
-            <h2 id="history-heading">2乗誤差の推移</h2>
+            <h3 id="history-heading">動かすと、誤差はどう変わる？</h3>
             <button id="clear-history" class="button text-button" type="button">記録をクリア</button>
           </div>
           <div class="history-legend">
-            <span><i class="history-line-key"></i>距離の2乗和 <span data-tex="J(\mathbf{p})">J(p)</span></span>
+            <span><i class="history-line-key"></i>2乗誤差 <span data-tex="J(\mathbf{p})">J(p)</span></span>
             <span id="history-minimum-legend" hidden><i class="history-min-key"></i>重心での最小値</span>
           </div>
           <div class="history-surface">
@@ -111,11 +133,11 @@
             <p id="history-empty" class="history-empty">代表点を動かすと、<br>ここに変化が描かれます。</p>
           </div>
           <div class="history-axis-caption"><span>位置の更新順 →</span><output id="history-count">0 回の位置更新</output></div>
-          <p class="history-note">ドラッグ中も連続して記録します。横軸は秒数ではなく更新順。直近360回分を表示します。</p>
+          <p class="history-note">線が下がるほど、誤差が小さくなっています。左が前の記録、右が新しい記録です。移動中も細かく記録し、直近360回分を表示します。</p>
         </section>
 
         <div class="position-block">
-          <h3>代表点の位置 <span data-tex="\mathbf{p}">p</span></h3>
+          <h3>スライダーで動かす</h3>
           <div class="coordinate-control">
             <label for="position-x">横の位置 <span data-tex="p_x">pₓ</span></label><output id="position-x-value" for="position-x">—</output>
             <input type="range" id="position-x" min="0" max="10" step="0.01" value="8.2">
@@ -124,12 +146,14 @@
             <label for="position-y">縦の位置 <span data-tex="p_y">pᵧ</span></label><output id="position-y-value" for="position-y">—</output>
             <input type="range" id="position-y" min="0" max="10" step="0.01" value="2">
           </div>
-          <p class="keyboard-help">点にフォーカスして矢印キーでも操作可能。<br>Shift + 矢印キーで細かく動かせます。</p>
+          <p class="keyboard-help">図の代表点を選ぶと、矢印キーでも動かせます。Shift + 矢印キーで微調整できます。</p>
         </div>
 
         <div class="answer-controls">
+          <h3>探した位置と、平均の位置を比べよう</h3>
+          <p class="control-intro">横と縦の位置をそれぞれ平均した点を、<strong>重心</strong>と呼びます。</p>
           <label class="checkbox-label"><input type="checkbox" id="show-mean"> 重心を表示する</label>
-          <button id="move-to-mean" class="button primary" type="button">重心へ移動して比べる</button>
+          <button id="move-to-mean" class="button primary" type="button">重心へ移動</button>
           <p class="discovery" id="discovery">まずは自分で、小さくなる場所を探してみよう。</p>
         </div>
         <div id="mean-result" class="mean-result" hidden>
@@ -140,42 +164,57 @@
         </div>
       </aside>
     </section>
-    <p class="data-note">各データの重みは同じ。正規分布から生成した、ひとまとまりの2次元データです。座標・計算結果は表示時に丸めています。</p>
+    <p class="data-note">各データを同じ重みで扱います。横と縦は同じ目盛りです。数値は小数点以下2桁に丸めて表示しています。</p>
 
+    <div class="learning-insight first-insight">
+      <span class="insight-label">動かして分かったこと</span>
+      <h3>1個の代表点なら、重心で2乗誤差が最小になる。</h3>
+      <p>「重心へ移動」で最小値を確かめたら、そこから少し動かしてみましょう。どの方向に動かしても、2乗誤差は増えます。</p>
+      <p><strong>代表点は、置き場所を試している点。重心は、データの平均から決まる位置。</strong>代表点を重心に重ねたとき、全体とのずれを最も小さくできます。</p>
+      <p>ただし、データがばらついていれば、全部の線を同時に長さ0にはできません。だから、最小になっても誤差は0にはなりません。</p>
+    </div>
+
+    <details class="math-supplement panel">
+      <summary>もう少し詳しく：距離の2乗和を式で読む</summary>
     <section class="explanation" aria-labelledby="formula-heading">
-      <div class="explanation-heading"><span class="section-number">01</span><h2 id="formula-heading">「距離の2乗和」を分解する</h2></div>
+      <div class="explanation-heading"><h2 id="formula-heading">1本の線から、全部の線へ</h2></div>
+      <p>デモで見た2乗誤差は、次の2つの計算を順番に行ったものです。</p>
       <div class="equation-cards">
         <article class="equation-card">
           <span class="card-label">1本の線について</span>
-          <h3>横と縦のずれを、それぞれ2乗</h3>
+          <h3>まず、1つのデータまでの距離を2乗する</h3>
+          <p><span data-tex="i">i</span> 番目のデータの横・縦の位置を <span data-tex="(x_i,y_i)">(xᵢ, yᵢ)</span>、代表点の横・縦の位置を <span data-tex="(p_x,p_y)">(pₓ, pᵧ)</span> とします。</p>
           <div class="tex-display" data-display="true" data-tex="d_i^2=(x_i-p_x)^2+(y_i-p_y)^2">dᵢ² = (xᵢ − pₓ)² + (yᵢ − pᵧ)²</div>
-          <p>データ <span data-tex="\mathbf{x}_i=(x_i,y_i)">xᵢ = (xᵢ, yᵢ)</span> と代表点 <span data-tex="\mathbf{p}=(p_x,p_y)">p = (pₓ, pᵧ)</span> の距離を <span data-tex="d_i">dᵢ</span> とします。三平方の定理から、距離の2乗は横と縦のずれの2乗を足したものです。</p>
+          <p><span data-tex="d_i">dᵢ</span> は、この2点を結ぶ線の長さです。横のずれと縦のずれをそれぞれ2乗して足すと、斜めの線の長さの2乗になります。これは三平方の定理です。</p>
         </article>
         <article class="equation-card">
           <span class="card-label">すべての線について</span>
-          <h3>2乗した値を、全部足す</h3>
+          <h3>次に、全部のデータについて足す</h3>
+          <p>データが <span data-tex="n">n</span> 個あれば、線も <span data-tex="n">n</span> 本あります。それぞれで計算した距離の2乗を足します。</p>
           <div class="tex-display" data-display="true" data-tex="J(\mathbf{p})=\sum_{i=1}^{n}d_i^2=d_1^2+d_2^2+\cdots+d_n^2">J(p) = ∑ dᵢ² = d₁² + d₂² + ⋯ + dₙ²</div>
-          <p><span data-tex="n">n</span> はデータの個数です。先に各距離を2乗し、そのあと合計します。遠いデータほど大きく効き、距離が2倍なら、そのデータの寄与は4倍になります。</p>
+          <p>先に各距離を2乗し、そのあとで合計する順番です。距離が2倍なら、その線から足される値は4倍になります。遠いデータとのずれが、大きく数えられる仕組みです。</p>
         </article>
       </div>
     </section>
+    </details>
 
     <details class="proof panel" id="proof">
-      <summary><span><span class="section-number">02</span>なぜ、重心で最小になる？</span><span class="expand-icon" aria-hidden="true">＋</span></summary>
+      <summary><span>もう少し詳しく：重心で最小になる理由</span><span class="expand-icon" aria-hidden="true">＋</span></summary>
       <div class="proof-content">
-        <h3>重心は、横と縦それぞれの平均。</h3>
+        <h3>重心の位置を、式で書いてみよう。</h3>
+        <p>データの個数を <span data-tex="n">n</span>、<span data-tex="i">i</span> 番目のデータの横・縦の位置を <span data-tex="(x_i,y_i)">(xᵢ, yᵢ)</span> とします。平均は「全部足して、個数で割る」計算です。横の平均を <span data-tex="m_x">mₓ</span>、縦の平均を <span data-tex="m_y">mᵧ</span> と書くと、次のようになります。</p>
         <div class="mean-formula">
           <div class="tex-display" data-display="true" data-tex="m_x=\frac{1}{n}\sum_{i=1}^{n}x_i=\frac{x_1+x_2+\cdots+x_n}{n}">mₓ = (x₁ + x₂ + ⋯ + xₙ) / n</div>
           <div class="tex-display" data-display="true" data-tex="m_y=\frac{1}{n}\sum_{i=1}^{n}y_i=\frac{y_1+y_2+\cdots+y_n}{n}">mᵧ = (y₁ + y₂ + ⋯ + yₙ) / n</div>
         </div>
         <p>この点を <span data-tex="\mathbf{m}=(m_x,m_y)">m = (mₓ, mᵧ)</span> とすると、どこに代表点 <span data-tex="\mathbf{p}">p</span> を置いても、次の関係が成り立ちます。</p>
         <div class="identity">
-          <div><span data-tex="J(\mathbf{p})">J(p)</span><span>現在の2乗和</span></div><span class="operator">=</span>
-          <div><span data-tex="J(\mathbf{m})">J(m)</span><span>重心での2乗和</span></div><span class="operator">+</span>
+          <div><span data-tex="J(\mathbf{p})">J(p)</span><span>現在の2乗誤差</span></div><span class="operator">=</span>
+          <div><span data-tex="J(\mathbf{m})">J(m)</span><span>重心での2乗誤差</span></div><span class="operator">+</span>
           <div class="extra-term"><span data-tex="n\lVert\mathbf{p}-\mathbf{m}\rVert^2">n ‖p − m‖²</span><span>重心から離れた分の増加</span></div>
         </div>
         <p><span data-tex="\lVert\mathbf{p}-\mathbf{m}\rVert">‖p − m‖</span> は代表点から重心までの距離です。最後の項は必ず0以上で、<strong>代表点が重心に一致したときだけ0</strong>になります。だから、重心は距離の2乗和を最小にする唯一の位置です。</p>
-        <p>データがばらついていれば、重心に置いても最小値は0にはなりません。代表点は、実際のデータ点のどれかである必要もありません。</p>
+        <p>この関係は、データがどんな形に並んでいても成り立ちます。次の実験では、離れた2つのまとまりにも、この性質を使います。</p>
         <details class="derivation">
           <summary>式の導出も見る</summary>
           <p>横方向だけを考え、ずれを次のように分けて2乗します。</p>
@@ -185,103 +224,131 @@
         </details>
       </div>
     </details>
+    <p class="lesson-bridge">ここまでは、ひとまとまりのデータでした。<strong>まとまりが2つに離れていても、全体の重心1個で十分でしょうか。</strong><br><a class="lesson-next-link" href="#separated-lesson">次は、離れたデータで試そう ↓</a></p>
     <section id="separated-lesson" class="next-lesson" aria-labelledby="separated-heading">
       <div class="lesson-intro">
-        <span class="step">STEP 02 · 1個の代表点の限界</span>
-        <h2 id="separated-heading">2つに離れていても、<br>「平均」がよい代表になる？</h2>
-        <p>今度は、離れた2つの正規分布をもとに作ったデータです。<strong>代表点は、まだ1個。</strong>左右のまとまりの中や、その間へ動かしてみよう。</p>
+        <span class="step">STEP 02 · 1個では伝わらないこと</span>
+        <h2 id="separated-heading">まとまりが2つなら、<br>全体の重心はどこに来る？</h2>
+        <p>今度のデータは、左右の2か所に集まっています。<strong>代表点は、まだ1個。</strong>誤差も、先ほどと同じように、全データまでの距離をそれぞれ2乗して足します。</p>
+        <p>左のまとまりに代表点を置くと、右のデータまでの線が長くなります。では、代表点を右へ動かすと、全体の誤差はどう変わるでしょうか。</p>
       </div>
+      <ol class="experiment-guide" aria-label="STEP 02で試すこと">
+        <li><strong>左右で比べる</strong><span>代表点を左と右のまとまりに置き、長い線と誤差を見よう。</span></li>
+        <li><strong>間でも試す</strong><span>2つのまとまりの間へ動かして、誤差を比べよう。</span></li>
+        <li><strong>重心を確かめる</strong><span>「全体の重心へ移動」を押し、その周りにデータがあるか見よう。</span></li>
+      </ol>
       <div class="experiment">
         <div class="plot-panel panel">
-          <div class="plot-heading"><h3>このデータを、1点で代表する</h3><span class="data-count">60 個のデータ</span></div>
+          <div class="plot-heading"><h3>離れたデータを、1個で代表する</h3><span class="data-count">60 個のデータ</span></div>
           <div class="legend"><span><i class="symbol data-symbol"></i>データ</span><span><i class="symbol prototype-symbol"></i>代表点 <span data-tex="\mathbf{p}">p</span></span></div>
           <svg id="gap-plot" class="lesson-plot" viewBox="0 0 600 600" aria-labelledby="gap-title" aria-describedby="gap-help"><title id="gap-title">離れた2つの分布を1個の代表点で表す実験</title></svg>
-          <p id="gap-help" class="plot-help">代表点をドラッグ。図をクリック・タップしても移動できます。矢印キーで移動、Shiftで微調整。</p>
-          <div class="plot-actions"><button type="button" id="separated-new-data" class="button secondary">この先2つの実験のデータを作り直す</button><button type="button" id="gap-reset" class="button text-button">代表点を戻す</button></div>
+          <p id="gap-help" class="plot-help">操作は先ほどと同じです。青い点をドラッグするか、図の中をクリック・タップして動かします。</p>
+          <div class="plot-actions"><button type="button" id="separated-new-data" class="button secondary">STEP 02・03のデータを作り直す</button><button type="button" id="gap-reset" class="button text-button">代表点を最初の位置に戻す</button></div>
         </div>
         <aside class="readout panel lesson-readout" aria-label="離れた分布での1点の誤差と操作">
           <div class="objective-block">
-            <div class="readout-label"><h3>代表点1個の2乗誤差</h3><span class="small-tag">小さいほどよい</span></div>
+            <div class="readout-label"><h3>2乗誤差 · 代表点1個</h3></div>
             <div class="score"><span class="score-symbol" data-tex="J(\mathbf{p})">J(p)</span><output id="gap-loss">—</output></div>
             <div class="tex-display objective-formula" data-display="true" data-tex="J(\mathbf{p})=\sum_{i=1}^{n}\lVert\mathbf{x}_i-\mathbf{p}\rVert^2">J(p) = ∑ ‖xᵢ − p‖²</div>
+            <p class="score-note">ここでも、60本すべての線の長さをそれぞれ2乗して足しています。</p>
           </div>
           <div class="history-block">
-            <div class="history-heading"><h3>2乗誤差の推移</h3><button type="button" id="gap-clear-history" class="button text-button">記録をクリア</button></div>
+            <div class="history-heading"><h3>動かすと、誤差はどう変わる？</h3><button type="button" id="gap-clear-history" class="button text-button">記録をクリア</button></div>
             <div id="gap-history" class="mini-history"></div>
-            <p class="history-note">横軸：位置の更新順（直近360回）。<span id="gap-history-key" hidden>破線：1個での最小値。</span></p>
+            <p class="history-note">縦が2乗誤差、横が位置を記録した順番です。<span id="gap-history-key" hidden>ピンクの破線は、全体の重心での最小値です。</span></p>
           </div>
           <div class="position-block">
+            <h3>スライダーで動かす</h3>
             <div class="coordinate-control"><label for="gap-x">横の位置 <span data-tex="p_x">pₓ</span></label><output id="gap-x-value" for="gap-x">—</output><input type="range" id="gap-x" min="0" max="10" step=".01" value="2.6"></div>
             <div class="coordinate-control"><label for="gap-y">縦の位置 <span data-tex="p_y">pᵧ</span></label><output id="gap-y-value" for="gap-y">—</output><input type="range" id="gap-y" min="0" max="10" step=".01" value="5.7"></div>
           </div>
           <div class="answer-controls">
+            <h3>誤差が最小になる場所を確かめよう</h3>
+            <p class="control-intro">今度も、全データの横と縦の平均をとった位置が重心です。</p>
             <label class="checkbox-label"><input type="checkbox" id="gap-show-mean">全体の重心を表示する</label>
-            <button type="button" id="gap-to-mean" class="button primary">誤差が最小になる重心へ</button>
+            <button type="button" id="gap-to-mean" class="button primary">全体の重心へ移動</button>
             <p id="gap-status" class="discovery">左右のまとまりの間にも、置いてみよう。</p>
           </div>
           <div id="gap-result" class="mean-result" hidden>
             <div><span>全体の重心</span><output id="gap-mean-position">—</output></div>
-            <div><span>1個での最小値</span><output id="gap-minimum">—</output></div>
-            <div><span>重心にいちばん近いデータまで</span><output id="gap-nearest">—</output></div>
+            <div><span>代表点1個での最小値</span><output id="gap-minimum">—</output></div>
+            <div><span>最も近いデータまでの距離</span><output id="gap-nearest">—</output></div>
           </div>
         </aside>
       </div>
-      <p class="data-note">左右に30個ずつ。同じ重みで計算します。空白がはっきり分かるよう、各正規分布の裾を描画範囲で制限しています。</p>
+      <details class="data-details"><summary>この実験のデータについて</summary><p>左右に30個ずつ、2つの正規分布から生成しています。中央の空白をはっきり示すため、各分布の端の広がりを制限しています。「データを作り直す」を押すと、次のSTEP 03も同じ新しいデータに切り替わります。</p></details>
       <div class="learning-insight">
-        <span class="insight-label">ここで考えたいこと</span>
-        <h3>誤差は最小。でも、そこにデータはない。</h3>
-        <p>全体の重心は、2つのまとまりの間に来ます。<strong>全体の平均としては正しい位置</strong>です。しかし、この1点だけを見ても、左右にまとまりがあることは伝わりません。</p>
-        <p>誤差の計算が間違っているのではなく、<strong>このデータの構造を表すには、代表点が1個では足りない</strong>のです。</p>
-        <a class="lesson-next-link" href="#two-prototypes">では、代表点を2個にしてみよう ↓</a>
+        <span class="insight-label">誤差の値と、図を見比べよう</span>
+        <h3>誤差は最小。でも、どちらのまとまりからも離れている。</h3>
+        <p>全体の重心は、左右のデータのない間に来ます。左へ寄ると右から遠ざかり、右へ寄ると左から遠ざかる。その全体のずれが最も小さくなるのが、この位置です。</p>
+        <p>平均の位置にデータ点がないこと自体は、よくあります。ここで注目したいのは、<strong>この1点だけでは「左右に2つのまとまりがある」と伝えにくい</strong>ことです。</p>
+        <p>それぞれのまとまりを表すには、どうすればよいでしょうか。<strong>次は代表点を2個に増やし、データを分担してみましょう。</strong></p>
+        <a class="lesson-next-link" href="#two-prototypes">同じデータを、2個の代表点で表してみよう ↓</a>
       </div>
     </section>
 
     <section id="two-prototypes" class="next-lesson" aria-labelledby="two-heading">
       <div class="lesson-intro">
-        <span class="step">STEP 03 · 代表点を2個にする</span>
-        <h2 id="two-heading">それぞれのまとまりに、<br>代表点を置いたら？</h2>
-        <p>上と<strong>まったく同じ60個のデータ</strong>を使います。各データは<strong>近い方の代表点</strong>に任せ、その距離だけを2乗して足します。2個の代表点を、左右に動かしてみよう。</p>
+        <span class="step">STEP 03 · 2個で分担する</span>
+        <h2 id="two-heading">近い代表点に任せたら、<br>それぞれをどこに置く？</h2>
+        <p>上と<strong>まったく同じ60個のデータ</strong>に、今度は代表点を2個置きます。データは変えず、代表点の数を変えて比べます。</p>
+        <p>2個あると、各データをどちらに任せるか決める必要があります。ここでは<strong>距離が近い方の代表点に任せる</strong>ことにします。このように担当を決めることを、<strong>割り当て</strong>と呼びます。</p>
       </div>
+      <ol class="experiment-guide" aria-label="STEP 03で試すこと">
+        <li><strong>2個を置く</strong><span>代表点1と2を、それぞれ左右のまとまりへ動かそう。</span></li>
+        <li><strong>担当を見る</strong><span>代表点1を代表点2の近くまで動かし、色と線の変化を見よう。</span></li>
+        <li><strong>平均で整える</strong><span>「それぞれの重心へ移動」を押して、誤差を比べよう。</span></li>
+      </ol>
       <div class="experiment">
         <div class="plot-panel panel">
-          <div class="plot-heading"><h3>近い代表点に、データを任せる</h3><span class="data-count">同じ60個のデータ</span></div>
+          <div class="plot-heading"><h3>色と線が、今の担当を表す</h3><span class="data-count">同じ60個のデータ</span></div>
           <div class="legend"><span><i class="symbol prototype-symbol"></i>代表点1・丸のデータ</span><span><i class="symbol second-symbol"></i>代表点2・四角のデータ</span></div>
           <svg id="pair-plot" class="lesson-plot" viewBox="0 0 600 600" aria-labelledby="pair-title" aria-describedby="pair-help"><title id="pair-title">2個の代表点と、近い方へのデータの割り当て</title></svg>
-          <p id="pair-help" class="plot-help">1・2の点をそれぞれドラッグ。空いている場所をクリックすると、選択中の代表点が移動します。矢印キーでも操作できます。</p>
+          <p id="pair-help" class="plot-help">1・2の点をそれぞれドラッグできます。空いている場所をクリックすると、選択中の代表点が動きます。</p>
+          <p class="plot-help">データの位置は変わりません。色と線だけが、近い代表点に合わせて自動で切り替わります。</p>
           <div class="plot-actions"><button type="button" id="pair-reset" class="button secondary">2個の代表点を最初に戻す</button></div>
         </div>
         <aside class="readout panel lesson-readout" aria-label="2個の代表点の誤差と操作">
           <div class="objective-block">
-            <div class="readout-label"><h3>代表点2個の2乗誤差</h3></div>
+            <div class="readout-label"><h3>2乗誤差 · 代表点2個</h3></div>
             <div class="score"><span class="score-symbol" data-tex="J_2">J₂</span><output id="pair-loss">—</output></div>
+            <p class="score-note">各データから、担当する代表点へ線を1本引きます。描かれた60本の線の長さを、それぞれ2乗して足します。</p>
             <div class="tex-display objective-formula" data-display="true" data-tex="J_2=\sum_{i=1}^{n}\min_{j\in\{1,2\}}\lVert\mathbf{x}_i-\mathbf{p}_j\rVert^2">J₂ = ∑ min ‖xᵢ − pⱼ‖²</div>
-            <p class="score-note">各データについて、2つの距離のうち短い方だけを使います。</p>
-            <div class="comparison-baseline"><span>1個での最小値</span><output id="pair-baseline">—</output><strong id="pair-improvement">—</strong></div>
+            <details class="formula-key"><summary>新しく出てきた記号を読む</summary><p><span data-tex="\mathbf{p}_1,\mathbf{p}_2">p₁, p₂</span> は2個の代表点の位置です。<span data-tex="j">j</span> は代表点の番号で、1か2です。<span data-tex="\min">min</span> は「小さい方を選ぶ」の意味で、各データについて、2つの距離の2乗から小さい方だけを使います。</p><p><span data-tex="J_2">J₂</span> は代表点を2個置いたときの2乗誤差です。最後に <span data-tex="\sum">∑</span> で全部のデータについて足すところは、STEP 01と同じです。</p></details>
+            <div class="comparison-baseline"><span>STEP 02の最小値（1個）</span><output id="pair-baseline">—</output><strong id="pair-improvement">—</strong></div>
           </div>
           <div class="history-block">
-            <div class="history-heading"><h3>2乗誤差の推移</h3><button type="button" id="pair-clear-history" class="button text-button">記録をクリア</button></div>
+            <div class="history-heading"><h3>動かすと、誤差はどう変わる？</h3><button type="button" id="pair-clear-history" class="button text-button">記録をクリア</button></div>
             <div id="pair-history" class="mini-history"></div>
-            <p class="history-note">横軸：位置の更新順（直近360回）。破線：代表点1個での最小値。</p>
+            <p class="history-note">ピンクの破線より下なら、STEP 02の最小値より小さい誤差です。横軸は移動中の記録順で、ボタンを押した回数とは別です。</p>
           </div>
           <div class="position-block">
+            <h3>動かす代表点を選ぶ</h3>
             <div class="prototype-selector" role="group" aria-label="動かす代表点"><button type="button" id="pair-select-1" class="button representative-choice" aria-pressed="true">● 代表点1</button><button type="button" id="pair-select-2" class="button representative-choice second-choice" aria-pressed="false">◆ 代表点2</button></div>
             <div class="coordinate-control"><label for="pair-x">選択中の点：横</label><output id="pair-x-value" for="pair-x">—</output><input type="range" id="pair-x" min="0" max="10" step=".01" value="4.5"></div>
             <div class="coordinate-control"><label for="pair-y">選択中の点：縦</label><output id="pair-y-value" for="pair-y">—</output><input type="range" id="pair-y" min="0" max="10" step=".01" value="5.3"></div>
             <div class="assignment-counts"><span>代表点1の担当 <output id="pair-count-1">—</output> 個</span><span>代表点2の担当 <output id="pair-count-2">—</output> 個</span></div>
           </div>
           <div class="answer-controls">
-            <button type="button" id="pair-update" class="button primary">担当するデータの重心へ（1回）</button>
+            <h3>担当が決まれば、STEP 01と同じ</h3>
+            <p class="control-intro">今の担当データだけを使い、横と縦の平均をとります。各代表点をその重心へ動かす操作を、1回試しましょう。</p>
+            <button type="button" id="pair-update" class="button primary">それぞれの重心へ移動（1回）</button>
+            <p class="update-count" id="pair-update-count">重心への移動：0回</p>
             <p id="pair-status" class="discovery">1個ずつ、左右のまとまりへ動かしてみよう。</p>
           </div>
         </aside>
       </div>
       <div class="learning-insight pair-insight">
-        <span class="insight-label">重心の学びが、ここにつながる</span>
-        <h3>全体の平均を1個から、それぞれの平均を1個ずつへ。</h3>
-        <p>2つのまとまりに代表点を置くと、それぞれの近くにあるデータを代表できます。ボタンを押すと、<strong>その時点で担当しているデータの重心</strong>へ各代表点が移動します。</p>
-        <ol class="kmeans-steps"><li>各データを、近い代表点に割り当てる。</li><li>各代表点を、担当するデータの重心へ動かす。</li></ol>
-        <p>移動後は、また近い代表点を選び直します。<strong>この「割り当て」と「重心への移動」の繰り返しが、k-meansの基本</strong>です。</p>
-        <p class="method-note">2個にしても、置き方によっては1個の最小値より誤差が大きくなります。1回の重心更新で全体の最適解になるとは限りません。距離が同じなら代表点1に割り当て、担当が0個の代表点はその位置に残します。</p>
+        <span class="insight-label">1個の重心の考え方を、それぞれの担当へ</span>
+        <h3>担当を決める。担当の平均へ動かす。また担当を決める。</h3>
+        <p>担当するデータを固定すると、代表点ごとにSTEP 01の問題になります。だから、<strong>それぞれの担当データの重心</strong>へ動かせば、その担当に対する2乗誤差を最小にできます。</p>
+        <p>ただし、代表点が動くと、近い方が入れ替わるデータもあります。担当が変われば、平均をとるデータも変わるので、もう一度重心へ動かします。</p>
+        <ol class="kmeans-steps"><li><strong>割り当てる</strong><span>各データを、今いちばん近い代表点に任せる。</span></li><li><strong>重心へ動かす</strong><span>各代表点を、今の担当データの平均の位置へ動かす。</span></li></ol>
+        <p><strong>この2つを繰り返し、割り当てと代表点の位置が変わらなくなったら一区切りです。</strong>このデモでは割り当ては常に自動で行い、重心への移動をボタンで1回ずつ試せます。</p>
+        <h3 class="closing-heading">これが、k-meansの基本です。</h3>
+        <p>1つの代表点に割り当てられたデータの集まりを、<strong>クラスタ</strong>と呼びます。k-meansの <span data-tex="k">k</span> は代表点の個数、meansは「平均」を意味します。ここでは <span data-tex="k=2">k = 2</span> と決めて、2つのクラスタを作りました。</p>
+        <p>最初は「全体を1個の平均で表す」問題でした。その考え方を、<strong>「各クラスタを、それぞれの平均で表す」</strong>ところまで広げたのです。</p>
+        <details class="method-details"><summary>うまく分かれないときは？</summary><p>代表点を2個に増やしても、遠い場所に置けば誤差は大きくなります。まず左右のまとまりに1個ずつ置いてから、重心へ移動してみましょう。</p><p>繰り返して動かなくなっても、あらゆる置き方の中で最良とは限りません。初めに置く場所で結果が変わることは、k-meansの次の学習につながります。</p><p>担当が0個なら平均を計算できないため、このデモではその代表点を動かしません。自分で別のまとまりへ動かして試せます。距離が同じデータは代表点1に割り当てます。</p></details>
       </div>
     </section>
     <p id="separated-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>

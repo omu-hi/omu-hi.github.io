@@ -35,8 +35,8 @@ function renderGap(result, moved) {
   $('gap-nearest').textContent = format(Math.sqrt(Math.min(...points.map(p => squaredDistance(p, mean)))));
   const atMean = squaredDistance(gapPlot.centers[0], mean) < 1e-20;
   $('gap-status').textContent = atMean
-    ? '誤差は最小になりました。でも、この点は左右のデータのない間にあります。'
-    : revealed ? 'ピンクのひし形が全体の重心。どちらのまとまりの中にもありません。' : '左右のまとまりの間にも、置いてみよう。';
+    ? '誤差は最小になりました。図を見ると、代表点は左右のデータのない間にあります。この1点で、2つのまとまりが伝わるでしょうか。'
+    : revealed ? 'ピンクのひし形が全体の重心です。「全体の重心へ移動」で、誤差と周りのデータを見比べてみよう。' : '左、右、その間へ動かして比べよう。探せたら「全体の重心へ移動」で確かめられます。';
 }
 function syncPairSelection() {
   syncCoordinates('pair', pairPlot.centers[pairPlot.selected]);
@@ -52,10 +52,21 @@ function renderPair(result, moved) {
   syncPairSelection();
   if (moved) pairHistory.record(result.loss);
   pairHistory.draw(baseline);
+  $('pair-update-count').textContent = `重心への移動：${updateCount}回`;
+  const moving = pairPlot.animation !== null;
+  $('pair-update').disabled = moving;
   const empty = result.counts.findIndex(count => count === 0);
-  $('pair-status').textContent = empty >= 0
-    ? `代表点${empty + 1}の担当は0個です。別のまとまりへ動かしてみよう。重心更新では、この点はその位置に残ります。`
-    : updateCount > 0 ? `${updateCount} 回の重心更新。データの担当が変わったら、もう一度更新してみよう。` : '1個ずつ、左右のまとまりへ動かしてみよう。';
+  const next = assignedCentroids(points, pairPlot.centers).centers;
+  const settled = pairPlot.centers.every((point, j) => squaredDistance(point, next[j]) < 1e-12);
+  $('pair-status').textContent = moving
+    ? 'ボタンを押した時点の担当データの重心へ移動しています。線と誤差の変化を見てみよう。'
+    : empty >= 0
+      ? `代表点${empty + 1}の担当は0個です。平均を計算するデータがないため、この点はその位置に残ります。別のまとまりへ動かしてみよう。`
+      : settled
+        ? '各代表点が、今の担当データの重心とほぼ一致しました。もう一度押してもほとんど変わりません。下で、この繰り返しの意味を整理しましょう。'
+        : updateCount > 0
+          ? '今の担当データの重心まで、まだ移動できます。もう一度ボタンを押し、位置と誤差が変わらなくなるか確かめよう。'
+          : 'まずは2個の点を自分で動かそう。そのあとボタンを押すと、今の担当データの平均の位置と比べられます。';
 }
 
 const gapPlot = new PrototypePlot($('gap-plot'), {
@@ -89,11 +100,16 @@ $('pair-clear-history').addEventListener('click', () => { pairPlot.cancelMotion(
 [0, 1].forEach(j => $('pair-select-' + (j + 1)).addEventListener('click', () => pairPlot.select(j)));
 $('pair-reset').addEventListener('click', () => { pairPlot.cancelMotion(); updateCount = 0; pairPlot.setCenters(initialCenters); });
 $('pair-update').addEventListener('click', () => {
+  if (pairPlot.animation !== null) return;
   const { centers, counts } = assignedCentroids(points, pairPlot.centers);
-  updateCount++;
-  pairPlot.animateTo(centers, () => announce(counts.some(count => count === 0)
-    ? '担当データのある代表点を重心へ動かしました。担当が0個の代表点はその位置に残しました。'
-    : '各代表点を、担当するデータの重心へ動かしました。'));
+  pairPlot.animateTo(centers, () => {
+    updateCount++;
+    renderPair(pairPlot.draw(), false);
+    announce(counts.some(count => count === 0)
+      ? '担当がある代表点を重心へ動かしました。担当が0個の代表点はその位置に残しました。'
+      : `各代表点を、担当データの重心へ動かしました。${$('pair-status').textContent}`);
+  });
+  renderPair(pairPlot.draw(), false);
 });
 $('separated-new-data').addEventListener('click', () => {
   gapPlot.cancelMotion(); pairPlot.cancelMotion();
