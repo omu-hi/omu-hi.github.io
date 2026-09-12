@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="代表点を動かして、データとの距離の2乗和を小さくしよう。2次元データの重心と、距離の2乗和が最小になる理由を体験できるデモ。">
+  <title>データを1つの点で代表する — 重心を学ぶデモ</title>
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="./centroid.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#experiment">デモへ移動</a>
+  <header class="lesson-header">
+    <div class="lesson-shell header-inner">
+      <a href="../../ubukata/" class="back-link">← 生方 誠希のページ</a>
+      <span class="lesson-label">K-MEANS を学ぶ <span class="step">STEP 01</span></span>
+    </div>
+  </header>
+  <main class="lesson-shell">
+    <div class="intro">
+      <p class="eyebrow">まずは、1つの重心から。</p>
+      <h1>データを1つの点で代表するなら、<br class="wide-break">どこに置く？</h1>
+      <p>青い<strong>代表点（プロトタイプ）</strong>を動かして、<strong>距離の2乗和</strong>がいちばん小さくなる場所を探そう。</p>
+    </div>
+
+    <noscript><p class="notice">このデモを動かすには、ブラウザーでJavaScriptを有効にしてください。</p></noscript>
+    <section id="experiment" class="experiment" aria-label="代表点を動かす実験">
+      <div class="plot-panel panel">
+        <div class="plot-heading">
+          <h2>代表点を動かしてみよう</h2>
+          <span class="data-count"><span id="point-count">40</span> 個のデータ</span>
+        </div>
+        <div class="legend" aria-label="図の凡例">
+          <span><i class="symbol data-symbol"></i>データ</span>
+          <span><i class="symbol prototype-symbol"></i>代表点 <var>p</var></span>
+          <span id="mean-legend" hidden><i class="symbol mean-symbol"></i>重心 <var>m</var></span>
+        </div>
+        <svg id="plot" viewBox="0 0 600 600" aria-labelledby="plot-title plot-desc">
+          <title id="plot-title">2次元データと1つの代表点</title>
+          <desc id="plot-desc">横軸と縦軸はともに0から10。同じ長さが同じ距離を表します。代表点から全データへの線を描きます。代表点にフォーカスして矢印キーでも操作できます。</desc>
+          <defs><clipPath id="plot-clip"><rect x="50" y="30" width="520" height="520"/></clipPath></defs>
+          <rect class="plot-background" x="50" y="30" width="520" height="520" rx="0"/>
+          <g id="grid" aria-hidden="true"></g>
+          <g clip-path="url(#plot-clip)" aria-hidden="true">
+            <g id="connections"></g>
+            <g id="data-points"></g>
+            <g id="mean-mark" hidden>
+              <line class="mean-guide" id="mean-horizontal"/>
+              <line class="mean-guide" id="mean-vertical"/>
+              <path id="mean-diamond" class="mean-diamond"/>
+            </g>
+          </g>
+          <g id="prototype" tabindex="0" role="button" aria-label="代表点。矢印キーで移動。Shiftと矢印キーで細かく移動。" aria-describedby="plot-help">
+            <circle class="prototype-hit" r="25"/>
+            <circle class="prototype-halo" r="17"/>
+            <circle class="prototype-core" r="9"/>
+            <circle class="prototype-center" r="2.5"/>
+          </g>
+          <text id="prototype-label" class="prototype-label" aria-hidden="true">代表点 p</text>
+          <text id="mean-label" class="mean-label" hidden aria-hidden="true">重心 m</text>
+        </svg>
+        <p id="plot-help" class="plot-help">青い点をドラッグ。図の中をクリック・タップしても移動できます。</p>
+        <div class="plot-actions">
+          <button id="new-data" class="button secondary" type="button">データを作り直す</button>
+          <button id="reset-point" class="button text-button" type="button">代表点を最初の位置に戻す</button>
+        </div>
+      </div>
+
+      <aside class="readout panel" aria-label="距離の2乗和と操作">
+        <div class="objective-block">
+          <div class="readout-label"><h2>距離の2乗和</h2><span class="small-tag">小さいほどよい</span></div>
+          <div class="score"><span class="score-symbol">J(<var>p</var>)</span><output id="loss">—</output></div>
+          <p class="score-note">薄い線の長さを、それぞれ2乗して足した値。</p>
+          <div class="formula objective-formula" aria-label="J p イコール、iが1からnまでの、x i ひく p x の2乗と y i ひく p y の2乗の和">
+            <span>J(<var>p</var>) =</span>
+            <span class="sum"><span>n</span><span>∑</span><span>i = 1</span></span>
+            <span>[(<var>x</var><sub>i</sub> − <var>p</var><sub>x</sub>)<sup>2</sup><br class="formula-break"> + (<var>y</var><sub>i</sub> − <var>p</var><sub>y</sub>)<sup>2</sup>]</span>
+          </div>
+        </div>
+
+        <div class="position-block">
+          <h3>代表点の位置 <var>p</var></h3>
+          <div class="coordinate-control">
+            <label for="position-x">横の位置 <var>p</var><sub>x</sub></label><output id="position-x-value" for="position-x">—</output>
+            <input type="range" id="position-x" min="0" max="10" step="0.01" value="8.2">
+          </div>
+          <div class="coordinate-control">
+            <label for="position-y">縦の位置 <var>p</var><sub>y</sub></label><output id="position-y-value" for="position-y">—</output>
+            <input type="range" id="position-y" min="0" max="10" step="0.01" value="2">
+          </div>
+          <p class="keyboard-help">点にフォーカスして矢印キーでも操作可能。<br>Shift + 矢印キーで細かく動かせます。</p>
+        </div>
+
+        <div class="answer-controls">
+          <label class="checkbox-label"><input type="checkbox" id="show-mean"> 重心を表示する</label>
+          <button id="move-to-mean" class="button primary" type="button">重心へ移動して比べる</button>
+          <p class="discovery" id="discovery">まずは自分で、小さくなる場所を探してみよう。</p>
+        </div>
+        <div id="mean-result" class="mean-result" hidden>
+          <div><span>重心 <var>m</var></span><output id="mean-position">—</output></div>
+          <div><span>重心での最小値 J(<var>m</var>)</span><output id="minimum-loss">—</output></div>
+          <div class="excess-row"><span>最小値からの増加分</span><output id="excess-loss">—</output></div>
+          <p id="minimum-status">—</p>
+        </div>
+      </aside>
+    </section>
+    <p class="data-note">各データの重みは同じ。正規分布から生成した、ひとまとまりの2次元データです。座標・計算結果は表示時に丸めています。</p>
+
+    <section class="explanation" aria-labelledby="formula-heading">
+      <div class="explanation-heading"><span class="section-number">01</span><h2 id="formula-heading">「距離の2乗和」を分解する</h2></div>
+      <div class="equation-cards">
+        <article class="equation-card">
+          <span class="card-label">1本の線について</span>
+          <h3>横と縦のずれを、それぞれ2乗</h3>
+          <div class="formula">d<sub>i</sub><sup>2</sup> = (<var>x</var><sub>i</sub> − <var>p</var><sub>x</sub>)<sup>2</sup> + (<var>y</var><sub>i</sub> − <var>p</var><sub>y</sub>)<sup>2</sup></div>
+          <p>データ (<var>x</var><sub>i</sub>, <var>y</var><sub>i</sub>) と代表点 (<var>p</var><sub>x</sub>, <var>p</var><sub>y</sub>) の距離を <var>d</var><sub>i</sub> とします。三平方の定理から、距離の2乗は横と縦のずれの2乗を足したものです。</p>
+        </article>
+        <article class="equation-card">
+          <span class="card-label">すべての線について</span>
+          <h3>2乗した値を、全部足す</h3>
+          <div class="formula">J(<var>p</var>) = d<sub>1</sub><sup>2</sup> + d<sub>2</sub><sup>2</sup> + … + d<sub>n</sub><sup>2</sup></div>
+          <p><var>n</var> はデータの個数です。先に各距離を2乗し、そのあと合計します。遠いデータほど大きく効き、距離が2倍なら、そのデータの寄与は4倍になります。</p>
+        </article>
+      </div>
+    </section>
+
+    <details class="proof panel" id="proof">
+      <summary><span><span class="section-number">02</span>なぜ、重心で最小になる？</span><span class="expand-icon" aria-hidden="true">＋</span></summary>
+      <div class="proof-content">
+        <h3>重心は、横と縦それぞれの平均。</h3>
+        <div class="formula mean-formula">
+          <span>m<sub>x</sub> = <span class="fraction"><span>x<sub>1</sub> + x<sub>2</sub> + … + x<sub>n</sub></span><span>n</span></span></span>
+          <span>m<sub>y</sub> = <span class="fraction"><span>y<sub>1</sub> + y<sub>2</sub> + … + y<sub>n</sub></span><span>n</span></span></span>
+        </div>
+        <p>この点を <var>m</var> = (<var>m</var><sub>x</sub>, <var>m</var><sub>y</sub>) とすると、どこに代表点 <var>p</var> を置いても、次の関係が成り立ちます。</p>
+        <div class="identity">
+          <div><span class="formula">J(<var>p</var>)</span><span>現在の2乗和</span></div><span class="operator">=</span>
+          <div><span class="formula">J(<var>m</var>)</span><span>重心での2乗和</span></div><span class="operator">+</span>
+          <div class="extra-term"><span class="formula">n ‖<var>p</var> − <var>m</var>‖<sup>2</sup></span><span>重心から離れた分の増加</span></div>
+        </div>
+        <p>‖<var>p</var> − <var>m</var>‖ は代表点から重心までの距離です。最後の項は必ず0以上で、<strong>代表点が重心に一致したときだけ0</strong>になります。だから、重心は距離の2乗和を最小にする唯一の位置です。</p>
+        <p>データがばらついていれば、重心に置いても最小値は0にはなりません。代表点は、実際のデータ点のどれかである必要もありません。</p>
+        <details class="derivation">
+          <summary>式の導出も見る</summary>
+          <p>横方向だけを考え、<var>x</var><sub>i</sub> − <var>p</var><sub>x</sub> = (<var>x</var><sub>i</sub> − <var>m</var><sub>x</sub>) + (<var>m</var><sub>x</sub> − <var>p</var><sub>x</sub>) と分けて2乗します。</p>
+          <div class="formula derivation-formula">∑<sub>i=1</sub><sup>n</sup> (<var>x</var><sub>i</sub> − <var>p</var><sub>x</sub>)<sup>2</sup><br>= ∑<sub>i=1</sub><sup>n</sup> (<var>x</var><sub>i</sub> − <var>m</var><sub>x</sub>)<sup>2</sup> + 2(<var>m</var><sub>x</sub> − <var>p</var><sub>x</sub>) ∑<sub>i=1</sub><sup>n</sup> (<var>x</var><sub>i</sub> − <var>m</var><sub>x</sub>) + n(<var>m</var><sub>x</sub> − <var>p</var><sub>x</sub>)<sup>2</sup></div>
+          <p>平均からのずれの和 ∑(<var>x</var><sub>i</sub> − <var>m</var><sub>x</sub>) は0なので、中央の項は消えます。縦方向も同じように展開して足すと、上の式になります。</p>
+        </details>
+      </div>
+    </details>
+    <p id="announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+  </main>
+  <footer class="lesson-footer lesson-shell"><span>大阪公立大学 · 人間情報システム研究室</span><a href="../kmeans/">既存の K-Means デモ →</a></footer>
+</body>
+</html>
