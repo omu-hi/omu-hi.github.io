@@ -60,3 +60,50 @@ export function toScreen(point) {
 export function fromScreen(point) {
   return { x: clamp((point.x - 50) / 52), y: clamp((550 - point.y) / 52) };
 }
+
+// Each group is sampled from a normal distribution, rejecting tails outside
+// its display window. Equal group sizes and the x bounds guarantee that the
+// pooled sample mean falls inside the empty gap (3.6, 6.4).
+export function createSeparatedDataset(seed = 20260930, perGroup = 30) {
+  if (!Number.isInteger(perGroup) || perGroup < 1) throw new RangeError('perGroup must be positive');
+  const random = seededRandom(seed);
+  const points = [];
+  for (const center of [{ x: 2.6, y: 5.7 }, { x: 7.4, y: 4.3 }]) {
+    let accepted = 0;
+    while (accepted < perGroup) {
+      const r = Math.sqrt(-2 * Math.log(1 - random()));
+      const angle = 2 * Math.PI * random();
+      const dx = 0.45 * r * Math.cos(angle);
+      const dy = 0.55 * r * Math.sin(angle);
+      if (Math.abs(dx) > 1 || Math.abs(dy) > 1.4) continue;
+      points.push({ x: center.x + dx, y: center.y + dy });
+      accepted++;
+    }
+  }
+  return points;
+}
+
+export function assignToPrototypes(points, prototypes) {
+  if (!prototypes.length) throw new RangeError('at least one prototype is required');
+  const counts = prototypes.map(() => 0);
+  let loss = 0;
+  const assignments = points.map(point => {
+    let winner = 0;
+    let best = squaredDistance(point, prototypes[0]);
+    for (let j = 1; j < prototypes.length; j++) {
+      const distance = squaredDistance(point, prototypes[j]);
+      if (distance < best) { best = distance; winner = j; }
+    }
+    counts[winner]++;
+    loss += best;
+    return winner;
+  });
+  return { assignments, counts, loss };
+}
+
+export function assignedCentroids(points, prototypes) {
+  const { assignments, counts } = assignToPrototypes(points, prototypes);
+  const groups = prototypes.map(() => []);
+  points.forEach((point, i) => groups[assignments[i]].push(point));
+  return { centers: groups.map((group, j) => group.length ? centroid(group) : { ...prototypes[j] }), counts };
+}

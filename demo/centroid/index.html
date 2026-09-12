@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="代表点を動かして、データとの距離の2乗和を小さくしよう。2次元データの重心と、距離の2乗和が最小になる理由を体験できるデモ。">
-  <title>データを1つの点で代表する — 重心を学ぶデモ</title>
+  <meta name="description" content="代表点を動かして重心を学び、離れた2つの分布で1点の限界を体験。代表点を2個に増やして、k-meansの考え方へ進む対話型デモ。">
+  <title>重心からk-meansへ — 代表点を動かして学ぶデモ</title>
   <link rel="stylesheet" href="../../style.css">
   <link rel="stylesheet" href="./vendor/katex/katex.min.css">
   <link rel="stylesheet" href="./centroid.css">
   <script defer src="./vendor/katex/katex.min.js"></script>
   <script defer src="./equations.js"></script>
   <script type="module" src="./app.mjs"></script>
+  <script type="module" src="./separated.mjs"></script>
 </head>
 <body>
   <a class="skip-link" href="#experiment">デモへ移動</a>
   <header class="lesson-header">
     <div class="lesson-shell header-inner">
       <a href="../../ubukata/" class="back-link">← 生方 誠希のページ</a>
-      <span class="lesson-label">K-MEANS を学ぶ <span class="step">STEP 01</span></span>
+      <span class="lesson-label">K-MEANS を学ぶ <span class="step">01 → 02 → 03</span></span>
     </div>
   </header>
   <main class="lesson-shell">
@@ -184,6 +185,106 @@
         </details>
       </div>
     </details>
+    <section id="separated-lesson" class="next-lesson" aria-labelledby="separated-heading">
+      <div class="lesson-intro">
+        <span class="step">STEP 02 · 1個の代表点の限界</span>
+        <h2 id="separated-heading">2つに離れていても、<br>「平均」がよい代表になる？</h2>
+        <p>今度は、離れた2つの正規分布をもとに作ったデータです。<strong>代表点は、まだ1個。</strong>左右のまとまりの中や、その間へ動かしてみよう。</p>
+      </div>
+      <div class="experiment">
+        <div class="plot-panel panel">
+          <div class="plot-heading"><h3>このデータを、1点で代表する</h3><span class="data-count">60 個のデータ</span></div>
+          <div class="legend"><span><i class="symbol data-symbol"></i>データ</span><span><i class="symbol prototype-symbol"></i>代表点 <span data-tex="\mathbf{p}">p</span></span></div>
+          <svg id="gap-plot" class="lesson-plot" viewBox="0 0 600 600" aria-labelledby="gap-title" aria-describedby="gap-help"><title id="gap-title">離れた2つの分布を1個の代表点で表す実験</title></svg>
+          <p id="gap-help" class="plot-help">代表点をドラッグ。図をクリック・タップしても移動できます。矢印キーで移動、Shiftで微調整。</p>
+          <div class="plot-actions"><button type="button" id="separated-new-data" class="button secondary">この先2つの実験のデータを作り直す</button><button type="button" id="gap-reset" class="button text-button">代表点を戻す</button></div>
+        </div>
+        <aside class="readout panel lesson-readout" aria-label="離れた分布での1点の誤差と操作">
+          <div class="objective-block">
+            <div class="readout-label"><h3>代表点1個の2乗誤差</h3><span class="small-tag">小さいほどよい</span></div>
+            <div class="score"><span class="score-symbol" data-tex="J(\mathbf{p})">J(p)</span><output id="gap-loss">—</output></div>
+            <div class="tex-display objective-formula" data-display="true" data-tex="J(\mathbf{p})=\sum_{i=1}^{n}\lVert\mathbf{x}_i-\mathbf{p}\rVert^2">J(p) = ∑ ‖xᵢ − p‖²</div>
+          </div>
+          <div class="history-block">
+            <div class="history-heading"><h3>2乗誤差の推移</h3><button type="button" id="gap-clear-history" class="button text-button">記録をクリア</button></div>
+            <div id="gap-history" class="mini-history"></div>
+            <p class="history-note">横軸：位置の更新順（直近360回）。<span id="gap-history-key" hidden>破線：1個での最小値。</span></p>
+          </div>
+          <div class="position-block">
+            <div class="coordinate-control"><label for="gap-x">横の位置 <span data-tex="p_x">pₓ</span></label><output id="gap-x-value" for="gap-x">—</output><input type="range" id="gap-x" min="0" max="10" step=".01" value="2.6"></div>
+            <div class="coordinate-control"><label for="gap-y">縦の位置 <span data-tex="p_y">pᵧ</span></label><output id="gap-y-value" for="gap-y">—</output><input type="range" id="gap-y" min="0" max="10" step=".01" value="5.7"></div>
+          </div>
+          <div class="answer-controls">
+            <label class="checkbox-label"><input type="checkbox" id="gap-show-mean">全体の重心を表示する</label>
+            <button type="button" id="gap-to-mean" class="button primary">誤差が最小になる重心へ</button>
+            <p id="gap-status" class="discovery">左右のまとまりの間にも、置いてみよう。</p>
+          </div>
+          <div id="gap-result" class="mean-result" hidden>
+            <div><span>全体の重心</span><output id="gap-mean-position">—</output></div>
+            <div><span>1個での最小値</span><output id="gap-minimum">—</output></div>
+            <div><span>重心にいちばん近いデータまで</span><output id="gap-nearest">—</output></div>
+          </div>
+        </aside>
+      </div>
+      <p class="data-note">左右に30個ずつ。同じ重みで計算します。空白がはっきり分かるよう、各正規分布の裾を描画範囲で制限しています。</p>
+      <div class="learning-insight">
+        <span class="insight-label">ここで考えたいこと</span>
+        <h3>誤差は最小。でも、そこにデータはない。</h3>
+        <p>全体の重心は、2つのまとまりの間に来ます。<strong>全体の平均としては正しい位置</strong>です。しかし、この1点だけを見ても、左右にまとまりがあることは伝わりません。</p>
+        <p>誤差の計算が間違っているのではなく、<strong>このデータの構造を表すには、代表点が1個では足りない</strong>のです。</p>
+        <a class="lesson-next-link" href="#two-prototypes">では、代表点を2個にしてみよう ↓</a>
+      </div>
+    </section>
+
+    <section id="two-prototypes" class="next-lesson" aria-labelledby="two-heading">
+      <div class="lesson-intro">
+        <span class="step">STEP 03 · 代表点を2個にする</span>
+        <h2 id="two-heading">それぞれのまとまりに、<br>代表点を置いたら？</h2>
+        <p>上と<strong>まったく同じ60個のデータ</strong>を使います。各データは<strong>近い方の代表点</strong>に任せ、その距離だけを2乗して足します。2個の代表点を、左右に動かしてみよう。</p>
+      </div>
+      <div class="experiment">
+        <div class="plot-panel panel">
+          <div class="plot-heading"><h3>近い代表点に、データを任せる</h3><span class="data-count">同じ60個のデータ</span></div>
+          <div class="legend"><span><i class="symbol prototype-symbol"></i>代表点1・丸のデータ</span><span><i class="symbol second-symbol"></i>代表点2・四角のデータ</span></div>
+          <svg id="pair-plot" class="lesson-plot" viewBox="0 0 600 600" aria-labelledby="pair-title" aria-describedby="pair-help"><title id="pair-title">2個の代表点と、近い方へのデータの割り当て</title></svg>
+          <p id="pair-help" class="plot-help">1・2の点をそれぞれドラッグ。空いている場所をクリックすると、選択中の代表点が移動します。矢印キーでも操作できます。</p>
+          <div class="plot-actions"><button type="button" id="pair-reset" class="button secondary">2個の代表点を最初に戻す</button></div>
+        </div>
+        <aside class="readout panel lesson-readout" aria-label="2個の代表点の誤差と操作">
+          <div class="objective-block">
+            <div class="readout-label"><h3>代表点2個の2乗誤差</h3></div>
+            <div class="score"><span class="score-symbol" data-tex="J_2">J₂</span><output id="pair-loss">—</output></div>
+            <div class="tex-display objective-formula" data-display="true" data-tex="J_2=\sum_{i=1}^{n}\min_{j\in\{1,2\}}\lVert\mathbf{x}_i-\mathbf{p}_j\rVert^2">J₂ = ∑ min ‖xᵢ − pⱼ‖²</div>
+            <p class="score-note">各データについて、2つの距離のうち短い方だけを使います。</p>
+            <div class="comparison-baseline"><span>1個での最小値</span><output id="pair-baseline">—</output><strong id="pair-improvement">—</strong></div>
+          </div>
+          <div class="history-block">
+            <div class="history-heading"><h3>2乗誤差の推移</h3><button type="button" id="pair-clear-history" class="button text-button">記録をクリア</button></div>
+            <div id="pair-history" class="mini-history"></div>
+            <p class="history-note">横軸：位置の更新順（直近360回）。破線：代表点1個での最小値。</p>
+          </div>
+          <div class="position-block">
+            <div class="prototype-selector" role="group" aria-label="動かす代表点"><button type="button" id="pair-select-1" class="button representative-choice" aria-pressed="true">● 代表点1</button><button type="button" id="pair-select-2" class="button representative-choice second-choice" aria-pressed="false">◆ 代表点2</button></div>
+            <div class="coordinate-control"><label for="pair-x">選択中の点：横</label><output id="pair-x-value" for="pair-x">—</output><input type="range" id="pair-x" min="0" max="10" step=".01" value="4.5"></div>
+            <div class="coordinate-control"><label for="pair-y">選択中の点：縦</label><output id="pair-y-value" for="pair-y">—</output><input type="range" id="pair-y" min="0" max="10" step=".01" value="5.3"></div>
+            <div class="assignment-counts"><span>代表点1の担当 <output id="pair-count-1">—</output> 個</span><span>代表点2の担当 <output id="pair-count-2">—</output> 個</span></div>
+          </div>
+          <div class="answer-controls">
+            <button type="button" id="pair-update" class="button primary">担当するデータの重心へ（1回）</button>
+            <p id="pair-status" class="discovery">1個ずつ、左右のまとまりへ動かしてみよう。</p>
+          </div>
+        </aside>
+      </div>
+      <div class="learning-insight pair-insight">
+        <span class="insight-label">重心の学びが、ここにつながる</span>
+        <h3>全体の平均を1個から、それぞれの平均を1個ずつへ。</h3>
+        <p>2つのまとまりに代表点を置くと、それぞれの近くにあるデータを代表できます。ボタンを押すと、<strong>その時点で担当しているデータの重心</strong>へ各代表点が移動します。</p>
+        <ol class="kmeans-steps"><li>各データを、近い代表点に割り当てる。</li><li>各代表点を、担当するデータの重心へ動かす。</li></ol>
+        <p>移動後は、また近い代表点を選び直します。<strong>この「割り当て」と「重心への移動」の繰り返しが、k-meansの基本</strong>です。</p>
+        <p class="method-note">2個にしても、置き方によっては1個の最小値より誤差が大きくなります。1回の重心更新で全体の最適解になるとは限りません。距離が同じなら代表点1に割り当て、担当が0個の代表点はその位置に残します。</p>
+      </div>
+    </section>
+    <p id="separated-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
     <p id="announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
   </main>
   <footer class="lesson-footer lesson-shell"><span>大阪公立大学 · 人間情報システム研究室</span><a href="../kmeans/">既存の K-Means デモ →</a></footer>
