@@ -19,22 +19,18 @@
     .link-list li{font-size:.9375rem;font-weight:500}
     .link-list a{color:var(--color-link);text-decoration:none}
     .link-list a:hover{text-decoration:underline}
-    .explorer-layout{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);align-items:center;gap:32px}
-    .explorer-preview{display:block;overflow:hidden;border-radius:8px;box-shadow:var(--shadow-card)}
-    .explorer-preview img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top}
-    .explorer-intro h2{font-size:1.5rem;line-height:1.4;letter-spacing:-.5px}
-    .explorer-intro p{font-size:.9375rem;margin:8px 0 12px}
-    .explorer-cta{font-size:.9375rem;font-weight:600}
     .demo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-    .demo-card{display:grid;grid-template-columns:140px minmax(0,1fr);min-height:150px;overflow:hidden;border-radius:8px;box-shadow:var(--shadow-card);color:var(--color-text)}
-    .demo-card:hover{text-decoration:none;box-shadow:0 0 0 1px rgba(0,0,0,.12),0 6px 16px rgba(0,0,0,.08)}
-    .demo-card img{width:140px;height:150px;object-fit:cover;border-right:1px solid #ebebeb}
-    .demo-card-body{padding:14px}
-    .demo-card-title{display:block;font-size:1rem;font-weight:600;line-height:1.4}
-    .demo-card p{font-size:.8125rem;line-height:1.5;margin:6px 0 10px}
-    .demo-card-link{color:var(--color-link);font-size:.8125rem;font-weight:600}
+    .preview-card{display:grid;grid-template-columns:140px minmax(0,1fr);min-height:150px;overflow:hidden;border-radius:8px;box-shadow:var(--shadow-card);color:var(--color-text)}
+    .preview-card:hover{text-decoration:none;box-shadow:0 0 0 1px rgba(0,0,0,.12),0 6px 16px rgba(0,0,0,.08)}
+    .preview-card img{width:140px;height:150px;object-fit:cover;border-right:1px solid #ebebeb}
+    .preview-card-body{padding:14px}
+    .preview-card-title{display:block;font-size:1rem;font-weight:600;line-height:1.4}
+    .preview-card p{font-size:.8125rem;line-height:1.5;margin:6px 0 10px}
+    .preview-card-link{color:var(--color-link);font-size:.8125rem;font-weight:600}
+    .explorer-card{max-width:408px}
+    .explorer-card img{object-position:left center}
     @media(max-width:768px){.demo-grid{grid-template-columns:1fr}}
-    @media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:160px}.explorer-layout{grid-template-columns:1fr;gap:20px}.explorer-preview{max-width:360px}}
+    @media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:160px}}
   </style>
 </head>
 <body>
@@ -66,16 +62,17 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container explorer-layout">
-    <a class="explorer-preview" href="https://ubukata-research-explorer.ubucat.chatgpt.site/" target="_blank" rel="noopener noreferrer" aria-label="生方誠希 Research Explorer を開く">
+<section class="section link-section">
+  <div class="container">
+    <h3>Research Explorer</h3>
+    <a class="preview-card explorer-card" href="https://ubukata-research-explorer.ubucat.chatgpt.site/" target="_blank" rel="noopener noreferrer">
       <img src="research-explorer-preview.png" alt="Research Explorer の業績概要画面" width="1440" height="900" loading="lazy">
+      <div class="preview-card-body">
+        <span class="preview-card-title">生方誠希 Research Explorer</span>
+        <p>研究成果や学術活動を探せる研究業績データベースです．</p>
+        <span class="preview-card-link">サイトを開く &rarr;</span>
+      </div>
     </a>
-    <div class="explorer-intro">
-      <h2>生方誠希 Research Explorer</h2>
-      <p>研究成果や学術活動を探せる研究業績データベースです．</p>
-      <a class="explorer-cta" href="https://ubukata-research-explorer.ubucat.chatgpt.site/" target="_blank" rel="noopener noreferrer">Research Explorer を開く &rarr;</a>
-    </div>
   </div>
 </section>
 
@@ -94,20 +91,20 @@
   <div class="container">
     <h3>デモ</h3>
     <div class="demo-grid">
-      <a class="demo-card" href="/demo/centroid/">
+      <a class="preview-card" href="/demo/centroid/">
         <img src="demo-centroid-preview.png" alt="代表点とデータ点のグラフ" width="644" height="455" loading="lazy">
-        <div class="demo-card-body">
-          <span class="demo-card-title">重心を学ぶデモ</span>
+        <div class="preview-card-body">
+          <span class="preview-card-title">重心を学ぶデモ</span>
           <p>代表点を動かして，重心や k-means の考え方を学びます．</p>
-          <span class="demo-card-link">デモを開く &rarr;</span>
+          <span class="preview-card-link">デモを開く &rarr;</span>
         </div>
       </a>
-      <a class="demo-card" href="/demo/kmeans/">
+      <a class="preview-card" href="/demo/kmeans/">
         <img src="demo-kmeans-preview.png" alt="色分けされたクラスタのグラフ" width="592" height="592" loading="lazy">
-        <div class="demo-card-body">
-          <span class="demo-card-title">K-Means デモ</span>
+        <div class="preview-card-body">
+          <span class="preview-card-title">K-Means デモ</span>
           <p>点のグループ分けを，ステップごとに試せます．</p>
-          <span class="demo-card-link">デモを開く &rarr;</span>
+          <span class="preview-card-link">デモを開く &rarr;</span>
         </div>
       </a>
     </div>
