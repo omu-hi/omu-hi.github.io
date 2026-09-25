@@ -122,21 +122,57 @@ p:last-child {
   margin-bottom: 0;
 }
 
-/* ===== Staff List ===== */
-.staff-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* ===== Staff Cards ===== */
+.staff-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
 }
 
-.staff-list li {
-  font-size: 1rem;
-  font-weight: 400;
+.staff-card {
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
   color: var(--color-text);
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 
-.staff-list strong {
+.staff-card:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .12), 0 6px 16px rgba(0, 0, 0, .08);
+}
+
+.staff-card img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center 35%;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.staff-card-body {
+  padding: 24px;
+}
+
+.staff-role {
+  font-size: .8125rem;
+  color: var(--color-text-muted);
+}
+
+.staff-card h3 {
+  margin: 4px 0 8px;
+}
+
+.staff-card p {
+  font-size: .875rem;
+  margin-bottom: 16px;
+}
+
+.staff-card-link {
+  color: var(--color-link);
+  font-size: .875rem;
   font-weight: 600;
 }
 
@@ -260,7 +296,13 @@ p:last-child {
     width: 100%;
   }
 
-  .staff-list {
+  .staff-grid {
     gap: 16px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .staff-grid {
+    grid-template-columns: 1fr;
   }
 }

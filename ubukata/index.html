@@ -19,7 +19,13 @@
     .link-list li{font-size:.9375rem;font-weight:500}
     .link-list a{color:var(--color-link);text-decoration:none}
     .link-list a:hover{text-decoration:underline}
-    @media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:160px}}
+    .explorer-layout{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);align-items:center;gap:32px}
+    .explorer-preview{display:block;overflow:hidden;border-radius:8px;box-shadow:var(--shadow-card)}
+    .explorer-preview img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top}
+    .explorer-intro h2{font-size:1.5rem;line-height:1.4;letter-spacing:-.5px}
+    .explorer-intro p{font-size:.9375rem;margin:8px 0 12px}
+    .explorer-cta{font-size:.9375rem;font-weight:600}
+    @media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:160px}.explorer-layout{grid-template-columns:1fr;gap:20px}.explorer-preview{max-width:360px}}
   </style>
 </head>
 <body>
@@ -36,7 +42,7 @@
     <div class="profile">
       <img alt="ubukata" src="ubukata.jpg">
       <div class="profile-info">
-        <div class="profile-name">生方 誠希 (Seiki Ubukata)</div>
+        <h1 class="profile-name">生方 誠希 (Seiki Ubukata)</h1>
         <div class="profile-affiliation">大阪公立大学</div>
         <div class="profile-affiliation">大学院情報学研究科 基幹情報学専攻</div>
         <div class="profile-affiliation">工学部 情報工学科</div>
@@ -51,11 +57,23 @@
   </div>
 </section>
 
+<section class="section">
+  <div class="container explorer-layout">
+    <a class="explorer-preview" href="https://ubukata-research-explorer.ubucat.chatgpt.site/" target="_blank" rel="noopener noreferrer" aria-label="生方誠希 Research Explorer を開く">
+      <img src="research-explorer-preview.png" alt="Research Explorer の業績概要画面" width="1440" height="900" loading="lazy">
+    </a>
+    <div class="explorer-intro">
+      <h2>生方誠希 Research Explorer</h2>
+      <p>研究成果や学術活動を探せる研究業績データベースです．</p>
+      <a class="explorer-cta" href="https://ubukata-research-explorer.ubucat.chatgpt.site/" target="_blank" rel="noopener noreferrer">Research Explorer を開く &rarr;</a>
+    </div>
+  </div>
+</section>
+
 <section class="section link-section">
   <div class="container">
     <h3>研究者紹介リンク</h3>
     <ul class="link-list">
-      <li><a href="https://ubukata-research-explorer.ubucat.chatgpt.site/" target="_blank" rel="noopener noreferrer">生方誠希 Research Explorer</a></li>
       <li><a href="https://kyoiku-kenkyudb.omu.ac.jp/html/100002338_ja.html" target="_blank" rel="noopener">大阪公立大学 研究者情報</a></li>
       <li><a href="https://scholar.google.co.jp/citations?user=kztM-6kAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a></li>
       <li><a href="https://researchmap.jp/subukata" target="_blank" rel="noopener">researchmap</a></li>
