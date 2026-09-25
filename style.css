@@ -88,8 +88,17 @@ img {
   color: var(--color-text);
 }
 
-.site-affiliation {
+.site-alias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
   margin: 8px 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.site-affiliation {
+  margin: 4px 0 0;
   color: var(--color-text-secondary);
   font-size: 0.9375rem;
 }
