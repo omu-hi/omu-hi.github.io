@@ -130,7 +130,9 @@ p:last-child {
 }
 
 .staff-card {
-  display: block;
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  min-height: 160px;
   overflow: hidden;
   border-radius: 8px;
   box-shadow: var(--shadow-card);
@@ -145,34 +147,36 @@ p:last-child {
 }
 
 .staff-card img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
+  width: 128px;
+  height: 160px;
   object-fit: cover;
   object-position: center 35%;
-  border-bottom: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
 }
 
 .staff-card-body {
-  padding: 24px;
+  padding: 16px;
 }
 
 .staff-role {
-  font-size: .8125rem;
+  font-size: .75rem;
   color: var(--color-text-muted);
 }
 
 .staff-card h3 {
-  margin: 4px 0 8px;
+  font-size: 1.125rem;
+  margin: 2px 0 6px;
 }
 
 .staff-card p {
-  font-size: .875rem;
-  margin-bottom: 16px;
+  font-size: .8125rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
 }
 
 .staff-card-link {
   color: var(--color-link);
-  font-size: .875rem;
+  font-size: .8125rem;
   font-weight: 600;
 }
 
@@ -298,11 +302,6 @@ p:last-child {
 
   .staff-grid {
     gap: 16px;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .staff-grid {
     grid-template-columns: 1fr;
   }
 }
