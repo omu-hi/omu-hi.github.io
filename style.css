@@ -88,6 +88,12 @@ img {
   color: var(--color-text);
 }
 
+.site-affiliation {
+  margin: 8px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+}
+
 h2 {
   font-size: 1.5rem;
   font-weight: 600;

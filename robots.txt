@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://omu-hi.github.io/sitemap.xml
