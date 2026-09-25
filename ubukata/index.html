@@ -25,6 +25,15 @@
     .explorer-intro h2{font-size:1.5rem;line-height:1.4;letter-spacing:-.5px}
     .explorer-intro p{font-size:.9375rem;margin:8px 0 12px}
     .explorer-cta{font-size:.9375rem;font-weight:600}
+    .demo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .demo-card{display:grid;grid-template-columns:140px minmax(0,1fr);min-height:150px;overflow:hidden;border-radius:8px;box-shadow:var(--shadow-card);color:var(--color-text)}
+    .demo-card:hover{text-decoration:none;box-shadow:0 0 0 1px rgba(0,0,0,.12),0 6px 16px rgba(0,0,0,.08)}
+    .demo-card img{width:140px;height:150px;object-fit:cover;border-right:1px solid #ebebeb}
+    .demo-card-body{padding:14px}
+    .demo-card-title{display:block;font-size:1rem;font-weight:600;line-height:1.4}
+    .demo-card p{font-size:.8125rem;line-height:1.5;margin:6px 0 10px}
+    .demo-card-link{color:var(--color-link);font-size:.8125rem;font-weight:600}
+    @media(max-width:768px){.demo-grid{grid-template-columns:1fr}}
     @media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:160px}.explorer-layout{grid-template-columns:1fr;gap:20px}.explorer-preview{max-width:360px}}
   </style>
 </head>
@@ -84,10 +93,24 @@
 <section class="section link-section">
   <div class="container">
     <h3>デモ</h3>
-    <ul class="link-list">
-      <li><a href="/demo/centroid/">重心を学ぶデモ — データを1つの点で代表する</a></li>
-      <li><a href="/demo/kmeans/">K-Means クラスタリング デモ</a></li>
-    </ul>
+    <div class="demo-grid">
+      <a class="demo-card" href="/demo/centroid/">
+        <img src="demo-centroid-preview.png" alt="代表点とデータ点のグラフ" width="644" height="455" loading="lazy">
+        <div class="demo-card-body">
+          <span class="demo-card-title">重心を学ぶデモ</span>
+          <p>代表点を動かして，重心や k-means の考え方を学びます．</p>
+          <span class="demo-card-link">デモを開く &rarr;</span>
+        </div>
+      </a>
+      <a class="demo-card" href="/demo/kmeans/">
+        <img src="demo-kmeans-preview.png" alt="色分けされたクラスタのグラフ" width="592" height="592" loading="lazy">
+        <div class="demo-card-body">
+          <span class="demo-card-title">K-Means デモ</span>
+          <p>点のグループ分けを，ステップごとに試せます．</p>
+          <span class="demo-card-link">デモを開く &rarr;</span>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 </main>
