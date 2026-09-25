@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="代表点を動かして重心を学び、離れた2つの分布で1点の限界を体験。代表点を2個に増やして、k-meansの考え方へ進む対話型デモ。">
   <title>重心からk-meansへ — 代表点を動かして学ぶデモ</title>
-  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../style.css?v=20260925-type18">
   <link rel="stylesheet" href="./vendor/katex/katex.min.css">
-  <link rel="stylesheet" href="./centroid.css?v=20260912-mobile">
+  <link rel="stylesheet" href="./centroid.css?v=20260925-type18">
   <script defer src="./vendor/katex/katex.min.js"></script>
-  <script defer src="./equations.js"></script>
-  <script type="module" src="./app.mjs?v=20260912-mobile"></script>
-  <script type="module" src="./separated.mjs?v=20260912-mobile"></script>
-  <script type="module" src="./mobile-layout.mjs?v=20260912-mobile"></script>
+  <script defer src="./equations.js?v=20260925-type18"></script>
+  <script type="module" src="./app.mjs?v=20260925-type18"></script>
+  <script type="module" src="./separated.mjs?v=20260925-type18"></script>
+  <script type="module" src="./mobile-layout.mjs?v=20260925-type18"></script>
+  <script type="module" src="../../assets/readable-svg.mjs?v=20260925-type18"></script>
 </head>
 <body>
   <a class="skip-link" href="#experiment">デモへ移動</a>
@@ -59,7 +60,7 @@
           <span><i class="symbol prototype-symbol"></i>代表点 <span data-tex="\mathbf{p}">p</span></span>
           <span id="mean-legend" hidden><i class="symbol mean-symbol"></i>重心 <span data-tex="\mathbf{m}">m</span></span>
         </div>
-        <svg id="plot" viewBox="0 0 600 600" aria-labelledby="plot-title plot-desc">
+        <svg id="plot" viewBox="-50 -50 700 700" aria-labelledby="plot-title plot-desc">
           <title id="plot-title">2次元データと1つの代表点</title>
           <desc id="plot-desc">横軸と縦軸はともに0から10。同じ長さが同じ距離を表します。代表点から全データへの線を描きます。代表点にフォーカスして矢印キーでも操作できます。</desc>
           <defs><clipPath id="plot-clip"><rect x="50" y="30" width="520" height="520"/></clipPath></defs>
@@ -248,7 +249,7 @@
           <div class="live-view">
           <div class="plot-heading"><h3>離れたデータを、1個で代表する</h3><span class="data-count">60 個のデータ</span></div>
           <div class="legend"><span><i class="symbol data-symbol"></i>データ</span><span><i class="symbol prototype-symbol"></i>代表点 <span data-tex="\mathbf{p}">p</span></span></div>
-          <svg id="gap-plot" class="lesson-plot" viewBox="0 0 600 600" aria-labelledby="gap-title" aria-describedby="gap-help"><title id="gap-title">離れた2つの分布を1個の代表点で表す実験</title></svg>
+          <svg id="gap-plot" class="lesson-plot" viewBox="-50 -50 700 700" aria-labelledby="gap-title" aria-describedby="gap-help"><title id="gap-title">離れた2つの分布を1個の代表点で表す実験</title></svg>
           <div class="mobile-history-slot"></div>
           <p class="mobile-axis-note">グラフの横軸：位置を記録した順番 →</p>
           </div>
@@ -314,7 +315,7 @@
           <div class="live-view">
           <div class="plot-heading"><h3>色と線が、今の担当を表す</h3><span class="data-count">同じ60個のデータ</span></div>
           <div class="legend"><span><i class="symbol prototype-symbol"></i><span class="wide-legend">代表点1・丸のデータ</span><span class="compact-legend">1の担当：丸</span></span><span><i class="symbol second-symbol"></i><span class="wide-legend">代表点2・四角のデータ</span><span class="compact-legend">2の担当：四角</span></span></div>
-          <svg id="pair-plot" class="lesson-plot" viewBox="0 0 600 600" aria-labelledby="pair-title" aria-describedby="pair-help"><title id="pair-title">2個の代表点と、近い方へのデータの割り当て</title></svg>
+          <svg id="pair-plot" class="lesson-plot" viewBox="-50 -50 700 700" aria-labelledby="pair-title" aria-describedby="pair-help"><title id="pair-title">2個の代表点と、近い方へのデータの割り当て</title></svg>
           <div class="mobile-history-slot"></div>
           <p class="mobile-axis-note">グラフの横軸：位置を記録した順番 →</p>
           </div>

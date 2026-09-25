@@ -34,8 +34,8 @@ function buildGrid() {
       $('grid').append(element('text', { x: 35, y: y + 5, 'text-anchor': 'end', class: 'grid-label' }, i));
     }
   }
-  $('grid').append(element('text', { x: 590, y: 554, class: 'axis-label', 'text-anchor': 'middle' }, 'x'));
-  $('grid').append(element('text', { x: 50, y: 18, class: 'axis-label', 'text-anchor': 'middle' }, 'y'));
+  $('grid').append(element('text', { x: 625, y: 554, class: 'axis-label', 'text-anchor': 'middle' }, 'x'));
+  $('grid').append(element('text', { x: 80, y: 0, class: 'axis-label', 'text-anchor': 'middle' }, 'y'));
 }
 
 function buildData() {
@@ -75,7 +75,7 @@ function renderHistory() {
   const top = compact ? 14 : 26;
   const bottom = compact ? 88 : 174;
   const height = compact ? 124 : 224;
-  $('history-chart').setAttribute('viewBox', `0 0 400 ${height}`);
+  $('history-chart').setAttribute('viewBox', `-50 -30 460 ${height + 45}`);
   $('history-clip-area').setAttribute('y', top - 4);
   $('history-clip-area').setAttribute('height', bottom - top + 8);
   for (const [name, position] of [['top', top], ['mid', (top + bottom) / 2], ['zero', bottom]]) {
@@ -121,7 +121,7 @@ function render() {
   });
   $('prototype').setAttribute('transform', `translate(${p.x} ${p.y})`);
   $('prototype').setAttribute('aria-label', `代表点。横 ${format(prototype.x)}、縦 ${format(prototype.y)}。距離の2乗和 ${format(loss)}。矢印キーで移動、Shiftで微調整。`);
-  const labelOnLeft = prototype.x > 7.8;
+  const labelOnLeft = prototype.x > 5;
   $('prototype-label').setAttribute('x', p.x + (labelOnLeft ? -20 : 20));
   $('prototype-label').setAttribute('y', p.y + (prototype.y > 9.2 ? 28 : -18));
   $('prototype-label').setAttribute('text-anchor', labelOnLeft ? 'end' : 'start');

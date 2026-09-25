@@ -4,39 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>K-Means クラスタリング デモ — 人間情報システム研究室</title>
-  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../style.css?v=20260925-type18">
   <style>
     .demo-title{font-size:2rem;font-weight:600;letter-spacing:-1.28px;margin-bottom:8px}
-    .demo-grid{display:grid;grid-template-columns:1fr 220px;gap:20px;align-items:start}
+    .demo-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:20px;align-items:start}
     .left-col{display:flex;flex-direction:column;gap:16px}
     .canvas-wrap{box-shadow:var(--shadow-card);border-radius:12px;overflow:hidden;aspect-ratio:1;position:relative}
     .canvas-wrap canvas{display:block;width:100%;height:100%}
-    .chart-wrap{box-shadow:var(--shadow-card);border-radius:8px;overflow:hidden;height:140px}
+    .chart-wrap{box-shadow:var(--shadow-card);border-radius:8px;overflow:hidden;height:210px}
     .chart-wrap canvas{display:block;width:100%;height:100%}
     .explain{box-shadow:var(--shadow-card);border-radius:8px;padding:16px}
-    .explain-head{font-family:var(--font-mono);font-size:.75rem;font-weight:500;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:6px}
-    .explain-body{font-size:.875rem;font-weight:500;color:var(--color-text-secondary);line-height:1.7}
+    .explain-head{font-family:var(--font-mono);font-size:1.125rem;font-weight:500;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:6px}
+    .explain-body{font-size:1.125rem;font-weight:500;color:var(--color-text-secondary);line-height:1.7}
     .ctrl{box-shadow:var(--shadow-card);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:14px}
-    .ctrl-head{font-family:var(--font-mono);font-size:.75rem;font-weight:500;text-transform:uppercase;color:var(--color-text-muted);letter-spacing:.04em}
+    .ctrl-head{font-family:var(--font-mono);font-size:1.125rem;font-weight:500;text-transform:uppercase;color:var(--color-text-muted);letter-spacing:.04em}
     .ctrl-group{display:flex;flex-direction:column;gap:6px}
     .ctrl-row{display:flex;justify-content:space-between;align-items:center}
-    .ctrl-label{font-size:.875rem;font-weight:500;color:var(--color-text)}
+    .ctrl-label{font-size:1.125rem;font-weight:500;color:var(--color-text)}
     .ctrl-val{font-family:var(--font-mono);font-size:1.25rem;font-weight:600;letter-spacing:-.96px}
     input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:#ebebeb;border-radius:2px;outline:none}
     input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--color-text);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15)}
     input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--color-text);cursor:pointer;border:none}
-    .btn{font-family:var(--font-sans);font-size:.875rem;font-weight:500;padding:9px 14px;border-radius:6px;border:none;cursor:pointer;text-align:center;transition:background .15s}
+    .btn{font-family:var(--font-sans);font-size:1.125rem;font-weight:500;padding:9px 14px;border-radius:6px;border:none;cursor:pointer;text-align:center;transition:background .15s}
     .btn:disabled{opacity:.4;cursor:not-allowed}
     .btn-dark{background:var(--color-text);color:#fff}
     .btn-dark:hover:not(:disabled){background:#000}
     .btn-ghost{background:#fff;color:var(--color-text);box-shadow:var(--shadow-border)}
     .btn-ghost:hover:not(:disabled){background:var(--color-surface)}
     .preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-    .preset-grid .btn{font-size:.75rem;padding:7px 4px}
-    .stat-row{display:flex;justify-content:space-between;font-size:.75rem;font-weight:500}
+    .preset-grid .btn{font-size:1.125rem;padding:7px 4px}
+    .stat-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;font-size:1.125rem;font-weight:500}
     .stat-label{color:var(--color-text-muted)}
     .stat-val{font-family:var(--font-mono);font-weight:600;color:var(--color-text)}
-    .badge{display:inline-block;font-size:.6875rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:#ebf5ff;color:#0068d6}
+    .badge{display:inline-block;font-size:1.125rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:#ebf5ff;color:#0068d6}
     .badge.ok{background:#ecfdf5;color:#059669}
     hr.div{border:none;border-top:1px solid #ebebeb;margin:0}
     @media(max-width:768px){.demo-grid{grid-template-columns:1fr}.ctrl{order:-1}}
@@ -44,7 +44,7 @@
 </head>
 <body>
 <header class="site-header"><div class="container">
-  <a href="../../" style="font-size:.875rem;font-weight:500;color:var(--color-text-muted)">&larr; Top</a>
+  <a href="../../" style="font-size:1.125rem;font-weight:500;color:var(--color-text-muted)">&larr; Top</a>
   <h1 class="demo-title">K-Means Clustering</h1>
 </div></header>
 <main><section class="section"><div class="container">
@@ -131,17 +131,17 @@
   function chart(){
     const w=cc.width/(devicePixelRatio||1),h=cc.height/(devicePixelRatio||1);
     hx.clearRect(0,0,w,h);
-    if(!hist.length){hx.fillStyle="#999";hx.font="600 13px sans-serif";hx.textAlign="center";hx.fillText("クラスタ内二乗誤差総和 (SSE)",w/2,h/2+4);return;}
-    const p={t:20,r:12,b:22,l:52},gw=w-p.l-p.r,gh=h-p.t-p.b;
+    if(!hist.length){hx.fillStyle="#666";hx.font="600 18px sans-serif";hx.textAlign="center";hx.fillText("クラスタ内二乗誤差総和",w/2,h/2-8);hx.fillText("(SSE)",w/2,h/2+20);return;}
+    const p={t:34,r:20,b:34,l:86},gw=w-p.l-p.r,gh=h-p.t-p.b;
     const raw_mn=Math.min(...hist),raw_mx=Math.max(...hist);
     const range=raw_mx-raw_mn||raw_mx*.1||1,margin=range*.15;
     const mn=Math.max(0,raw_mn-margin),mx=raw_mx+margin;
-    hx.fillStyle="#666";hx.font="600 11px monospace";hx.textAlign="left";hx.fillText("SSE",p.l,p.t-6);
+    hx.fillStyle="#666";hx.font="600 18px monospace";hx.textAlign="left";hx.fillText("SSE",p.l,p.t-10);
     hx.strokeStyle="#ebebeb";hx.lineWidth=1;hx.beginPath();hx.moveTo(p.l,p.t);hx.lineTo(p.l,p.t+gh);hx.lineTo(p.l+gw,p.t+gh);hx.stroke();
-    hx.fillStyle="#999";hx.font="600 10px monospace";hx.textAlign="right";
+    hx.fillStyle="#666";hx.font="600 18px monospace";hx.textAlign="right";
     for(let i=0;i<=3;i++){const y=p.t+gh-gh*i/3,v=mn+(mx-mn)*i/3;hx.fillText(v.toFixed(2),p.l-4,y+3);if(i){hx.beginPath();hx.moveTo(p.l,y);hx.lineTo(p.l+gw,y);hx.strokeStyle="#f0f0f0";hx.stroke();}}
-    hx.textAlign="center";hx.font="600 10px monospace";const xs=Math.max(1,Math.ceil(hist.length/6));
-    for(let i=0;i<hist.length;i+=xs){hx.fillText(i+1,p.l+i/Math.max(hist.length-1,1)*gw,p.t+gh+14);}
+    hx.textAlign="center";hx.font="600 18px monospace";const xs=Math.max(1,Math.ceil(hist.length/Math.max(2,Math.floor(gw/60))));
+    for(let i=0;i<hist.length;i+=xs){hx.fillText(i+1,p.l+i/Math.max(hist.length-1,1)*gw,p.t+gh+26);}
     hx.beginPath();
     for(let i=0;i<hist.length;i++){const x=p.l+i/Math.max(hist.length-1,1)*gw,y=p.t+gh-(hist[i]-mn)/(mx-mn)*gh;i?hx.lineTo(x,y):hx.moveTo(x,y);}
     hx.strokeStyle="#0a72ef";hx.lineWidth=2;hx.stroke();

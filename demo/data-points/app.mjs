@@ -55,6 +55,8 @@ for (const record of records) {
 
 function render() {
   const a = records[0];
+  const matrix = svg.getScreenCTM();
+  const labelGap = 24 / (matrix ? Math.hypot(matrix.a, matrix.b) : 1);
   const ranked = rankByDistance(records);
   const nearest = nearestIds(ranked);
   const visible = state.stage === 1 ? 1 : state.stage === 2 ? state.revealed : records.length;
@@ -85,9 +87,9 @@ function render() {
     const label = point.querySelector('text');
     const overlaps = records.slice(0, visible).filter(other => other.x === record.x && other.y === record.y);
     const overlapIndex = overlaps.findIndex(other => other.id === record.id);
-    label.setAttribute('x', record.x >= 8 ? -16 : 15);
-    label.setAttribute('text-anchor', record.x >= 8 ? 'end' : 'start');
-    label.setAttribute('y', (record.y >= 9 ? 24 : -13) + overlapIndex * 19);
+    label.setAttribute('x', record.x >= 6 ? -16 : 15);
+    label.setAttribute('text-anchor', record.x >= 6 ? 'end' : 'start');
+    label.setAttribute('y', (record.y >= 9 ? 24 : -13) + overlapIndex * labelGap);
     label.textContent = state.stage === 1 ? `A (${a.x}, ${a.y})` : record.id;
 
     const row = rowNodes.get(record.id);
@@ -222,3 +224,4 @@ document.querySelectorAll('[data-stage]').forEach(button => button.addEventListe
 $('previous').addEventListener('click', () => { setStage(Math.max(1, state.stage - 1)); document.querySelector(`[data-stage="${state.stage}"]`).focus(); });
 $('next').addEventListener('click', () => { setStage(Math.min(3, state.stage + 1)); document.querySelector(`[data-stage="${state.stage}"]`).focus(); });
 setStage(1);
+new ResizeObserver(render).observe(svg);

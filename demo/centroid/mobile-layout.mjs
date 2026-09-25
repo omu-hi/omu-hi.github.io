@@ -12,6 +12,7 @@ const experiments = [...document.querySelectorAll('.experiment')].map(experiment
   const liveView = experiment.querySelector('.live-view');
   const resize = new ResizeObserver(() => {
     experiment.style.setProperty('--live-height', `${liveView.getBoundingClientRect().height}px`);
+    liveView.classList.toggle('is-tall', liveView.getBoundingClientRect().height > innerHeight * .6);
   });
   resize.observe(liveView);
   // Keep focused controls below the pinned diagrams, including keyboard use.

@@ -1,5 +1,5 @@
 import { createSeparatedDataset, centroid, objective, squaredDistance, assignToPrototypes, assignedCentroids } from './math.mjs';
-import { PrototypePlot, MiniHistory, format } from './learning-plots.mjs?v=20260912-mobile';
+import { PrototypePlot, MiniHistory, format } from './learning-plots.mjs?v=20260925-type18';
 
 const $ = id => document.getElementById(id);
 const initialSingle = { x: 2.6, y: 5.7 };

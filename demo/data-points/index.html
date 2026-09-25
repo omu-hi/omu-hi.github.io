@@ -6,9 +6,10 @@
   <title>データを点で見る — 点・点群・距離を学ぶ入門デモ</title>
   <meta name="description" content="1件のデータを点に、データセットを点群に。甘さと酸っぱさの架空データを動かしながら、数値と位置の対応、距離と類似性を学ぶ入門デモ。">
   <link rel="canonical" href="https://omu-hi.github.io/demo/data-points/">
-  <link rel="stylesheet" href="../../style.css?v=20260925-site-alias">
-  <link rel="stylesheet" href="./lesson.css?v=1">
-  <script type="module" src="./app.mjs?v=1"></script>
+  <link rel="stylesheet" href="../../style.css?v=20260925-type18">
+  <link rel="stylesheet" href="./lesson.css?v=20260925-type18">
+  <script type="module" src="./app.mjs?v=20260925-type18"></script>
+  <script type="module" src="../../assets/readable-svg.mjs?v=20260925-type18"></script>
 </head>
 <body>
   <a class="skip-link" href="#lesson">デモへ移動</a>
@@ -41,16 +42,16 @@
       <div class="workspace">
         <div class="plot-panel panel">
           <div class="plot-heading"><h3 id="plot-heading">ジュースAを点にする</h3><span id="point-count">1件 = 1点</span></div>
-          <svg id="plot" viewBox="0 0 500 500" aria-labelledby="plot-title plot-description">
+          <svg id="plot" viewBox="-40 -30 580 580" aria-labelledby="plot-title plot-description">
             <title id="plot-title">甘さと酸っぱさで表したジュースのデータ</title>
             <desc id="plot-description">横軸は甘さ、縦軸は酸っぱさ。ともに0から10です。Aはスライダー、ドラッグ、矢印キーで動かせます。</desc>
             <rect x="64" y="30" width="400" height="400" class="plot-bg"/>
             <g id="grid" aria-hidden="true"></g>
-            <g id="guides" aria-hidden="true"><path id="coordinate-guide"/><rect id="x-badge" width="26" height="22" rx="4"/><text id="x-value"/><rect id="y-badge" width="26" height="22" rx="4"/><text id="y-value"/></g>
+            <g id="guides" aria-hidden="true"><path id="coordinate-guide"/><rect id="x-badge" data-text-background="x-value" width="26" height="22" rx="4"/><text id="x-value"/><rect id="y-badge" data-text-background="y-value" width="26" height="22" rx="4"/><text id="y-value"/></g>
             <g id="distance-lines" aria-hidden="true"></g>
             <path id="difference-lines" class="difference-lines" hidden aria-hidden="true"/>
             <g id="points"></g>
-            <text x="264" y="487" text-anchor="middle" class="axis-title">甘さ →</text>
+            <text x="264" y="515" text-anchor="middle" class="axis-title">甘さ →</text>
             <text x="17" y="230" text-anchor="middle" transform="rotate(-90 17 230)" class="axis-title">酸っぱさ →</text>
           </svg>
           <p id="plot-help" class="plot-help">青いAをドラッグするか、図の中をタップして動かせます。Aにフォーカスすると矢印キーでも操作できます。</p>

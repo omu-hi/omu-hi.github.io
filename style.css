@@ -26,12 +26,13 @@
 }
 
 html {
+  font-size: max(100%, 16px);
   font-feature-settings: "liga";
 }
 
 body {
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size:1.125rem;
   font-weight: 400;
   line-height: 1.6;
   color: var(--color-text);
@@ -88,19 +89,28 @@ img {
   color: var(--color-text);
 }
 
+/* Site minimum: 18 CSS pixels, including controls and annotations. */
+button, input, select, textarea, small, sub, sup {
+  font-size: inherit;
+}
+
+svg text {
+  font-size: var(--svg-text-size, 18px) !important;
+}
+
 .site-alias {
   display: flex;
   flex-wrap: wrap;
   gap: 4px 12px;
   margin: 8px 0 0;
   color: var(--color-text-muted);
-  font-size: 0.875rem;
+  font-size:1.125rem;
 }
 
 .site-affiliation {
   margin: 4px 0 0;
   color: var(--color-text-secondary);
-  font-size: 0.9375rem;
+  font-size:1.125rem;
 }
 
 h2 {
@@ -165,10 +175,12 @@ p:last-child {
 
 .staff-card-body {
   padding: 16px;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .staff-role {
-  font-size: .75rem;
+  font-size:1.125rem;
   color: var(--color-text-muted);
 }
 
@@ -178,21 +190,21 @@ p:last-child {
 }
 
 .staff-card p {
-  font-size: .8125rem;
+  font-size:1.125rem;
   line-height: 1.5;
   margin-bottom: 10px;
 }
 
 .staff-card-link {
   color: var(--color-link);
-  font-size: .8125rem;
+  font-size:1.125rem;
   font-weight: 600;
 }
 
 /* ===== News ===== */
 .news-date {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size:1.125rem;
   font-weight: 500;
   color: var(--color-text-muted);
   letter-spacing: 0.02em;
@@ -212,7 +224,7 @@ p:last-child {
 }
 
 .card p {
-  font-size: 0.94rem;
+  font-size:1.125rem;
 }
 
 /* ===== Research Images ===== */
@@ -242,7 +254,7 @@ p:last-child {
 }
 
 .employment-note {
-  font-size: 0.875rem;
+  font-size:1.125rem;
   color: var(--color-text-muted);
   margin-bottom: 16px;
 }
@@ -258,7 +270,7 @@ p:last-child {
 
 .employment-table td {
   padding: 12px 16px;
-  font-size: 0.875rem;
+  font-size:1.125rem;
   line-height: 1.6;
   color: var(--color-text-secondary);
   border-bottom: 1px solid #ebebeb;
@@ -283,7 +295,7 @@ p:last-child {
   padding: 32px 0;
   text-align: center;
   color: var(--color-text-muted);
-  font-size: 0.75rem;
+  font-size:1.125rem;
 }
 
 /* ===== Responsive ===== */
@@ -313,4 +325,12 @@ p:last-child {
     gap: 16px;
     grid-template-columns: 1fr;
   }
+}
+
+@media screen and (max-width: 420px) {
+  .container { padding-left: 16px; padding-right: 16px; }
+  .card { padding: 20px; }
+  .staff-card { grid-template-columns: 96px minmax(0, 1fr); }
+  .staff-card img { width: 96px; height: 140px; }
+  .staff-card-body { padding: 12px; }
 }

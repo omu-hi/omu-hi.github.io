@@ -1,7 +1,8 @@
 /* ベース設定 */
+html { font-size: max(100%, 16px); }
 body {
   font-family: 'Helvetica Neue', 'Noto Sans JP', sans-serif;
-  font-size: 16px;
+  font-size:1.125rem;
   color: #333;
   background-color: #fdfdfd;
   line-height: 1.8;
@@ -29,7 +30,7 @@ h4.ttl__style03 span {
 }
 
 h6.ttl__style05 {
-  font-size: 1.1rem;
+  font-size:1.125rem;
   color: #666;
   margin: 4px 0;
 }
@@ -72,7 +73,7 @@ table {
 table td {
   border: 1px solid #ccc;
   padding: 10px;
-  font-size: 0.95rem;
+  font-size:1.125rem;
   background-color: #f9f9f9;
 }
 

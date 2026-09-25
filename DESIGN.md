@@ -1,5 +1,14 @@
 # Design System Inspired by Vercel
 
+## Site typography requirement
+
+All site text must render at **18 CSS pixels or larger**, including captions,
+controls, footers, chart labels and mathematical subscripts, at every supported
+viewport width. This site requirement overrides the smaller sizes in the design
+reference below. Use `1.125rem` as the minimum with a root of at least 16px.
+Reflow layouts instead of reducing type on small screens. SVG and canvas labels
+must meet the minimum after scaling; preview images remain visual thumbnails.
+
 ## 1. Visual Theme & Atmosphere
 
 Vercel's website is the visual thesis of developer infrastructure made invisible — a design system so restrained it borders on philosophical. The page is overwhelmingly white (`#ffffff`) with near-black (`#171717`) text, creating a gallery-like emptiness where every element earns its pixel. This isn't minimalism as decoration; it's minimalism as engineering principle. The Geist design system treats the interface like a compiler treats code — every unnecessary token is stripped away until only structure remains.

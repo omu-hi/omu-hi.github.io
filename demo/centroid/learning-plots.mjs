@@ -41,12 +41,12 @@ export class PrototypePlot {
       this.grid.append(svgElement('line', { x1: p.x, x2: p.x, y1: 30, y2: 550, class: 'grid-line' }), svgElement('line', { x1: 50, x2: 570, y1: p.y, y2: p.y, class: 'grid-line' }));
       if (i % 2 === 0) this.grid.append(svgElement('text', { x: p.x, y: 575, 'text-anchor': 'middle', class: 'grid-label' }, i), svgElement('text', { x: 35, y: p.y + 5, 'text-anchor': 'end', class: 'grid-label' }, i));
     }
-    this.grid.append(svgElement('text', { x: 590, y: 554, class: 'axis-label', 'text-anchor': 'middle' }, 'x'), svgElement('text', { x: 50, y: 18, class: 'axis-label', 'text-anchor': 'middle' }, 'y'));
+    this.grid.append(svgElement('text', { x: 625, y: 554, class: 'axis-label', 'text-anchor': 'middle' }, 'x'), svgElement('text', { x: 80, y: 0, class: 'axis-label', 'text-anchor': 'middle' }, 'y'));
     this.handles = centers.map((_, j) => {
       const handle = svgElement('g', { tabindex: 0, role: 'button', class: `lesson-handle representative-${j + 1}`, 'aria-describedby': svg.getAttribute('aria-describedby') || '' });
       handle.append(svgElement('circle', { r: 25, class: 'prototype-hit' }), svgElement('circle', { r: 18, class: 'prototype-halo' }));
       handle.append(j === 0 ? svgElement('circle', { r: 11, class: 'prototype-core' }) : svgElement('rect', { x: -10, y: -10, width: 20, height: 20, rx: 2, transform: 'rotate(45)', class: 'prototype-core' }));
-      handle.append(svgElement('text', { x: 0, y: 5, 'text-anchor': 'middle', class: 'handle-number', 'aria-hidden': true }, centers.length > 1 ? j + 1 : 'p'));
+      handle.append(svgElement('text', { x: 0, y: -32, 'text-anchor': 'middle', class: 'handle-number', 'aria-hidden': true }, centers.length > 1 ? j + 1 : 'p'));
       handle.addEventListener('focus', () => this.select(j));
       handle.addEventListener('keydown', event => {
         const directions = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] };
@@ -211,7 +211,7 @@ export class MiniHistory {
     const top = compact ? 14 : 20;
     const bottom = compact ? 88 : 152;
     const height = compact ? 124 : 200;
-    this.svg.setAttribute('viewBox', `0 0 400 ${height}`);
+    this.svg.setAttribute('viewBox', `-50 -30 460 ${height + 45}`);
     [top, (top + bottom) / 2, bottom].forEach((position, j) => {
       this.grid.children[j].setAttribute('y1', position);
       this.grid.children[j].setAttribute('y2', position);
