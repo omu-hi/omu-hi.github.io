@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>データを点で見る — 点・点群・距離を学ぶ入門デモ</title>
+  <meta name="description" content="1件のデータを点に、データセットを点群に。甘さと酸っぱさの架空データを動かしながら、数値と位置の対応、距離と類似性を学ぶ入門デモ。">
+  <link rel="canonical" href="https://omu-hi.github.io/demo/data-points/">
+  <link rel="stylesheet" href="../../style.css?v=20260925-site-alias">
+  <link rel="stylesheet" href="./lesson.css?v=1">
+  <script type="module" src="./app.mjs?v=1"></script>
+</head>
+<body>
+  <a class="skip-link" href="#lesson">デモへ移動</a>
+  <header class="lesson-header">
+    <div class="lesson-shell header-inner">
+      <a href="../../ubukata/">← 生方 誠希のページ</a>
+      <span class="lesson-tag">データの見方 · 入門</span>
+    </div>
+  </header>
+  <main class="lesson-shell">
+    <div class="intro">
+      <p class="eyebrow">数字から、点へ。</p>
+      <h1>データを「点」にすると、何が見える？</h1>
+      <p>架空のジュースの<strong>甘さ</strong>と<strong>酸っぱさ</strong>で、データの見方を体験します。どちらも0〜10の同じ尺度で表します。</p>
+    </div>
+    <nav aria-label="学ぶ順番">
+      <ol class="steps">
+        <li><button type="button" data-stage="1" aria-current="step"><span>01</span>1件を点にする</button></li>
+        <li><button type="button" data-stage="2"><span>02</span>集めると点群になる</button></li>
+        <li><button type="button" data-stage="3"><span>03</span>距離で比べる</button></li>
+      </ol>
+    </nav>
+    <noscript><p class="notice">点を動かすには JavaScript を有効にしてください。1件のデータを2つの値で表すと1つの点になり、複数のデータは点群になります。同じ尺度で表した特徴なら、点同士の距離を似ている度合いの目安にできます。</p></noscript>
+    <section id="lesson" aria-labelledby="stage-title">
+      <div class="stage-heading">
+        <p id="stage-number" class="eyebrow">STEP 01</p>
+        <h2 id="stage-title">2つの数値が、1つの点の位置になる</h2>
+        <p id="stage-instruction">Aの甘さを変えると左右に、酸っぱさを変えると上下に動きます。まずはスライダーを動かしてみましょう。</p>
+      </div>
+      <div class="workspace">
+        <div class="plot-panel panel">
+          <div class="plot-heading"><h3 id="plot-heading">ジュースAを点にする</h3><span id="point-count">1件 = 1点</span></div>
+          <svg id="plot" viewBox="0 0 500 500" aria-labelledby="plot-title plot-description">
+            <title id="plot-title">甘さと酸っぱさで表したジュースのデータ</title>
+            <desc id="plot-description">横軸は甘さ、縦軸は酸っぱさ。ともに0から10です。Aはスライダー、ドラッグ、矢印キーで動かせます。</desc>
+            <rect x="64" y="30" width="400" height="400" class="plot-bg"/>
+            <g id="grid" aria-hidden="true"></g>
+            <g id="guides" aria-hidden="true"><path id="coordinate-guide"/><rect id="x-badge" width="26" height="22" rx="4"/><text id="x-value"/><rect id="y-badge" width="26" height="22" rx="4"/><text id="y-value"/></g>
+            <g id="distance-lines" aria-hidden="true"></g>
+            <path id="difference-lines" class="difference-lines" hidden aria-hidden="true"/>
+            <g id="points"></g>
+            <text x="264" y="487" text-anchor="middle" class="axis-title">甘さ →</text>
+            <text x="17" y="230" text-anchor="middle" transform="rotate(-90 17 230)" class="axis-title">酸っぱさ →</text>
+          </svg>
+          <p id="plot-help" class="plot-help">青いAをドラッグするか、図の中をタップして動かせます。Aにフォーカスすると矢印キーでも操作できます。</p>
+          <div id="a-controls" class="a-controls">
+            <div class="control-title"><strong>Aの値を変える</strong><button id="reset-a" type="button" class="text-button">最初の値に戻す</button></div>
+            <label for="sweetness">甘さ <output id="sweetness-value" for="sweetness">2</output></label>
+            <input id="sweetness" type="range" min="0" max="10" step="1" value="2">
+            <label for="sourness">酸っぱさ <output id="sourness-value" for="sourness">3</output></label>
+            <input id="sourness" type="range" min="0" max="10" step="1" value="3">
+            <p class="scale-note">0：弱い　／　10：強い</p>
+          </div>
+        </div>
+        <div class="lesson-side">
+          <div id="single-panel" class="panel detail-panel">
+            <p class="eyebrow">1行のデータ</p>
+            <table class="data-table single-table"><caption>ジュースAの特徴</caption><thead><tr><th scope="col">データ</th><th scope="col">甘さ</th><th scope="col">酸っぱさ</th></tr></thead><tbody><tr><th scope="row">A</th><td id="single-x">2</td><td id="single-y">3</td></tr></tbody></table>
+            <div class="mapping-arrow" aria-hidden="true">↓</div>
+            <div class="coordinate-card"><span>点Aの座標</span><strong id="coordinate">(2, 3)</strong><small>（横の値, 縦の値）</small></div>
+            <p class="takeaway"><strong>1件のデータ → 1つの点。</strong><br>「甘さ」と「酸っぱさ」は、データを表す<strong>特徴</strong>です。2つの特徴を2本の軸に対応させています。</p>
+            <p class="subtle">図の位置は、ジュースの置き場所ではありません。特徴の値を位置に置き換えたものです。</p>
+          </div>
+          <div id="dataset-panel" class="panel detail-panel" hidden>
+            <p class="eyebrow">表と点群を見比べよう</p>
+            <div class="reveal-controls"><strong id="reveal-count">1 / 6件を表示</strong><div><button id="add-point" type="button" class="button">1件追加</button><button id="show-all" type="button" class="button secondary">全部表示</button><button id="restart-reveal" type="button" class="text-button">最初から</button></div></div>
+            <table class="data-table"><caption>6種類のジュースのデータセット</caption><thead><tr><th scope="col">データ</th><th scope="col">甘さ</th><th scope="col">酸っぱさ</th></tr></thead><tbody id="dataset-rows"></tbody></table>
+            <p id="selected-record" class="selected-record">A：甘さ2、酸っぱさ3 → 点 (2, 3)</p>
+            <p class="takeaway"><strong>データの集まりが「データセット」。</strong><br>1行ずつ点にすると、点の集まり<strong>「点群」</strong>になります。表の文字か図の点を選ぶと、対応が分かります。</p>
+            <p class="subtle">同じ値のデータは同じ位置に重なります。見える点の数とデータ件数が一致しないこともあります。</p>
+          </div>
+          <div id="distance-panel" class="panel detail-panel" hidden>
+            <p class="eyebrow">Aからの距離が短い順</p>
+            <h3 id="nearest-heading">Aにいちばん近いのは B</h3>
+            <p class="subtle">比べたいデータを選ぶと、Aとの間に線が出ます。Aを動かすと順位も変わります。</p>
+            <div id="distance-ranking" class="ranking" aria-label="Aと比べるデータ"></div>
+            <div class="distance-result"><span id="pair-label">AとBの距離</span><strong id="pair-distance">1.41</strong><small id="pair-summary">甘さの差 1・酸っぱさの差 1</small></div>
+            <details id="distance-details"><summary>距離はどう計算する？</summary><p>横と縦の差を両方使って、2点を結ぶ直線の長さを計算します。</p><p class="formula">距離 = √(甘さの差² + 酸っぱさの差²)</p><p id="distance-calculation" class="formula">√(1² + 1²) ≈ 1.41</p><p class="subtle">図の点線は横・縦の差、実線は2点の間の距離です。</p></details>
+          </div>
+        </div>
+      </div>
+      <div id="similarity-note" class="learning-note" hidden>
+        <h3>近い点ほど、選んだ特徴が似ている</h3>
+        <p>ここでは<strong>甘さと酸っぱさ</strong>が似ていれば距離が短く、違いが大きければ距離が長くなります。距離0は、この2つの値が同じということ。香りや色まで同じとは限りません。</p>
+        <p class="subtle">距離による比べ方は、使う特徴や尺度で変わります。たとえば「価格（円）」を加えるなら、数値の大きさや単位をそろえる工夫が必要です。</p>
+      </div>
+      <div class="lesson-navigation"><button id="previous" type="button" class="button secondary" disabled>← 前へ</button><span id="stage-status" role="status" aria-live="polite">1 / 3</span><button id="next" type="button" class="button">次へ：点を集める →</button><a id="next-lesson" class="button" href="../centroid/" hidden>次のデモ：重心を学ぶ →</a></div>
+    </section>
+    <p class="data-note">使用しているのは学習用の架空データです。距離は小数第2位まで表示しています。</p>
+  </main>
+  <footer class="lesson-shell lesson-footer"><span>大阪公立大学 · 人間情報システム研究室</span><a href="../../ubukata/">デモ一覧へ</a></footer>
+</body>
+</html>
