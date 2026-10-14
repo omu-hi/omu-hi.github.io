@@ -27,6 +27,9 @@
     .preview-card-title{display:block;font-size:1.125rem;font-weight:600;line-height:1.4}
     .preview-card p{font-size:1.125rem;line-height:1.5;margin:6px 0 10px}
     .preview-card-link{color:var(--color-link);font-size:1.125rem;font-weight:600}
+    .preview-card.software-card{grid-template-columns:minmax(0,1fr)}
+    .software-card .preview-card-body{display:flex;flex-direction:column;padding:20px}
+    .software-card .preview-card-link{margin-top:auto}
     .explorer-card{max-width:408px}
     .explorer-card img{object-position:left center}
     @media(max-width:768px){.demo-grid{grid-template-columns:1fr}}
@@ -85,6 +88,28 @@
       <li><a href="https://scholar.google.co.jp/citations?user=kztM-6kAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a></li>
       <li><a href="https://researchmap.jp/subukata" target="_blank" rel="noopener">researchmap</a></li>
     </ul>
+  </div>
+</section>
+
+<section class="section link-section">
+  <div class="container">
+    <h3>ソフトウェア</h3>
+    <div class="demo-grid">
+      <a class="preview-card software-card" href="https://github.com/subukata/ubukit" target="_blank" rel="noopener noreferrer">
+        <div class="preview-card-body">
+          <span class="preview-card-title">UbuKit</span>
+          <p>Python・JavaScript 向けのクラスタリングと自己組織化マップのライブラリです．k-means，ファジィ・ラフクラスタリング，SOM に加え，評価指標と TPE によるパラメータ探索を提供します．</p>
+          <span class="preview-card-link">GitHub で見る &rarr;</span>
+        </div>
+      </a>
+      <a class="preview-card software-card" href="https://github.com/subukata/som-olp" target="_blank" rel="noopener noreferrer">
+        <div class="preview-card-body">
+          <span class="preview-card-title">SOM-OLP</span>
+          <p>データの潜在位置と参照ベクトルを同時に学習する自己組織化マップ（SOM）の Python 実装です．論文に基づく最小構成の実装と，学習・可視化のサンプルを公開しています．</p>
+          <span class="preview-card-link">GitHub で見る &rarr;</span>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 
