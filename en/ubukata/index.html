@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seiki Ubukata | Associate Professor, Osaka Metropolitan University</title>
+  <meta name="description" content="Seiki Ubukata is an Associate Professor in the Department of Core Informatics, Graduate School of Informatics, Osaka Metropolitan University. He studies clustering based on fuzzy and rough set theory and self-organizing maps (SOM), and shares his research record, software (UbuKit, SOM-OLP) and learning demos.">
+  <link rel="canonical" href="https://omu-hi.github.io/en/ubukata/">
+  <link rel="alternate" hreflang="ja" href="https://omu-hi.github.io/ubukata/">
+  <link rel="alternate" hreflang="en" href="https://omu-hi.github.io/en/ubukata/">
+  <link rel="alternate" hreflang="x-default" href="https://omu-hi.github.io/ubukata/">
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Human Information Systems Laboratory (HI Lab)">
+  <meta property="og:title" content="Seiki Ubukata | Osaka Metropolitan University">
+  <meta property="og:description" content="Associate Professor, Graduate School of Informatics, Osaka Metropolitan University. Research on clustering and self-organizing maps (SOM), with research outputs, software and learning demos.">
+  <meta property="og:url" content="https://omu-hi.github.io/en/ubukata/">
+  <meta property="og:image" content="https://omu-hi.github.io/assets/ogp/ubukata-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Seiki Ubukata, Associate Professor, Graduate School of Informatics, Osaka Metropolitan University">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://omu-hi.github.io/ubukata/#person",
+      "name": "Seiki Ubukata",
+      "alternateName": ["生方誠希", "生方 誠希"],
+      "url": "https://omu-hi.github.io/en/ubukata/",
+      "image": "https://omu-hi.github.io/ubukata/ubukata.jpg",
+      "jobTitle": "Associate Professor",
+      "affiliation": {
+        "@type": "CollegeOrUniversity",
+        "name": "Osaka Metropolitan University",
+        "alternateName": ["OMU", "大阪公立大学"],
+        "url": "https://www.omu.ac.jp/"
+      },
+      "memberOf": {
+        "@type": "ResearchOrganization",
+        "@id": "https://omu-hi.github.io/#organization",
+        "name": "Human Information Systems Laboratory",
+        "url": "https://omu-hi.github.io/en/"
+      },
+      "knowsAbout": ["Clustering", "Fuzzy theory", "Rough sets", "Self-organizing maps"],
+      "sameAs": [
+        "https://kyoiku-kenkyudb.omu.ac.jp/html/100002338_ja.html",
+        "https://researchmap.jp/subukata",
+        "https://scholar.google.com/citations?user=kztM-6kAAAAJ",
+        "https://github.com/subukata"
+      ]
+    }
+  </script>
+  <link rel="stylesheet" href="/style.css?v=20261022-i18n">
+  <style>
+    .profile{display:flex;gap:32px;align-items:flex-start;margin-bottom:32px}
+    .profile img{width:200px;border-radius:8px;box-shadow:var(--shadow-card);flex-shrink:0}
+    .profile-info{display:flex;flex-direction:column;gap:4px}
+    .profile-name{font-size:1.5rem;font-weight:600;letter-spacing:-.96px;margin-bottom:8px}
+    .profile-affiliation{font-size:1.125rem;font-weight:400;color:var(--color-text-secondary);line-height:1.6}
+    .profile-role{font-size:1.125rem;font-weight:600;color:var(--color-text);margin-top:4px}
+    .profile-contact{font-size:1.125rem;color:var(--color-text-secondary);line-height:1.8;margin-top:12px}
+    .profile-contact span{font-family:var(--font-mono);font-size:1.125rem;white-space:nowrap}
+    .link-section h3{margin-bottom:12px}
+    .link-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .link-list li{font-size:1.125rem;font-weight:500}
+    .link-list a{color:var(--color-link);text-decoration:none}
+    .link-list a:hover{text-decoration:underline}
+    .section-note{color:var(--color-text-secondary);margin:-4px 0 16px}
+    .demo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .preview-card{display:grid;grid-template-columns:140px minmax(0,1fr);min-height:150px;overflow:hidden;border-radius:8px;box-shadow:var(--shadow-card);color:var(--color-text)}
+    .preview-card:hover{text-decoration:none;box-shadow:0 0 0 1px rgba(0,0,0,.12),0 6px 16px rgba(0,0,0,.08)}
+    .preview-card img{width:140px;height:150px;object-fit:cover;border-right:1px solid #ebebeb}
+    .preview-card-body{padding:14px;min-width:0;overflow-wrap:anywhere}
+    .preview-card-title{display:block;font-size:1.125rem;font-weight:600;line-height:1.4}
+    .preview-card p{font-size:1.125rem;line-height:1.5;margin:6px 0 10px}
+    .preview-card-link{color:var(--color-link);font-size:1.125rem;font-weight:600}
+    .preview-card.software-card{grid-template-columns:minmax(0,1fr)}
+    .software-card .preview-card-body{display:flex;flex-direction:column;padding:20px}
+    .software-card .preview-card-link{margin-top:auto}
+    .explorer-card{max-width:408px}
+    .explorer-card img{object-position:left center}
+    @media(max-width:768px){.demo-grid{grid-template-columns:1fr}}
+    @media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:160px}}
+    @media(max-width:420px){.preview-card{grid-template-columns:96px minmax(0,1fr)}.preview-card img{width:96px;height:130px}.preview-card-body{padding:12px}}
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-bar">
+    <a class="header-back" href="/en/">&larr; Human Information Systems Lab</a>
+    <a class="lang-switch" href="/ubukata/" hreflang="ja" lang="ja">日本語</a>
+  </div>
+</header>
+
+<main>
+<section class="section">
+  <div class="container">
+    <div class="profile">
+      <img alt="Seiki Ubukata" src="/ubukata/ubukata.jpg">
+      <div class="profile-info">
+        <h1 class="profile-name">Seiki Ubukata <span lang="ja">(生方 誠希)</span></h1>
+        <div class="profile-affiliation">Osaka Metropolitan University</div>
+        <div class="profile-affiliation">Department of Core Informatics, Graduate School of Informatics</div>
+        <div class="profile-role">Associate Professor</div>
+        <div class="profile-contact">
+          E-mail: <span>ubukata (at) omu.ac.jp</span><br>
+          1-1 Gakuen-cho, Naka-ku, Sakai, Osaka <span>599-8531</span>, Japan<br>
+          Phone: <span>+81-72-254-9355</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section link-section">
+  <div class="container">
+    <h3>Research Explorer</h3>
+    <a class="preview-card explorer-card" href="https://ubukata-research-explorer.ubucat.chatgpt.site/" target="_blank" rel="noopener noreferrer">
+      <img src="/ubukata/research-explorer-preview.png" alt="Overview screen of Research Explorer" width="1440" height="900" loading="lazy">
+      <div class="preview-card-body">
+        <span class="preview-card-title">Seiki Ubukata Research Explorer</span>
+        <p>A database of research outputs and academic activities. Use the language switch on the site to view it in English.</p>
+        <span class="preview-card-link">Open site &rarr;</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="section link-section">
+  <div class="container">
+    <h3>Researcher profiles</h3>
+    <ul class="link-list">
+      <li><a href="https://kyoiku-kenkyudb.omu.ac.jp/html/100002338_ja.html" target="_blank" rel="noopener" hreflang="ja">OMU Researcher Database (in Japanese)</a></li>
+      <li><a href="https://scholar.google.com/citations?user=kztM-6kAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a></li>
+      <li><a href="https://researchmap.jp/subukata?lang=en" target="_blank" rel="noopener">researchmap</a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section link-section">
+  <div class="container">
+    <h3>Software</h3>
+    <div class="demo-grid">
+      <a class="preview-card software-card" href="https://github.com/subukata/ubukit" target="_blank" rel="noopener noreferrer">
+        <div class="preview-card-body">
+          <span class="preview-card-title">UbuKit</span>
+          <p>A clustering and self-organizing map library for Python and JavaScript. Besides k-means, fuzzy and rough clustering and SOM, it provides evaluation metrics and parameter search with TPE.</p>
+          <span class="preview-card-link">View on GitHub &rarr;</span>
+        </div>
+      </a>
+      <a class="preview-card software-card" href="https://github.com/subukata/som-olp" target="_blank" rel="noopener noreferrer">
+        <div class="preview-card-body">
+          <span class="preview-card-title">SOM-OLP</span>
+          <p>A Python implementation of a self-organizing map (SOM) that jointly learns the latent positions of data and the reference vectors. It includes a minimal implementation based on the paper and examples of training and visualization.</p>
+          <span class="preview-card-link">View on GitHub &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section link-section">
+  <div class="container">
+    <h3>Learning demos</h3>
+    <p class="section-note">These interactive demos are currently available in Japanese only.</p>
+    <div class="demo-grid">
+      <a class="preview-card" href="/demo/data-points/" hreflang="ja">
+        <img src="/ubukata/demo-data-points-preview.png" alt="Graph showing data as points and point clouds and comparing distances between points" width="500" height="500" loading="lazy">
+        <div class="preview-card-body">
+          <span class="preview-card-title">Seeing data as points</span>
+          <p>An introductory demo on looking at data through points, point clouds and distances.</p>
+          <span class="preview-card-link">Open demo (Japanese) &rarr;</span>
+        </div>
+      </a>
+      <a class="preview-card" href="/demo/centroid/" hreflang="ja">
+        <img src="/ubukata/demo-centroid-preview.png" alt="Graph of representative points and data points" width="644" height="455" loading="lazy">
+        <div class="preview-card-body">
+          <span class="preview-card-title">Learning the centroid</span>
+          <p>Move representative points to learn about centroids and the idea behind k-means.</p>
+          <span class="preview-card-link">Open demo (Japanese) &rarr;</span>
+        </div>
+      </a>
+      <a class="preview-card" href="/demo/kmeans/" hreflang="ja">
+        <img src="/ubukata/demo-kmeans-preview.png" alt="Graph of color-coded clusters" width="592" height="592" loading="lazy">
+        <div class="preview-card-body">
+          <span class="preview-card-title">K-means demo</span>
+          <p>Try grouping points into clusters step by step.</p>
+          <span class="preview-card-link">Open demo (Japanese) &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; Human Information Systems Laboratory &mdash; Osaka Metropolitan University
+  </div>
+</footer>
+
+</body>
+</html>

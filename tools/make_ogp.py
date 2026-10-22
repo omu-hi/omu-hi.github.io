@@ -1,7 +1,8 @@
 """Generate 1200x630 OGP images for omu-hi.github.io.
 
 Usage: python tools/make_ogp.py
-Writes assets/ogp/{top,honda,ubukata}.png. Requires Pillow and the Windows
+Writes assets/ogp/{top,honda,ubukata}.png and their English versions
+(*-en.png) for the pages under /en/. Requires Pillow and the Windows
 fonts Noto Sans JP (NotoSansJP-VF.ttf) and Consolas. Rerun after changing a
 name, role or photo, and keep the og:image / JSON-LD text in the pages in sync.
 """
@@ -58,6 +59,15 @@ def text_w(d, txt, font):
     return d.textlength(txt, font=font) / SCALE
 
 
+def fit(d, txt, max_w, size, weight):
+    """Largest Noto Sans JP font up to `size` px that keeps txt within max_w."""
+    while True:
+        f = jp(size, weight)
+        if size <= 12 or text_w(d, txt, f) <= max_w:
+            return f
+        size -= 2
+
+
 def badge(d, x, y, label):
     f = jp(26, 600)
     tw = text_w(d, label, f)
@@ -82,7 +92,7 @@ def paste_rounded(im, src, box, radius=16):
 
 def footer(d, lab_line, url, right_limit):
     d.line([s(M), s(512), s(right_limit), s(512)], fill=BORDER, width=s(2))
-    text(d, (M, 534), lab_line, jp(28, 600), TEXT)
+    text(d, (M, 534), lab_line, fit(d, lab_line, right_limit - M, 28, 600), TEXT)
     text(d, (M, 578), url, mono(24), MUTED)
 
 
@@ -93,18 +103,24 @@ def save(im, name):
     print(path, path.stat().st_size)
 
 
-def faculty(name_ja, name_en, role, photo, url, filename, centering=(0.5, 0.35)):
+JA = {"header": "大阪公立大学 大学院情報学研究科", "lab": "人間情報システム研究室（HI研究室）"}
+EN = {"header": "Graduate School of Informatics, OMU", "lab": "Human Information Systems Lab (HI Lab)"}
+
+
+def faculty(name, sub_name, role, photo, url, filename, centering=(0.5, 0.35), lang=JA):
     im, d = canvas()
     px1, py0 = W - M, M
     pw, ph = 360, H - 2 * M
     box = (px1 - pw, py0, px1, py0 + ph)
     left_limit = box[0] - 56
+    max_w = left_limit - M
 
-    text(d, (M, M - 6), "大阪公立大学 大学院情報学研究科", jp(28, 500), SEC)
+    text(d, (M, M - 6), lang["header"], fit(d, lang["header"], max_w, 28, 500), SEC)
     badge(d, M, 146, role)
-    text(d, (M, 200), name_ja, jp(100, 700), TEXT)
-    text(d, (M, 340), name_en, jp(44, 500), MUTED)
-    footer(d, "人間情報システム研究室（HI研究室）", url, left_limit)
+    name_font = fit(d, name, max_w, 100, 700)
+    text(d, (M, 200 + (100 - name_font.size // SCALE) // 2), name, name_font, TEXT)
+    text(d, (M, 340), sub_name, jp(44, 500), MUTED)
+    footer(d, lang["lab"], url, left_limit)
 
     src = Image.open(photo).convert("RGB")
     fitted = ImageOps.fit(src, (s(pw), s(ph)), Image.LANCZOS, centering=centering)
@@ -113,19 +129,20 @@ def faculty(name_ja, name_en, role, photo, url, filename, centering=(0.5, 0.35))
     save(im, filename)
 
 
-def top():
+def top(title_lines, subtitle, members, url, filename, lang=JA):
     im, d = canvas()
     px1, py0 = W - M, M
     pw, ph = 360, H - 2 * M
     box = (px1 - pw, py0, px1, py0 + ph)
     left_limit = box[0] - 56
+    max_w = left_limit - M
 
-    text(d, (M, M - 6), "大阪公立大学 大学院情報学研究科", jp(28, 500), SEC)
-    title = jp(80, 700)
-    text(d, (M, 140), "人間情報システム", title, TEXT)
-    text(d, (M, 250), "研究室", title, TEXT)
-    text(d, (M, 376), "Human Information Systems｜HI研究室", jp(32, 500), MUTED)
-    footer(d, "本多 克宏 教授 ・ 生方 誠希 准教授", "omu-hi.github.io", left_limit)
+    text(d, (M, M - 6), lang["header"], fit(d, lang["header"], max_w, 28, 500), SEC)
+    title = min((fit(d, line, max_w, 80, 700) for line in title_lines), key=lambda f: f.size)
+    for i, line in enumerate(title_lines):
+        text(d, (M, 140 + 110 * i), line, title, TEXT)
+    text(d, (M, 376), subtitle, fit(d, subtitle, max_w, 32, 500), MUTED)
+    footer(d, members, url, left_limit)
 
     # Clustered scatter plot as the visual: three fuzzy clusters with centroids.
     card_frame(im, d, box)
@@ -146,12 +163,21 @@ def top():
     for ci, (cx, cy) in enumerate(centers):
         R = 15
         d.ellipse([s(cx - R), s(cy - R), s(cx + R), s(cy + R)], fill="#ffffff", outline=TEXT, width=s(4))
-    save(im, "top.png")
+    save(im, filename)
 
 
 if __name__ == "__main__":
-    top()
-    faculty("本多 克宏", "Katsuhiro Honda", "教授", REPO / "honda" / "honda_202408.jpg",
+    honda, ubukata = REPO / "honda" / "honda_202408.jpg", REPO / "ubukata" / "ubukata.jpg"
+    top(["人間情報システム", "研究室"], "Human Information Systems｜HI研究室",
+        "本多 克宏 教授 ・ 生方 誠希 准教授", "omu-hi.github.io", "top.png")
+    faculty("本多 克宏", "Katsuhiro Honda", "教授", honda,
             "omu-hi.github.io/honda/", "honda.png", centering=(0.5, 0.3))
-    faculty("生方 誠希", "Seiki Ubukata", "准教授", REPO / "ubukata" / "ubukata.jpg",
+    faculty("生方 誠希", "Seiki Ubukata", "准教授", ubukata,
             "omu-hi.github.io/ubukata/", "ubukata.png", centering=(0.5, 0.4))
+
+    top(["Human Information", "Systems Laboratory"], "HI Lab｜人間情報システム研究室",
+        "Katsuhiro Honda ・ Seiki Ubukata", "omu-hi.github.io/en/", "top-en.png", lang=EN)
+    faculty("Katsuhiro Honda", "本多 克宏", "Professor", honda,
+            "omu-hi.github.io/en/honda/", "honda-en.png", centering=(0.5, 0.3), lang=EN)
+    faculty("Seiki Ubukata", "生方 誠希", "Associate Professor", ubukata,
+            "omu-hi.github.io/en/ubukata/", "ubukata-en.png", centering=(0.5, 0.4), lang=EN)
