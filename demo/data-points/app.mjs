@@ -97,7 +97,11 @@ function render() {
     row.children[2].textContent = record.y;
     row.classList.toggle('is-selected', record.id === state.selected);
     row.classList.toggle('is-unshown', index >= state.revealed);
-    row.querySelector('button').setAttribute('aria-pressed', String(record.id === state.selected));
+    const rowButton = row.querySelector('button');
+    rowButton.setAttribute('aria-pressed', String(record.id === state.selected));
+    // The dimmed colour marks rows not yet plotted; say so in text as well.
+    if (index >= state.revealed) rowButton.setAttribute('aria-label', `${record.id}（図に未表示）`);
+    else rowButton.removeAttribute('aria-label');
   });
   // Keep A above coincident points so it remains draggable; the table/list selects every record.
   if ($('points').lastChild !== pointNodes.get('A')) $('points').append(pointNodes.get('A'));

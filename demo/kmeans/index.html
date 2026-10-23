@@ -4,7 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>K-Means クラスタリング デモ — 人間情報システム研究室</title>
-  <link rel="stylesheet" href="../../style.css?v=20260925-type18">
+  <meta name="description" content="クラスタ数とデータ点数を変えながら、k-means の割り当てステップと重心計算ステップを1手ずつ進め、クラスタ内二乗誤差総和（SSE）が減っていく様子を確かめる対話型デモ。">
+  <link rel="canonical" href="https://omu-hi.github.io/demo/kmeans/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="人間情報システム研究室（HI研究室）">
+  <meta property="og:title" content="K-Means クラスタリング デモ">
+  <meta property="og:description" content="k-means の割り当てと重心計算を1手ずつ進め、SSE の変化を確かめる対話型デモ。">
+  <meta property="og:url" content="https://omu-hi.github.io/demo/kmeans/">
+  <meta property="og:image" content="https://omu-hi.github.io/ubukata/demo-kmeans-preview.png">
+  <meta property="og:image:width" content="592">
+  <meta property="og:image:height" content="592">
+  <meta property="og:image:alt" content="色分けされたクラスタのグラフ">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="../../style.css?v=20261023">
   <style>
     .demo-title{font-size:2rem;font-weight:600;letter-spacing:-1.28px;margin-bottom:8px}
     .demo-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:20px;align-items:start}
@@ -22,9 +35,11 @@
     .ctrl-row{display:flex;justify-content:space-between;align-items:center}
     .ctrl-label{font-size:1.125rem;font-weight:500;color:var(--color-text)}
     .ctrl-val{font-family:var(--font-mono);font-size:1.25rem;font-weight:600;letter-spacing:-.96px}
-    input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:#ebebeb;border-radius:2px;outline:none}
-    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--color-text);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15)}
-    input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--color-text);cursor:pointer;border:none}
+    /* 28px-tall hit area with a 4px track drawn in the middle. */
+    input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:linear-gradient(#ebebeb,#ebebeb) center/100% 4px no-repeat;cursor:pointer}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--color-text);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+    input[type=range]::-moz-range-track{height:4px;background:#ebebeb;border-radius:2px}
+    input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--color-text);cursor:pointer;border:none}
     .btn{font-family:var(--font-sans);font-size:1.125rem;font-weight:500;padding:9px 14px;border-radius:6px;border:none;cursor:pointer;text-align:center;transition:background .15s}
     .btn:disabled{opacity:.4;cursor:not-allowed}
     .btn-dark{background:var(--color-text);color:#fff}
@@ -37,31 +52,31 @@
     .stat-label{color:var(--color-text-muted)}
     .stat-val{font-family:var(--font-mono);font-weight:600;color:var(--color-text)}
     .badge{display:inline-block;font-size:1.125rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:#ebf5ff;color:#0068d6}
-    .badge.ok{background:#ecfdf5;color:#059669}
+    .badge.ok{background:#ecfdf5;color:#047857}
     hr.div{border:none;border-top:1px solid #ebebeb;margin:0}
     @media(max-width:768px){.demo-grid{grid-template-columns:1fr}.ctrl{order:-1}}
   </style>
 </head>
 <body>
 <header class="site-header"><div class="container">
-  <a href="../../" style="font-size:1.125rem;font-weight:500;color:var(--color-text-muted)">&larr; 人間情報システム研究室Top</a>
+  <a href="../../ubukata/" style="font-size:1.125rem;font-weight:500;color:var(--color-text-muted)">&larr; 生方 誠希のページ</a>
   <h1 class="demo-title">K-Means Clustering</h1>
 </div></header>
 <main><section class="section"><div class="container">
 <div class="demo-grid">
     <div class="left-col">
-      <div class="canvas-wrap"><canvas id="cv"></canvas></div>
-      <div class="chart-wrap"><canvas id="ch"></canvas></div>
-      <div class="explain"><div class="explain-head">Step 解説</div><div id="ex" class="explain-body">Step を押してクラスタリングを開始してください．</div></div>
+      <div class="canvas-wrap"><canvas id="cv" role="img" aria-label="データ点の散布図"></canvas></div>
+      <div class="chart-wrap"><canvas id="ch" role="img" aria-label="SSE の推移グラフ"></canvas></div>
+      <div class="explain"><div class="explain-head">Step 解説</div><div id="ex" class="explain-body" aria-live="polite">Step を押してクラスタリングを開始してください．</div></div>
     </div>
     <div class="ctrl">
       <span class="ctrl-head">Controls</span>
       <div class="ctrl-group">
-        <div class="ctrl-row"><span class="ctrl-label">クラスタ数 k</span><span class="ctrl-val" id="kv">3</span></div>
+        <div class="ctrl-row"><label class="ctrl-label" for="ks">クラスタ数 k</label><span class="ctrl-val" id="kv">3</span></div>
         <input type="range" id="ks" min="2" max="8" value="3">
       </div>
       <div class="ctrl-group">
-        <div class="ctrl-row"><span class="ctrl-label">データ点数</span><span class="ctrl-val" id="nv">150</span></div>
+        <div class="ctrl-row"><label class="ctrl-label" for="ns">データ点数</label><span class="ctrl-val" id="nv">150</span></div>
         <input type="range" id="ns" min="20" max="500" step="10" value="150">
       </div>
       <button class="btn btn-dark" id="bs" style="width:100%">Step</button>
@@ -125,7 +140,10 @@
     for(const p of pts){const c=p.c>=0?COL[p.c%8]:{f:"rgba(0,0,0,.08)",s:"#999"};cx.beginPath();cx.arc(p.x*s,p.y*s,4,0,7);cx.fillStyle=c.f;cx.strokeStyle=c.s;cx.lineWidth=1.5;cx.fill();cx.stroke();}
     for(let i=0;i<cents.length;i++){const c=COL[i%8],x=cents[i].x*s,y=cents[i].y*s;
       cx.beginPath();cx.arc(x,y,12,0,7);cx.strokeStyle=c.s;cx.lineWidth=2;cx.stroke();
-      cx.beginPath();cx.arc(x,y,5,0,7);cx.fillStyle=c.s;cx.fill();}
+      cx.beginPath();cx.arc(x,y,5,0,7);cx.fillStyle=c.s;cx.fill();
+      // Number each centre so clusters are not told apart by colour alone.
+      cx.font="700 18px sans-serif";cx.textAlign="left";cx.lineWidth=4;cx.strokeStyle="#fff";cx.lineJoin="round";
+      cx.strokeText(i+1,x+14,y-10);cx.fillStyle="#171717";cx.fillText(i+1,x+14,y-10);}
   }
 
   function chart(){
@@ -210,8 +228,13 @@
   }
 
   function ui(){
-    $("sn").textContent=pts.length;$("si").textContent=iter||"—";
-    $("ss").textContent=hist.length?hist[hist.length-1].toFixed(4):"—";
+    // During an assignment step (phase "update") iteration iter+1 is in progress.
+    const assigned=pts.some(p=>p.c>=0);
+    $("sn").textContent=pts.length;$("si").textContent=phase==="update"?iter+1:iter||"—";
+    $("ss").textContent=assigned?sse().toFixed(4):"—";
+    const sizes=cents.map((_,i)=>`クラスタ${i+1}: ${pts.filter(p=>p.c===i).length}点`).join("，");
+    cv.setAttribute("aria-label",assigned?`データ点${pts.length}個の散布図．${sizes}`:cents.length?`データ点${pts.length}個と初期クラスタ中心${cents.length}個の散布図`:`データ点${pts.length}個の散布図（未分類）`);
+    cc.setAttribute("aria-label",hist.length?`SSE の推移：${hist.map((v,i)=>`${i+1}回目 ${v.toFixed(4)}`).join("，")}`:"SSE の推移グラフ（まだ値がありません）");
     const b=$("sb");
     if(done){b.textContent="収束";b.className="badge ok";}
     else if(phase==="assign"){b.textContent="割り当て待ち";b.className="badge";}

@@ -14,7 +14,7 @@
   --color-text-muted: #666666;
   --color-border: rgba(0, 0, 0, 0.08);
   --color-surface: #fafafa;
-  --color-link: #0072f5;
+  --color-link: #0068d6;
   --color-focus: hsla(212, 100%, 48%, 1);
   --shadow-border: 0px 0px 0px 1px rgba(0, 0, 0, 0.08);
   --shadow-card: 0px 0px 0px 1px rgba(0, 0, 0, 0.08),
@@ -48,7 +48,12 @@ a:hover {
   text-decoration: underline;
 }
 
-a:focus-visible {
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }

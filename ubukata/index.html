@@ -52,38 +52,8 @@
       ]
     }
   </script>
-  <link rel="stylesheet" href="/style.css?v=20261022-i18n">
-  <style>
-    .profile{display:flex;gap:32px;align-items:flex-start;margin-bottom:32px}
-    .profile img{width:200px;border-radius:8px;box-shadow:var(--shadow-card);flex-shrink:0}
-    .profile-info{display:flex;flex-direction:column;gap:4px}
-    .profile-name{font-size:1.5rem;font-weight:600;letter-spacing:-.96px;margin-bottom:8px}
-    .profile-affiliation{font-size:1.125rem;font-weight:400;color:var(--color-text-secondary);line-height:1.6}
-    .profile-role{font-size:1.125rem;font-weight:600;color:var(--color-text);margin-top:4px}
-    .profile-contact{font-size:1.125rem;color:var(--color-text-secondary);line-height:1.8;margin-top:12px}
-    .profile-contact span{font-family:var(--font-mono);font-size:1.125rem}
-    .link-section h3{margin-bottom:12px}
-    .link-list{list-style:none;display:flex;flex-direction:column;gap:10px}
-    .link-list li{font-size:1.125rem;font-weight:500}
-    .link-list a{color:var(--color-link);text-decoration:none}
-    .link-list a:hover{text-decoration:underline}
-    .demo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-    .preview-card{display:grid;grid-template-columns:140px minmax(0,1fr);min-height:150px;overflow:hidden;border-radius:8px;box-shadow:var(--shadow-card);color:var(--color-text)}
-    .preview-card:hover{text-decoration:none;box-shadow:0 0 0 1px rgba(0,0,0,.12),0 6px 16px rgba(0,0,0,.08)}
-    .preview-card img{width:140px;height:150px;object-fit:cover;border-right:1px solid #ebebeb}
-    .preview-card-body{padding:14px;min-width:0;overflow-wrap:anywhere}
-    .preview-card-title{display:block;font-size:1.125rem;font-weight:600;line-height:1.4}
-    .preview-card p{font-size:1.125rem;line-height:1.5;margin:6px 0 10px}
-    .preview-card-link{color:var(--color-link);font-size:1.125rem;font-weight:600}
-    .preview-card.software-card{grid-template-columns:minmax(0,1fr)}
-    .software-card .preview-card-body{display:flex;flex-direction:column;padding:20px}
-    .software-card .preview-card-link{margin-top:auto}
-    .explorer-card{max-width:408px}
-    .explorer-card img{object-position:left center}
-    @media(max-width:768px){.demo-grid{grid-template-columns:1fr}}
-    @media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:160px}}
-    @media(max-width:420px){.preview-card{grid-template-columns:96px minmax(0,1fr)}.preview-card img{width:96px;height:130px}.preview-card-body{padding:12px}}
-  </style>
+  <link rel="stylesheet" href="/style.css?v=20261023">
+  <link rel="stylesheet" href="/faculty.css?v=20261023">
 </head>
 <body>
 
@@ -98,7 +68,7 @@
 <section class="section">
   <div class="container">
     <div class="profile">
-      <img alt="ubukata" src="ubukata.jpg">
+      <img alt="生方誠希" src="ubukata.jpg" width="207" height="277">
       <div class="profile-info">
         <h1 class="profile-name">生方 誠希 (Seiki Ubukata)</h1>
         <div class="profile-affiliation">大阪公立大学</div>
@@ -117,9 +87,9 @@
 
 <section class="section link-section">
   <div class="container">
-    <h3>Research Explorer</h3>
+    <h2>Research Explorer</h2>
     <a class="preview-card explorer-card" href="https://ubukata-research-explorer.ubucat.chatgpt.site/" target="_blank" rel="noopener noreferrer">
-      <img src="research-explorer-preview.png" alt="Research Explorer の業績概要画面" width="1440" height="900" loading="lazy">
+      <img src="research-explorer-preview.png" alt="Research Explorer の業績概要画面" width="480" height="300" loading="lazy">
       <div class="preview-card-body">
         <span class="preview-card-title">生方誠希 Research Explorer</span>
         <p>研究成果や学術活動を探せる研究業績データベースです．</p>
@@ -131,7 +101,7 @@
 
 <section class="section link-section">
   <div class="container">
-    <h3>研究者紹介リンク</h3>
+    <h2>研究者紹介リンク</h2>
     <ul class="link-list">
       <li><a href="https://kyoiku-kenkyudb.omu.ac.jp/html/100002338_ja.html" target="_blank" rel="noopener">大阪公立大学 研究者情報</a></li>
       <li><a href="https://scholar.google.co.jp/citations?user=kztM-6kAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a></li>
@@ -142,7 +112,7 @@
 
 <section class="section link-section">
   <div class="container">
-    <h3>ソフトウェア</h3>
+    <h2>ソフトウェア</h2>
     <div class="demo-grid">
       <a class="preview-card software-card" href="https://github.com/subukata/ubukit" target="_blank" rel="noopener noreferrer">
         <div class="preview-card-body">
@@ -164,7 +134,7 @@
 
 <section class="section link-section">
   <div class="container">
-    <h3>デモ</h3>
+    <h2>デモ</h2>
     <div class="demo-grid">
       <a class="preview-card" href="/demo/data-points/">
         <img src="demo-data-points-preview.png" alt="データを点と点群で表し、点の距離を比べるグラフ" width="500" height="500" loading="lazy">

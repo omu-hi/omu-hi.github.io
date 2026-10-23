@@ -13,7 +13,8 @@ function update() {
     svg.style.setProperty('--svg-text-size', `${size}px`);
     for (const rect of svg.querySelectorAll('[data-text-background]')) {
       const text = svg.querySelector(`#${rect.dataset.textBackground}`);
-      if (!text) continue;
+      // getBBox() fails or returns zeros for text that is not rendered (e.g. inside display:none).
+      if (!text || !text.getClientRects().length) continue;
       const box = text.getBBox(), padding = 3 / scale;
       for (const [key, value] of Object.entries({x:box.x-padding,y:box.y-padding,width:box.width+2*padding,height:box.height+2*padding})) rect.setAttribute(key, value);
     }

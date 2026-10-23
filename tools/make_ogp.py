@@ -3,9 +3,11 @@
 Usage: python tools/make_ogp.py
 Writes assets/ogp/{top,honda,ubukata}.png and their English versions
 (*-en.png) for the pages under /en/. Requires Pillow and the Windows
-fonts Noto Sans JP (NotoSansJP-VF.ttf) and Consolas. Rerun after changing a
+fonts Noto Sans JP (NotoSansJP-VF.ttf) and Consolas, installed for all users
+or for the current user. Rerun after changing a
 name, role or photo, and keep the og:image / JSON-LD text in the pages in sync.
 """
+import os
 import random
 from pathlib import Path
 
@@ -28,8 +30,19 @@ BADGE_BG = "#ebf5ff"
 BADGE_TEXT = "#0068d6"
 ACCENTS = ["#0a72ef", "#de1d8d", "#ff5b4f"]
 
-JP = r"C:\Windows\Fonts\NotoSansJP-VF.ttf"
-MONO = r"C:\Windows\Fonts\consola.ttf"
+def find_font(name):
+    """Look for a font in the system and per-user Windows font folders."""
+    dirs = [Path(os.environ.get("WINDIR", r"C:\Windows")) / "Fonts"]
+    if os.environ.get("LOCALAPPDATA"):
+        dirs.append(Path(os.environ["LOCALAPPDATA"]) / "Microsoft" / "Windows" / "Fonts")
+    for d in dirs:
+        if (d / name).exists():
+            return str(d / name)
+    raise FileNotFoundError(f"font {name} not found in {', '.join(map(str, dirs))}")
+
+
+JP = find_font("NotoSansJP-VF.ttf")
+MONO = find_font("consola.ttf")
 
 
 def jp(size, weight):

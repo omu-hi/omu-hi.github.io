@@ -30,7 +30,7 @@ strong{font-weight:600;color:#171717}
 #plot{display:block;width:100%;height:auto;aspect-ratio:1;touch-action:none;user-select:none;overflow:visible}
 .plot-background{fill:#fcfcfd;stroke:#dce0e6;stroke-width:1}
 .grid-line{stroke:#e9ecf0;stroke-width:1;vector-effect:non-scaling-stroke}
-.grid-label{fill:#757b85;font-size:1.125rem;font-family:var(--font-mono)}
+.grid-label{fill:#5d636e;font-size:1.125rem;font-family:var(--font-mono)}
 .axis-label{fill:#4d4d4d;font-family:var(--font-mono);font-style:italic;font-size:1.125rem}
 .connection{stroke:#65788f;stroke-opacity:.23;stroke-width:1;vector-effect:non-scaling-stroke}
 .data-point{fill:#575f6c;stroke:white;stroke-width:1.2}
@@ -99,7 +99,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--mean);cursor:poin
 .data-note{font-size:1.125rem;color:#686d76;margin:15px 0 0;line-height:1.8}
 .explanation{margin:42px 0 22px}
 .explanation-heading{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.section-number{font-family:var(--font-mono);font-size:1.125rem;color:#767b84;font-weight:400;margin-right:1px}
+.section-number{font-family:var(--font-mono);font-size:1.125rem;color:#5d636e;font-weight:400;margin-right:1px}
 .explanation h2{font-size:1.25rem;letter-spacing:-.025em;margin:0;line-height:1.6}
 .equation-cards{display:grid;grid-template-columns:1fr 1fr;gap:30px}
 .equation-card{padding:23px 0 16px;border-top:1px solid #dedfe3;min-width:0}
@@ -111,13 +111,13 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--mean);cursor:poin
 .proof>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:21px 24px;cursor:pointer;font-size:1.125rem;font-weight:500}
 .proof>summary::-webkit-details-marker{display:none}
 .proof>summary .section-number{margin-right:16px}
-.expand-icon{font-size:1.4rem;color:#767b84;font-weight:400}
+.expand-icon{font-size:1.4rem;color:#5d636e;font-weight:400}
 .proof[open] .expand-icon{transform:rotate(45deg)}
 .proof-content{padding:7px 24px 26px}.proof-content h3{font-size:1.125rem;letter-spacing:0;margin-bottom:20px}
 .mean-formula{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 32px;margin-bottom:22px}
 .identity{background:#f8f9fb;border-radius:8px;padding:23px;display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin:23px 0}
 .identity>div{display:flex;flex-direction:column;text-align:center;gap:8px}.identity>div>span:last-child{font-size:1.125rem;color:var(--muted)}
-.identity [data-tex]{font-size:1.25rem}.identity .operator{font-size:1.5rem;color:#747982}.identity .extra-term>span{color:#a3186f!important}
+.identity [data-tex]{font-size:1.25rem}.identity .operator{font-size:1.5rem;color:#5d636e}.identity .extra-term>span{color:#a3186f!important}
 .derivation{border-top:1px solid #ebebeb;margin-top:24px;padding-top:18px}
 .derivation summary{font-size:1.125rem;cursor:pointer;margin-bottom:14px}.derivation-formula{font-size:1.125rem;margin:18px 0}
 .lesson-footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:1.125rem;color:var(--muted);border-top:1px solid #ebebeb;padding-top:24px;padding-bottom:30px}
@@ -152,7 +152,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--mean);cursor:poin
 .representative-2.is-selected .prototype-halo{stroke:#7638ba}
 .lesson-handle:focus-visible .prototype-halo{stroke:#171717;stroke-width:2;stroke-dasharray:3 3;stroke-opacity:1}
 .empty-gap{fill:#f2f3f7;stroke:#c7cbd4;stroke-width:1;stroke-dasharray:5 6}
-.gap-caption{font-family:var(--font-sans);fill:#777b86;font-size:1.125rem}
+.gap-caption{font-family:var(--font-sans);fill:#5d636e;font-size:1.125rem}
 .data-point.assigned-1{fill:#0868d8}.data-point.assigned-2{fill:#7638ba}
 .connection.assigned-1{stroke:#0868d8;stroke-opacity:.27}.connection.assigned-2{stroke:#7638ba;stroke-opacity:.27}
 .second-symbol{background:#7638ba;border-radius:2px;transform:rotate(45deg)}
@@ -183,7 +183,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--mean);cursor:poin
 .pair-insight .insight-label{color:#0868d8}
 .kmeans-steps{display:grid;grid-template-columns:1fr 1fr;gap:15px 38px;padding:10px 0 14px 22px;margin-bottom:8px;font-size:1.125rem;font-weight:500}
 .learning-insight .method-note{font-size:1.125rem;line-height:1.9;color:#656d79}
-@media(min-width:741px) and (min-height:650px){.next-lesson .plot-panel{position:sticky;top:18px}.next-lesson .lesson-plot{max-height:calc(100dvh - 250px)}}
+@media(min-width:1001px) and (min-height:650px){.next-lesson .plot-panel{position:sticky;top:18px}.next-lesson .lesson-plot{max-height:calc(100dvh - 250px)}}
 @media(max-width:740px){.next-lesson{padding-top:32px;margin-top:38px}.lesson-intro p{font-size:1.125rem}.learning-insight{padding:21px 20px}.kmeans-steps{grid-template-columns:1fr;gap:12px}.lesson-readout .mini-history{max-width:480px;margin:auto}.lesson-readout .objective-block{grid-column:1/-1}.lesson-readout .history-block{grid-column:1/-1}.learning-insight h3{font-size:1.125rem}}
 
 /* A consistent sequence: read the question, try the experiment, then reflect. */
@@ -229,7 +229,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--mean);cursor:poin
 .method-details p{font-size:1.125rem;line-height:1.95;margin-top:13px}
 .update-count{font-size:1.125rem;color:#656d79;margin:10px 0 0;font-variant-numeric:tabular-nums}
 .button:disabled{opacity:.65;cursor:wait}
-@media(min-width:741px) and (min-height:650px){#experiment .plot-panel{position:sticky;top:18px}#plot{max-height:calc(100dvh - 250px)}.next-lesson .lesson-plot{max-height:calc(100dvh - 300px)}}
+@media(min-width:1001px) and (min-height:650px){#experiment .plot-panel{position:sticky;top:18px}#plot{max-height:calc(100dvh - 250px)}.next-lesson .lesson-plot{max-height:calc(100dvh - 300px)}}
 @media(max-width:740px){.lesson-roadmap{gap:8px;margin-bottom:28px}.lesson-roadmap a{display:block;padding:12px 10px;font-size:1.125rem}.lesson-roadmap a>span{display:block;margin-bottom:5px}.experiment-guide{grid-template-columns:1fr;gap:14px;padding:19px 20px}.experiment-guide strong{margin-bottom:0}.math-supplement>summary{padding:19px 18px}.math-supplement .explanation{padding:6px 18px 12px}.lesson-bridge{font-size:1.125rem}.lesson-readout .position-block{align-self:start}.readout .answer-controls{align-self:start}}
 
 .mobile-history-slot,.mobile-axis-note,.compact-legend{display:none}
