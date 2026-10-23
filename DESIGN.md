@@ -2,12 +2,18 @@
 
 ## Site typography requirement
 
-All site text must render at **18 CSS pixels or larger**, including captions,
+All site text must render at **16 CSS pixels or larger**, including captions,
 controls, footers, chart labels and mathematical subscripts, at every supported
 viewport width. This site requirement overrides the smaller sizes in the design
-reference below. Use `1.125rem` as the minimum with a root of at least 16px.
+reference below. Use `1rem` as the minimum with a root of at least 16px.
 Reflow layouts instead of reducing type on small screens. SVG and canvas labels
 must meet the minimum after scaling; preview images remain visual thumbnails.
+
+The learning demos under `demo/` keep **18 CSS pixels** (`1.125rem`) as their
+minimum, because they are used as teaching material.
+
+Keep pages compact: body text is 16px, and sections use moderate spacing
+(about 40–72px of vertical padding) rather than large empty bands.
 
 ## 1. Visual Theme & Atmosphere
 

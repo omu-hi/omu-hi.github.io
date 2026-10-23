@@ -1,3 +1,4 @@
+body{font-size:1.125rem}
 :root{--blue:#0868d8;--teal:#087b68;--orange:#af510e;--muted:#606873;--line:#e3e7ec}
 [hidden]{display:none!important}
 button,input{font:inherit}

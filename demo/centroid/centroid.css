@@ -1,5 +1,5 @@
 :root{--prototype:#0868d8;--mean:#ba167a;--line:#dce0e6;--muted:#60656e}
-body{color:#171717;background:#fff}
+body{color:#171717;background:#fff;font-size:1.125rem}
 button,input{font:inherit}
 button,a,input,summary{-webkit-tap-highlight-color:transparent}
 button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--color-focus);outline-offset:4px}

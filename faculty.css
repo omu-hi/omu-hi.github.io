@@ -1,34 +1,34 @@
 /* Faculty pages (/honda/, /ubukata/ and their /en/ versions). Load after style.css. */
-.profile{display:flex;gap:32px;align-items:flex-start;margin-bottom:32px}
-.profile img{width:200px;border-radius:8px;box-shadow:var(--shadow-card);flex-shrink:0}
-.profile-info{display:flex;flex-direction:column;gap:4px}
-.profile-name{font-size:1.5rem;font-weight:600;letter-spacing:-.96px;margin-bottom:8px}
-.profile-affiliation{font-size:1.125rem;font-weight:400;color:var(--color-text-secondary);line-height:1.6}
-.profile-role{font-size:1.125rem;font-weight:600;color:var(--color-text);margin-top:4px}
-.profile-contact{font-size:1.125rem;color:var(--color-text-secondary);line-height:1.8;margin-top:12px}
-.profile-contact span{font-family:var(--font-mono);font-size:1.125rem;white-space:nowrap}
+.profile{display:flex;gap:24px;align-items:flex-start}
+.profile img{width:168px;border-radius:8px;box-shadow:var(--shadow-card);flex-shrink:0}
+.profile-info{display:flex;flex-direction:column;gap:2px}
+.profile-name{font-size:1.5rem;font-weight:600;letter-spacing:-.96px;margin-bottom:6px}
+.profile-affiliation{font-size:1rem;font-weight:400;color:var(--color-text-secondary);line-height:1.6}
+.profile-role{font-size:1rem;font-weight:600;color:var(--color-text);margin-top:4px}
+.profile-contact{font-size:1rem;color:var(--color-text-secondary);line-height:1.7;margin-top:8px}
+.profile-contact span{font-family:var(--font-mono);font-size:1rem;white-space:nowrap}
 /* Section headings are h2 under the h1 name, but keep the smaller size so they stay below the name visually. */
-.link-section h2,.instagram-section h2{font-size:1.25rem;line-height:1.4;letter-spacing:-.5px}
-.link-section h2{margin-bottom:12px}
-.instagram-section h2{margin-bottom:16px}
-.link-list{list-style:none;display:flex;flex-direction:column;gap:10px}
-.link-list li{font-size:1.125rem;font-weight:500}
+.link-section h2,.instagram-section h2{font-size:1.2rem;line-height:1.4;letter-spacing:-.5px}
+.link-section h2{margin-bottom:10px}
+.instagram-section h2{margin-bottom:10px}
+.link-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.link-list li{font-size:1rem;font-weight:500}
 .link-list a{color:var(--color-link);text-decoration:none}
 .link-list a:hover{text-decoration:underline}
-.section-note{color:var(--color-text-secondary);margin:-4px 0 16px}
-.demo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.preview-card{display:grid;grid-template-columns:140px minmax(0,1fr);min-height:150px;overflow:hidden;border-radius:8px;box-shadow:var(--shadow-card);color:var(--color-text)}
+.section-note{color:var(--color-text-secondary);margin:-4px 0 12px}
+.demo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.preview-card{display:grid;grid-template-columns:120px minmax(0,1fr);min-height:128px;overflow:hidden;border-radius:8px;box-shadow:var(--shadow-card);color:var(--color-text)}
 .preview-card:hover{text-decoration:none;box-shadow:0 0 0 1px rgba(0,0,0,.12),0 6px 16px rgba(0,0,0,.08)}
-.preview-card img{width:140px;height:150px;object-fit:cover;border-right:1px solid #ebebeb}
-.preview-card-body{padding:14px;min-width:0;overflow-wrap:anywhere}
-.preview-card-title{display:block;font-size:1.125rem;font-weight:600;line-height:1.4}
-.preview-card p{font-size:1.125rem;line-height:1.5;margin:6px 0 10px}
-.preview-card-link{color:var(--color-link);font-size:1.125rem;font-weight:600}
+.preview-card img{width:120px;height:128px;object-fit:cover;border-right:1px solid #ebebeb}
+.preview-card-body{padding:12px 14px;min-width:0;overflow-wrap:anywhere}
+.preview-card-title{display:block;font-size:1rem;font-weight:600;line-height:1.4}
+.preview-card p{font-size:1rem;line-height:1.55;margin:4px 0 8px}
+.preview-card-link{color:var(--color-link);font-size:1rem;font-weight:600}
 .preview-card.software-card{grid-template-columns:minmax(0,1fr)}
-.software-card .preview-card-body{display:flex;flex-direction:column;padding:20px}
+.software-card .preview-card-body{display:flex;flex-direction:column;padding:16px}
 .software-card .preview-card-link{margin-top:auto}
-.explorer-card{max-width:408px}
+.explorer-card{max-width:400px}
 .explorer-card img{object-position:left center}
 @media(max-width:768px){.demo-grid{grid-template-columns:1fr}}
-@media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:160px}}
-@media(max-width:420px){.preview-card{grid-template-columns:96px minmax(0,1fr)}.preview-card img{width:96px;height:130px}.preview-card-body{padding:12px}}
+@media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:144px}}
+@media(max-width:420px){.preview-card{grid-template-columns:96px minmax(0,1fr)}.preview-card img{width:96px;height:120px}.preview-card-body{padding:12px}}
