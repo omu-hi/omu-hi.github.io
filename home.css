@@ -17,9 +17,9 @@ h1, h2, h3, p { margin: 0; }
    phrases rather than inside words: Chromium finds the phrases itself, other browsers break
    only at spaces, punctuation and the <wbr> tags in the HTML. */
 h1, h2, h3 { font-feature-settings: "palt"; }
-h1, h2, h3, .site-affiliation, .staff-card p { word-break: keep-all; overflow-wrap: anywhere; }
+h1, h2, h3, .site-affiliation, .staff-card p, .site-footer address { word-break: keep-all; overflow-wrap: anywhere; }
 @supports (word-break: auto-phrase) {
-  h1, h2, h3, .site-affiliation, .staff-card p { word-break: auto-phrase; }
+  h1, h2, h3, .site-affiliation, .staff-card p, .site-footer address { word-break: auto-phrase; }
 }
 h2, h3 { text-wrap: balance; }
 .nowrap { white-space: nowrap; }
@@ -34,6 +34,7 @@ a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
 .site-brand { min-width: 0; }
 .site-title { font-size: 24px; font-weight: 700; line-height: 1.3; }
 .site-title span { display: inline-block; white-space: nowrap; }
+.site-title a { color: inherit; }
 .site-alias { display: flex; flex-wrap: wrap; gap: 0 14px; color: var(--muted); font-size: 16px; line-height: 1.4; }
 .site-affiliation { color: var(--muted); font-size: 16px; line-height: 1.4; }
 
@@ -44,7 +45,7 @@ a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
 .site-nav .lang-switch:hover { border-color: var(--accent); text-decoration: none; }
 
 .section { border-bottom: 1px solid var(--line); padding-block: 64px 72px; }
-.section h2 { margin-bottom: 28px; font-size: clamp(28px, 2.6vw, 38px); font-weight: 700; line-height: 1.35; }
+.section h1, .section h2 { margin-bottom: 28px; font-size: clamp(28px, 2.6vw, 38px); font-weight: 700; line-height: 1.35; }
 .section p { color: var(--muted); font-size: 16px; line-height: 1.85; }
 .section p + p { margin-top: 14px; }
 
@@ -85,10 +86,22 @@ a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
 .employment-table td { padding: 11px 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 16px; line-height: 1.7; vertical-align: top; }
 .year-label { display: inline-block; min-width: 108px; color: var(--text); font-size: 16px; font-weight: 700; }
 
+.employment-older summary { padding: 11px 0; border-bottom: 1px solid var(--line); color: var(--accent); font-weight: 700; cursor: pointer; }
+.employment-older summary:hover { text-decoration: underline; text-underline-offset: .2em; }
+.employment-older summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+.employment-older .employment-table { border-top: 0; }
+
 .employment-more { max-width: 900px; margin-top: 20px; }
 .employment-more a { text-decoration: underline; text-underline-offset: .2em; }
 
-.site-footer { padding-block: 32px 40px; color: var(--muted); font-size: 16px; }
+.site-footer { padding-block: 32px 40px; color: var(--muted); font-size: 16px; line-height: 1.7; }
+.site-footer .container > * + * { margin-top: 4px; }
+.site-footer .footer-name { color: var(--text); font-weight: 700; }
+.site-footer address { font-style: normal; }
+.site-footer .footer-copy { margin-top: 16px; }
+
+/* 404 page */
+.notfound-links { display: flex; flex-wrap: wrap; gap: 4px 28px; margin: 20px 0 0; padding: 0; list-style: none; font-weight: 700; }
 
 /* English pages: Latin text needs less leading, and slightly tighter tracking at heading sizes. */
 html[lang="en"] .site-title { letter-spacing: -.02em; }
