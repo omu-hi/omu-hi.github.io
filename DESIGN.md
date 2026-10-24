@@ -30,6 +30,14 @@ Japanese pages:
 - Put a subtitle on its own line instead of between dashes (―…―): a closing
   dash after katakana reads as a long-vowel mark.
 
+## Top page header
+
+The top page header is sticky only above 1050px, where it fits on one row.
+Narrower, it wraps and scrolls away with the page. When the header content
+changes, check that `scroll-padding-top` in `home.css` is a little larger than
+the sticky header (about 97px on the Japanese page and 119px on the English
+page).
+
 ## 1. Visual Theme & Atmosphere
 
 Vercel's website is the visual thesis of developer infrastructure made invisible — a design system so restrained it borders on philosophical. The page is overwhelmingly white (`#ffffff`) with near-black (`#171717`) text, creating a gallery-like emptiness where every element earns its pixel. This isn't minimalism as decoration; it's minimalism as engineering principle. The Geist design system treats the interface like a compiler treats code — every unnecessary token is stripped away until only structure remains.

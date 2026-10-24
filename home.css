@@ -99,10 +99,14 @@ html[lang="en"] .research-section .card h3 { letter-spacing: -.015em; line-heigh
 html[lang="en"] .section p { line-height: 1.7; }
 html[lang="en"] .employment-table td { line-height: 1.6; }
 html[lang="en"] .year-label { min-width: 90px; }
-/* The English affiliation line wraps, so the sticky header is taller. */
+/* The English affiliation is longer, so the sticky header is taller. */
 html[lang="en"] { scroll-padding-top: 132px; }
 
+/* The header is sticky only where it stays compact. Narrower, it wraps onto more lines and would
+   cover up to two fifths of a phone screen, so it scrolls away with the page instead. */
 @media (max-width: 1050px) {
+  html, html[lang="en"] { scroll-padding-top: 12px; }
+  .site-header { position: static; }
   .site-header .container { gap: 20px; }
   .site-title { font-size: 22px; }
   .staff-grid { gap: 20px; }
@@ -112,7 +116,6 @@ html[lang="en"] { scroll-padding-top: 132px; }
 }
 
 @media (max-width: 900px) {
-  html, html[lang="en"] { scroll-padding-top: 152px; }
   .site-header .container { flex-direction: column; align-items: stretch; gap: 4px; padding-block: 8px; }
   .site-title { font-size: 21px; }
   .site-nav { flex-wrap: wrap; gap: 0 22px; }
@@ -135,9 +138,6 @@ html[lang="en"] { scroll-padding-top: 132px; }
 }
 
 @media (max-width: 520px) {
-  html { scroll-padding-top: 195px; }
-  /* The English nav wraps to two lines, so the sticky header is taller. */
-  html[lang="en"] { scroll-padding-top: 250px; }
   .container { width: min(100% - 36px, 1200px); }
   .site-title { font-size: 19px; }
   .site-nav { gap: 0 12px; }
