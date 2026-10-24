@@ -154,11 +154,90 @@
     <div class="card">
       <h3>「あいまいさ」に<wbr>着目した<wbr>データマイニング</h3>
       <p>境界をぼかすファジィ理論や，情報を大雑把にとらえるラフ集合理論などを基礎とした柔らかい情報処理であるソフトコンピューティングの観点から，人間が持つあいまいさを反映したデータマイニング，知識発見に関する研究を行っています．ビッグデータが身近になった昨今では膨大なデータを自動的に分類するクラスタリング技術の必要性が高まっています．分類のあいまいさ，不確実性を考慮することで，より柔軟で信頼性・安全性の高いクラスタリングを実現することができます．</p>
-      <div class="research-images">
-        <img alt="患者の2つの測定値の散布図から，類似したデータを自動的に良性クラスタと悪性クラスタに分ける様子" src="assets/images/Ubukata1.png" width="542" height="340" loading="lazy">
-        <img alt="ファジィ（曖昧な）クラスタリングは所属を0〜1の実数値で表し，ラフ（大雑把な）クラスタリングは確実な領域と可能的領域で表すことを比べた図" src="assets/images/Ubukata2.png" width="505" height="343" loading="lazy">
-        <img alt="境界領域を取り除き，確実に良性・確実に悪性と判断できる領域だけを使うことで誤分類のリスクを下げ，信頼性・安全性の高いクラスタリングを実現する図" src="assets/images/Ubukata3.png" width="519" height="349" loading="lazy">
-      </div>
+      <!-- The <svg> elements and the callout's position and values are written by tools/make_cluster_figure.py. -->
+      <figure class="fr-figure">
+        <figcaption class="fr-lead">例：患者の2つの測定値から，良性・悪性のグループに自動で分ける</figcaption>
+        <ul class="fr-legend">
+          <li><i class="fr-key fr-key-benign"></i>良性</li>
+          <li><i class="fr-key fr-key-malig"></i>悪性</li>
+          <li><i class="fr-key fr-key-ring"></i>境界付近のデータ</li>
+        </ul>
+        <div class="fr-grid">
+          <div class="fr-group fr-group-base">通常の方法</div>
+          <div class="fr-panel fr-panel-hard">
+            <div class="fr-plot" aria-hidden="true">
+              <svg data-panel="hard" viewBox="0 0 300 240" focusable="false">
+                <defs><clipPath id="fr-clip-hard"><rect width="300" height="240" rx="12"/></clipPath></defs>
+                <rect class="fr-bg" width="300" height="240" rx="12"/>
+                <g clip-path="url(#fr-clip-hard)">
+                  <path class="fr-zone-benign" d="M0 0 L200.8 0 L116.7 240 L0 240 Z"/>
+                  <path class="fr-zone-malig" d="M200.8 0 L300 0 L300 240 L116.7 240 Z"/>
+                  <path class="fr-divider" d="M200.8 0 L116.7 240"/>
+                  <g><circle class="fr-ring" cx="146" cy="134" r="11"/><circle class="fr-ring" cx="172" cy="108" r="11"/><circle class="fr-ring" cx="134" cy="160" r="11"/><circle class="fr-ring" cx="118" cy="186" r="11"/></g>
+                  <g><circle class="fr-pt fr-pt-benign" cx="64" cy="62" r="6"/><circle class="fr-pt fr-pt-benign" cx="96" cy="56" r="6"/><circle class="fr-pt fr-pt-benign" cx="128" cy="66" r="6"/><circle class="fr-pt fr-pt-benign" cx="50" cy="94" r="6"/><circle class="fr-pt fr-pt-benign" cx="82" cy="88" r="6"/><circle class="fr-pt fr-pt-benign" cx="112" cy="94" r="6"/><circle class="fr-pt fr-pt-benign" cx="140" cy="100" r="6"/><circle class="fr-pt fr-pt-benign" cx="68" cy="122" r="6"/><circle class="fr-pt fr-pt-benign" cx="100" cy="124" r="6"/><circle class="fr-pt fr-pt-benign" cx="42" cy="146" r="6"/><circle class="fr-pt fr-pt-benign" cx="124" cy="80" r="6"/><circle class="fr-pt fr-pt-malig" cx="188" cy="120" r="6"/><circle class="fr-pt fr-pt-malig" cx="218" cy="112" r="6"/><circle class="fr-pt fr-pt-malig" cx="250" cy="122" r="6"/><circle class="fr-pt fr-pt-malig" cx="276" cy="138" r="6"/><circle class="fr-pt fr-pt-malig" cx="200" cy="146" r="6"/><circle class="fr-pt fr-pt-malig" cx="230" cy="142" r="6"/><circle class="fr-pt fr-pt-malig" cx="262" cy="160" r="6"/><circle class="fr-pt fr-pt-malig" cx="182" cy="170" r="6"/><circle class="fr-pt fr-pt-malig" cx="212" cy="172" r="6"/><circle class="fr-pt fr-pt-malig" cx="240" cy="168" r="6"/><circle class="fr-pt fr-pt-benign" cx="146" cy="134" r="6"/><circle class="fr-pt fr-pt-malig" cx="172" cy="108" r="6"/><circle class="fr-pt fr-pt-benign" cx="134" cy="160" r="6"/><circle class="fr-pt fr-pt-benign" cx="118" cy="186" r="6"/></g>
+                </g>
+                <path class="fr-axis" d="M20 12 V222 H290 M16 18 L20 12 L24 18 M284 218 L290 222 L284 226"/>
+                <rect class="fr-frame" x=".5" y=".5" width="299" height="239" rx="11.5"/>
+              </svg>
+              <span class="fr-label fr-ink-benign fr-at-tl">良性</span>
+              <span class="fr-label fr-ink-malig fr-at-br">悪性</span>
+            </div>
+            <div class="fr-text">
+              <p class="fr-kicker">所属を1つに決める</p>
+              <h4>通常のクラスタリング</h4>
+              <p>似たデータを自動的にグループに分ける．境界線の近くのデータも，どちらか一方に割り当てる．</p>
+            </div>
+          </div>
+          <div class="fr-group fr-group-ours">あいまいさ・不確実性を考慮した方法</div>
+          <div class="fr-panel fr-panel-fuzzy">
+            <div class="fr-plot" aria-hidden="true">
+              <svg data-panel="fuzzy" viewBox="0 0 300 240" focusable="false">
+                <defs><clipPath id="fr-clip-fuzzy"><rect width="300" height="240" rx="12"/></clipPath><radialGradient id="fr-halo-benign"><stop offset="0" class="fr-stop-benign" stop-opacity=".42"/><stop offset=".45" class="fr-stop-benign" stop-opacity=".2"/><stop offset="1" class="fr-stop-benign" stop-opacity="0"/></radialGradient><radialGradient id="fr-halo-malig"><stop offset="0" class="fr-stop-malig" stop-opacity=".42"/><stop offset=".45" class="fr-stop-malig" stop-opacity=".2"/><stop offset="1" class="fr-stop-malig" stop-opacity="0"/></radialGradient></defs>
+                <rect class="fr-bg" width="300" height="240" rx="12"/>
+                <g clip-path="url(#fr-clip-fuzzy)">
+                  <circle class="fr-halo" cx="96.8" cy="101.2" r="122.8" fill="url(#fr-halo-benign)"/>
+                  <circle class="fr-halo" cx="218.8" cy="143.9" r="122.8" fill="url(#fr-halo-malig)"/>
+                  <g><circle class="fr-ring" cx="146" cy="134" r="11"/><circle class="fr-ring" cx="172" cy="108" r="11"/><circle class="fr-ring" cx="134" cy="160" r="11"/><circle class="fr-ring" cx="118" cy="186" r="11"/></g>
+                  <g><circle class="fr-pt" cx="64" cy="62" r="6" fill="#426e9e"/><circle class="fr-pt" cx="96" cy="56" r="6" fill="#436e9e"/><circle class="fr-pt" cx="128" cy="66" r="6" fill="#4d6e99"/><circle class="fr-pt" cx="50" cy="94" r="6" fill="#406e9f"/><circle class="fr-pt" cx="82" cy="88" r="6" fill="#346ea3"/><circle class="fr-pt" cx="112" cy="94" r="6" fill="#346ea3"/><circle class="fr-pt" cx="140" cy="100" r="6" fill="#576e94"/><circle class="fr-pt" cx="68" cy="122" r="6" fill="#3c6ea0"/><circle class="fr-pt" cx="100" cy="124" r="6" fill="#386ea2"/><circle class="fr-pt" cx="42" cy="146" r="6" fill="#4e6e99"/><circle class="fr-pt" cx="124" cy="80" r="6" fill="#436e9e"/><circle class="fr-pt" cx="188" cy="120" r="6" fill="#b15d4f"/><circle class="fr-pt" cx="218" cy="112" r="6" fill="#bb5943"/><circle class="fr-pt" cx="250" cy="122" r="6" fill="#bb5842"/><circle class="fr-pt" cx="276" cy="138" r="6" fill="#b85a47"/><circle class="fr-pt" cx="200" cy="146" r="6" fill="#bf573e"/><circle class="fr-pt" cx="230" cy="142" r="6" fill="#c1553a"/><circle class="fr-pt" cx="262" cy="160" r="6" fill="#bb5943"/><circle class="fr-pt" cx="182" cy="170" r="6" fill="#b15d4e"/><circle class="fr-pt" cx="212" cy="172" r="6" fill="#bd5840"/><circle class="fr-pt" cx="240" cy="168" r="6" fill="#bd573f"/><circle class="fr-pt" cx="146" cy="134" r="6" fill="#776b81"/><circle class="fr-pt" cx="172" cy="108" r="6" fill="#95666a"/><circle class="fr-pt" cx="134" cy="160" r="6" fill="#776b81"/><circle class="fr-pt" cx="118" cy="186" r="6" fill="#766b81"/></g>
+                </g>
+                <path class="fr-axis" d="M20 12 V222 H290 M16 18 L20 12 L24 18 M284 218 L290 222 L284 226"/>
+                <rect class="fr-frame" x=".5" y=".5" width="299" height="239" rx="11.5"/>
+              </svg>
+              <span class="fr-callout" style="left:57.3%;top:45%"><span class="fr-ink-benign">良性 <span data-u="benign">0.38</span></span><span class="fr-ink-malig">悪性 <span data-u="malig">0.62</span></span></span>
+            </div>
+            <div class="fr-text">
+              <p class="fr-kicker">所属を度合いで表す</p>
+              <h4>ファジィクラスタリング</h4>
+              <p>所属の度合いを0〜1の実数値で表し，分類のあいまいさを扱う．境界付近のデータは，両方のグループに少しずつ属する．</p>
+            </div>
+          </div>
+          <div class="fr-panel fr-panel-rough">
+            <div class="fr-plot" aria-hidden="true">
+              <svg data-panel="rough" viewBox="0 0 300 240" focusable="false">
+                <defs><clipPath id="fr-clip-rough"><rect width="300" height="240" rx="12"/></clipPath><pattern id="fr-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path class="fr-hatch" d="M0 0 V6"/></pattern></defs>
+                <rect class="fr-bg" width="300" height="240" rx="12"/>
+                <g clip-path="url(#fr-clip-rough)">
+                  <rect width="300" height="240" fill="url(#fr-hatch)"/>
+                  <circle class="fr-zone-benign fr-lower-benign" cx="18.6" cy="73.8" r="132.6"/>
+                  <circle class="fr-zone-malig fr-lower-malig" cx="297" cy="171.4" r="132.6"/>
+                  <g><circle class="fr-ring" cx="146" cy="134" r="11"/><circle class="fr-ring" cx="172" cy="108" r="11"/><circle class="fr-ring" cx="134" cy="160" r="11"/><circle class="fr-ring" cx="118" cy="186" r="11"/></g>
+                  <g><circle class="fr-pt fr-pt-benign" cx="64" cy="62" r="6"/><circle class="fr-pt fr-pt-benign" cx="96" cy="56" r="6"/><circle class="fr-pt fr-pt-benign" cx="128" cy="66" r="6"/><circle class="fr-pt fr-pt-benign" cx="50" cy="94" r="6"/><circle class="fr-pt fr-pt-benign" cx="82" cy="88" r="6"/><circle class="fr-pt fr-pt-benign" cx="112" cy="94" r="6"/><circle class="fr-pt fr-pt-benign" cx="140" cy="100" r="6"/><circle class="fr-pt fr-pt-benign" cx="68" cy="122" r="6"/><circle class="fr-pt fr-pt-benign" cx="100" cy="124" r="6"/><circle class="fr-pt fr-pt-benign" cx="42" cy="146" r="6"/><circle class="fr-pt fr-pt-benign" cx="124" cy="80" r="6"/><circle class="fr-pt fr-pt-malig" cx="188" cy="120" r="6"/><circle class="fr-pt fr-pt-malig" cx="218" cy="112" r="6"/><circle class="fr-pt fr-pt-malig" cx="250" cy="122" r="6"/><circle class="fr-pt fr-pt-malig" cx="276" cy="138" r="6"/><circle class="fr-pt fr-pt-malig" cx="200" cy="146" r="6"/><circle class="fr-pt fr-pt-malig" cx="230" cy="142" r="6"/><circle class="fr-pt fr-pt-malig" cx="262" cy="160" r="6"/><circle class="fr-pt fr-pt-malig" cx="182" cy="170" r="6"/><circle class="fr-pt fr-pt-malig" cx="212" cy="172" r="6"/><circle class="fr-pt fr-pt-malig" cx="240" cy="168" r="6"/><circle class="fr-pt fr-pt-bound" cx="146" cy="134" r="6"/><circle class="fr-pt fr-pt-bound" cx="172" cy="108" r="6"/><circle class="fr-pt fr-pt-bound" cx="134" cy="160" r="6"/><circle class="fr-pt fr-pt-bound" cx="118" cy="186" r="6"/></g>
+                </g>
+                <path class="fr-axis" d="M20 12 V222 H290 M16 18 L20 12 L24 18 M284 218 L290 222 L284 226"/>
+                <rect class="fr-frame" x=".5" y=".5" width="299" height="239" rx="11.5"/>
+              </svg>
+              <span class="fr-label fr-ink-benign fr-at-tl">確実に良性</span>
+              <span class="fr-label fr-ink-bound fr-at-tr">境界領域</span>
+              <span class="fr-label fr-ink-malig fr-at-br">確実に悪性</span>
+            </div>
+            <div class="fr-text">
+              <p class="fr-kicker">確実な所属と可能な所属を分ける</p>
+              <h4>ラフクラスタリング</h4>
+              <p>確実に属する領域（下近似）と，属する可能性がある領域（上近似）で表し，分類の不確実性を扱う．境界領域を除いて判断することで，誤分類のリスクを下げる．</p>
+            </div>
+          </div>
+        </div>
+      </figure>
     </div>
 
     <div class="card">

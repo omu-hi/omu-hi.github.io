@@ -154,11 +154,91 @@
     <div class="card">
       <h3>Data mining that embraces vagueness</h3>
       <p>From the viewpoint of soft computing&mdash;flexible information processing built on fuzzy theory, which blurs boundaries, and rough set theory, which captures information coarsely&mdash;we study data mining and knowledge discovery that reflect the vagueness of human judgment. Now that big data is part of everyday life, there is a growing need for clustering techniques that automatically classify huge amounts of data. By taking the vagueness and uncertainty of classification into account, we can achieve clustering that is more flexible, reliable and safe.</p>
-      <div class="research-images">
-        <img alt="Diagram, labeled in Japanese: clustering automatically divides patient records, plotted by two measurements, into a benign cluster and a malignant cluster" src="/assets/images/Ubukata1.png" width="542" height="340" loading="lazy">
-        <img alt="Diagram, labeled in Japanese, comparing fuzzy clustering, which represents membership as a real value between 0 and 1, with rough clustering, which represents each cluster by a certain region and a possible region" src="/assets/images/Ubukata2.png" width="505" height="343" loading="lazy">
-        <img alt="Diagram, labeled in Japanese: setting aside the boundary region and using only the regions that are certainly benign or certainly malignant lowers the risk of misclassification, making clustering more reliable and safe" src="/assets/images/Ubukata3.png" width="519" height="349" loading="lazy">
-      </div>
+      <!-- The <svg> elements and the callout's position and values are written by tools/make_cluster_figure.py. -->
+      <figure class="fr-figure">
+        <figcaption class="fr-lead">Example: sorting patients into benign and malignant groups automatically from two measurements</figcaption>
+        <ul class="fr-legend">
+          <li><i class="fr-key fr-key-benign"></i>Benign</li>
+          <li><i class="fr-key fr-key-malig"></i>Malignant</li>
+          <li><i class="fr-key fr-key-ring"></i>Data near the boundary</li>
+        </ul>
+        <div class="fr-grid">
+          <div class="fr-group fr-group-base">Conventional method</div>
+          <div class="fr-panel fr-panel-hard">
+            <div class="fr-plot" aria-hidden="true">
+              <svg data-panel="hard" viewBox="0 0 300 240" focusable="false">
+                <defs><clipPath id="fr-clip-hard"><rect width="300" height="240" rx="12"/></clipPath></defs>
+                <rect class="fr-bg" width="300" height="240" rx="12"/>
+                <g clip-path="url(#fr-clip-hard)">
+                  <path class="fr-zone-benign" d="M0 0 L200.8 0 L116.7 240 L0 240 Z"/>
+                  <path class="fr-zone-malig" d="M200.8 0 L300 0 L300 240 L116.7 240 Z"/>
+                  <path class="fr-divider" d="M200.8 0 L116.7 240"/>
+                  <g><circle class="fr-ring" cx="146" cy="134" r="11"/><circle class="fr-ring" cx="172" cy="108" r="11"/><circle class="fr-ring" cx="134" cy="160" r="11"/><circle class="fr-ring" cx="118" cy="186" r="11"/></g>
+                  <g><circle class="fr-pt fr-pt-benign" cx="64" cy="62" r="6"/><circle class="fr-pt fr-pt-benign" cx="96" cy="56" r="6"/><circle class="fr-pt fr-pt-benign" cx="128" cy="66" r="6"/><circle class="fr-pt fr-pt-benign" cx="50" cy="94" r="6"/><circle class="fr-pt fr-pt-benign" cx="82" cy="88" r="6"/><circle class="fr-pt fr-pt-benign" cx="112" cy="94" r="6"/><circle class="fr-pt fr-pt-benign" cx="140" cy="100" r="6"/><circle class="fr-pt fr-pt-benign" cx="68" cy="122" r="6"/><circle class="fr-pt fr-pt-benign" cx="100" cy="124" r="6"/><circle class="fr-pt fr-pt-benign" cx="42" cy="146" r="6"/><circle class="fr-pt fr-pt-benign" cx="124" cy="80" r="6"/><circle class="fr-pt fr-pt-malig" cx="188" cy="120" r="6"/><circle class="fr-pt fr-pt-malig" cx="218" cy="112" r="6"/><circle class="fr-pt fr-pt-malig" cx="250" cy="122" r="6"/><circle class="fr-pt fr-pt-malig" cx="276" cy="138" r="6"/><circle class="fr-pt fr-pt-malig" cx="200" cy="146" r="6"/><circle class="fr-pt fr-pt-malig" cx="230" cy="142" r="6"/><circle class="fr-pt fr-pt-malig" cx="262" cy="160" r="6"/><circle class="fr-pt fr-pt-malig" cx="182" cy="170" r="6"/><circle class="fr-pt fr-pt-malig" cx="212" cy="172" r="6"/><circle class="fr-pt fr-pt-malig" cx="240" cy="168" r="6"/><circle class="fr-pt fr-pt-benign" cx="146" cy="134" r="6"/><circle class="fr-pt fr-pt-malig" cx="172" cy="108" r="6"/><circle class="fr-pt fr-pt-benign" cx="134" cy="160" r="6"/><circle class="fr-pt fr-pt-benign" cx="118" cy="186" r="6"/></g>
+                </g>
+                <path class="fr-axis" d="M20 12 V222 H290 M16 18 L20 12 L24 18 M284 218 L290 222 L284 226"/>
+                <rect class="fr-frame" x=".5" y=".5" width="299" height="239" rx="11.5"/>
+              </svg>
+              <span class="fr-label fr-ink-benign fr-at-tl">Benign</span>
+              <span class="fr-label fr-ink-malig fr-at-br">Malignant</span>
+            </div>
+            <div class="fr-text">
+              <p class="fr-kicker">One group per item</p>
+              <h4>Conventional clustering</h4>
+              <p>Similar data are grouped automatically. Data near the boundary line are also assigned to one group or the other.</p>
+            </div>
+          </div>
+          <div class="fr-group fr-group-ours">Methods that handle vagueness and uncertainty</div>
+          <div class="fr-panel fr-panel-fuzzy">
+            <div class="fr-plot" aria-hidden="true">
+              <svg data-panel="fuzzy" viewBox="0 0 300 240" focusable="false">
+                <defs><clipPath id="fr-clip-fuzzy"><rect width="300" height="240" rx="12"/></clipPath><radialGradient id="fr-halo-benign"><stop offset="0" class="fr-stop-benign" stop-opacity=".42"/><stop offset=".45" class="fr-stop-benign" stop-opacity=".2"/><stop offset="1" class="fr-stop-benign" stop-opacity="0"/></radialGradient><radialGradient id="fr-halo-malig"><stop offset="0" class="fr-stop-malig" stop-opacity=".42"/><stop offset=".45" class="fr-stop-malig" stop-opacity=".2"/><stop offset="1" class="fr-stop-malig" stop-opacity="0"/></radialGradient></defs>
+                <rect class="fr-bg" width="300" height="240" rx="12"/>
+                <g clip-path="url(#fr-clip-fuzzy)">
+                  <circle class="fr-halo" cx="96.8" cy="101.2" r="122.8" fill="url(#fr-halo-benign)"/>
+                  <circle class="fr-halo" cx="218.8" cy="143.9" r="122.8" fill="url(#fr-halo-malig)"/>
+                  <g><circle class="fr-ring" cx="146" cy="134" r="11"/><circle class="fr-ring" cx="172" cy="108" r="11"/><circle class="fr-ring" cx="134" cy="160" r="11"/><circle class="fr-ring" cx="118" cy="186" r="11"/></g>
+                  <g><circle class="fr-pt" cx="64" cy="62" r="6" fill="#426e9e"/><circle class="fr-pt" cx="96" cy="56" r="6" fill="#436e9e"/><circle class="fr-pt" cx="128" cy="66" r="6" fill="#4d6e99"/><circle class="fr-pt" cx="50" cy="94" r="6" fill="#406e9f"/><circle class="fr-pt" cx="82" cy="88" r="6" fill="#346ea3"/><circle class="fr-pt" cx="112" cy="94" r="6" fill="#346ea3"/><circle class="fr-pt" cx="140" cy="100" r="6" fill="#576e94"/><circle class="fr-pt" cx="68" cy="122" r="6" fill="#3c6ea0"/><circle class="fr-pt" cx="100" cy="124" r="6" fill="#386ea2"/><circle class="fr-pt" cx="42" cy="146" r="6" fill="#4e6e99"/><circle class="fr-pt" cx="124" cy="80" r="6" fill="#436e9e"/><circle class="fr-pt" cx="188" cy="120" r="6" fill="#b15d4f"/><circle class="fr-pt" cx="218" cy="112" r="6" fill="#bb5943"/><circle class="fr-pt" cx="250" cy="122" r="6" fill="#bb5842"/><circle class="fr-pt" cx="276" cy="138" r="6" fill="#b85a47"/><circle class="fr-pt" cx="200" cy="146" r="6" fill="#bf573e"/><circle class="fr-pt" cx="230" cy="142" r="6" fill="#c1553a"/><circle class="fr-pt" cx="262" cy="160" r="6" fill="#bb5943"/><circle class="fr-pt" cx="182" cy="170" r="6" fill="#b15d4e"/><circle class="fr-pt" cx="212" cy="172" r="6" fill="#bd5840"/><circle class="fr-pt" cx="240" cy="168" r="6" fill="#bd573f"/><circle class="fr-pt" cx="146" cy="134" r="6" fill="#776b81"/><circle class="fr-pt" cx="172" cy="108" r="6" fill="#95666a"/><circle class="fr-pt" cx="134" cy="160" r="6" fill="#776b81"/><circle class="fr-pt" cx="118" cy="186" r="6" fill="#766b81"/></g>
+                </g>
+                <path class="fr-axis" d="M20 12 V222 H290 M16 18 L20 12 L24 18 M284 218 L290 222 L284 226"/>
+                <rect class="fr-frame" x=".5" y=".5" width="299" height="239" rx="11.5"/>
+              </svg>
+              <!-- The English class names do not fit beside the point, so the callout uses the legend's colour keys. -->
+              <span class="fr-callout" style="left:57.3%;top:45%"><span class="fr-ink-benign"><i class="fr-key fr-key-benign"></i><span data-u="benign">0.38</span></span><span class="fr-ink-malig"><i class="fr-key fr-key-malig"></i><span data-u="malig">0.62</span></span></span>
+            </div>
+            <div class="fr-text">
+              <p class="fr-kicker">Membership by degree</p>
+              <h4>Fuzzy clustering</h4>
+              <p>Membership is a real value between 0 and 1, which handles the vagueness of classification. Data near the boundary belong partly to both groups.</p>
+            </div>
+          </div>
+          <div class="fr-panel fr-panel-rough">
+            <div class="fr-plot" aria-hidden="true">
+              <svg data-panel="rough" viewBox="0 0 300 240" focusable="false">
+                <defs><clipPath id="fr-clip-rough"><rect width="300" height="240" rx="12"/></clipPath><pattern id="fr-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path class="fr-hatch" d="M0 0 V6"/></pattern></defs>
+                <rect class="fr-bg" width="300" height="240" rx="12"/>
+                <g clip-path="url(#fr-clip-rough)">
+                  <rect width="300" height="240" fill="url(#fr-hatch)"/>
+                  <circle class="fr-zone-benign fr-lower-benign" cx="18.6" cy="73.8" r="132.6"/>
+                  <circle class="fr-zone-malig fr-lower-malig" cx="297" cy="171.4" r="132.6"/>
+                  <g><circle class="fr-ring" cx="146" cy="134" r="11"/><circle class="fr-ring" cx="172" cy="108" r="11"/><circle class="fr-ring" cx="134" cy="160" r="11"/><circle class="fr-ring" cx="118" cy="186" r="11"/></g>
+                  <g><circle class="fr-pt fr-pt-benign" cx="64" cy="62" r="6"/><circle class="fr-pt fr-pt-benign" cx="96" cy="56" r="6"/><circle class="fr-pt fr-pt-benign" cx="128" cy="66" r="6"/><circle class="fr-pt fr-pt-benign" cx="50" cy="94" r="6"/><circle class="fr-pt fr-pt-benign" cx="82" cy="88" r="6"/><circle class="fr-pt fr-pt-benign" cx="112" cy="94" r="6"/><circle class="fr-pt fr-pt-benign" cx="140" cy="100" r="6"/><circle class="fr-pt fr-pt-benign" cx="68" cy="122" r="6"/><circle class="fr-pt fr-pt-benign" cx="100" cy="124" r="6"/><circle class="fr-pt fr-pt-benign" cx="42" cy="146" r="6"/><circle class="fr-pt fr-pt-benign" cx="124" cy="80" r="6"/><circle class="fr-pt fr-pt-malig" cx="188" cy="120" r="6"/><circle class="fr-pt fr-pt-malig" cx="218" cy="112" r="6"/><circle class="fr-pt fr-pt-malig" cx="250" cy="122" r="6"/><circle class="fr-pt fr-pt-malig" cx="276" cy="138" r="6"/><circle class="fr-pt fr-pt-malig" cx="200" cy="146" r="6"/><circle class="fr-pt fr-pt-malig" cx="230" cy="142" r="6"/><circle class="fr-pt fr-pt-malig" cx="262" cy="160" r="6"/><circle class="fr-pt fr-pt-malig" cx="182" cy="170" r="6"/><circle class="fr-pt fr-pt-malig" cx="212" cy="172" r="6"/><circle class="fr-pt fr-pt-malig" cx="240" cy="168" r="6"/><circle class="fr-pt fr-pt-bound" cx="146" cy="134" r="6"/><circle class="fr-pt fr-pt-bound" cx="172" cy="108" r="6"/><circle class="fr-pt fr-pt-bound" cx="134" cy="160" r="6"/><circle class="fr-pt fr-pt-bound" cx="118" cy="186" r="6"/></g>
+                </g>
+                <path class="fr-axis" d="M20 12 V222 H290 M16 18 L20 12 L24 18 M284 218 L290 222 L284 226"/>
+                <rect class="fr-frame" x=".5" y=".5" width="299" height="239" rx="11.5"/>
+              </svg>
+              <span class="fr-label fr-ink-benign fr-at-tl">Benign</span>
+              <span class="fr-label fr-ink-bound fr-at-tr">Boundary</span>
+              <span class="fr-label fr-ink-malig fr-at-br">Malignant</span>
+            </div>
+            <div class="fr-text">
+              <p class="fr-kicker">Certain vs. possible</p>
+              <h4>Rough clustering</h4>
+              <p>Each group has a region of data that certainly belong to it (lower approximation) and a region of data that possibly belong to it (upper approximation), which handles the uncertainty of classification. Deciding without the boundary region lowers the risk of misclassification.</p>
+            </div>
+          </div>
+        </div>
+      </figure>
     </div>
 
     <div class="card">

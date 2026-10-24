@@ -25,6 +25,10 @@ GitHub Pages はこのリポジトリを Jekyll でビルドし、置いてあ�
 
 写真を置くときは、撮影日時・カメラ機種・位置情報などのメタデータ（EXIF）を消してからにする。
 
+## 研究の図（クラスタリング）
+
+トップページ（日英）の「あいまいさ」の研究にある 3 つの散布図は `python tools/make_cluster_figure.py` で作ります（numpy が必要）。データ点と境界領域のしきい値はスクリプト内で定義していて、実行すると `index.html` と `en/index.html` の `<svg data-panel="…">` と、吹き出しの位置・所属度を書き換えます。図の中のラベルや説明文はページの HTML に書いてあるので、文言はページ側で直し、日英をそろえる。
+
 ## favicon
 
 `icon.svg`・`favicon.ico`・`apple-touch-icon.png` は `python tools/make_favicon.py hi` で作ります。図形はスクリプト内で定義しているので、デザインを変えるときはスクリプトを直して再実行します（`--preview <フォルダ>` で全案の比較ページを書き出せます）。ページを追加したら、`<head>` に既存ページと同じ 3 行の `<link rel="icon" …>` を入れる。
