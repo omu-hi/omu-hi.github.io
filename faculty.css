@@ -1,6 +1,9 @@
 /* Faculty pages (/honda/, /ubukata/ and their /en/ versions). Load after style.css. */
 /* Use the top page's accent colour and font stack (home.css); the demos keep style.css's palette. */
 :root{--color-link:#205c4c;--color-focus:#205c4c;--font-sans:"Helvetica Neue","Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
+/* The header bar has the top page's light green tint (home.css --header). */
+.site-header{background:#e6f0eb;border-bottom-color:#cbdbd3}
+.lang-switch{background:#fff}
 .profile{display:flex;gap:24px;align-items:flex-start}
 .profile img{width:168px;border-radius:8px;box-shadow:var(--shadow-card);flex-shrink:0}
 .profile-info{display:flex;flex-direction:column;gap:2px}
@@ -34,5 +37,6 @@ html[lang="ja"] .profile-name,html[lang="ja"] .section h2{font-feature-settings:
 .explorer-card{max-width:400px}
 .explorer-card img{object-position:left center}
 @media(max-width:768px){.demo-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.lang-switch{background:none}}
 @media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:144px}}
 @media(max-width:420px){.preview-card{grid-template-columns:96px minmax(0,1fr)}.preview-card img{width:96px;height:120px}.preview-card-body{padding:12px}}
