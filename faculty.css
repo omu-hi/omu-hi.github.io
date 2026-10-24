@@ -1,4 +1,6 @@
 /* Faculty pages (/honda/, /ubukata/ and their /en/ versions). Load after style.css. */
+/* Use the top page's accent colour and font stack (home.css); the demos keep style.css's palette. */
+:root{--color-link:#205c4c;--color-focus:#205c4c;--font-sans:"Helvetica Neue","Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
 .profile{display:flex;gap:24px;align-items:flex-start}
 .profile img{width:168px;border-radius:8px;box-shadow:var(--shadow-card);flex-shrink:0}
 .profile-info{display:flex;flex-direction:column;gap:2px}
@@ -8,7 +10,7 @@ html[lang="ja"] .profile-name,html[lang="ja"] .section h2{font-feature-settings:
 .profile-affiliation{font-size:1rem;font-weight:400;color:var(--color-text-secondary);line-height:1.6}
 .profile-role{font-size:1rem;font-weight:600;color:var(--color-text);margin-top:4px}
 .profile-contact{font-size:1rem;color:var(--color-text-secondary);line-height:1.7;margin-top:8px}
-.profile-contact span{font-family:var(--font-mono);font-size:1rem;white-space:nowrap}
+.profile-contact span{white-space:nowrap}
 /* Section headings are h2 under the h1 name, but keep the smaller size so they stay below the name visually. */
 .link-section h2,.instagram-section h2{font-size:1.2rem;line-height:1.4;letter-spacing:-.5px}
 .link-section h2{margin-bottom:10px}
