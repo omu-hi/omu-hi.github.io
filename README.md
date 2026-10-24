@@ -19,6 +19,12 @@
 3. 氏名・職名・写真を変えたら `python tools/make_ogp.py` で OGP 画像（日英）を作り直す。
 4. コミット前に `python tools/check_i18n.py` を実行し、日英の対応漏れがないことを確かめる。
 
+## 公開されるファイル
+
+GitHub Pages はこのリポジトリを Jekyll でビルドし、置いてあるファイルをそのまま公開します。サイトに出さないもの（この README、`DESIGN.md`、`tools/`、`backup/`、`top-v2/` など）は `_config.yml` の `exclude` に並べています。公開しないファイルやフォルダを追加したら、`exclude` にも足してください。
+
+写真を置くときは、撮影日時・カメラ機種・位置情報などのメタデータ（EXIF）を消してからにする。
+
 ## favicon
 
 `icon.svg`・`favicon.ico`・`apple-touch-icon.png` は `python tools/make_favicon.py hi` で作ります。図形はスクリプト内で定義しているので、デザインを変えるときはスクリプトを直して再実行します（`--preview <フォルダ>` で全案の比較ページを書き出せます）。ページを追加したら、`<head>` に既存ページと同じ 3 行の `<link rel="icon" …>` を入れる。

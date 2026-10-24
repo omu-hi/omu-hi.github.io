@@ -1,0 +1,9 @@
+# GitHub Pages builds this site with Jekyll. The files below stay in the
+# repository but are not published on the site.
+exclude:
+  - README.md
+  - DESIGN.md
+  - tools
+  - backup
+  - top-v2
+  - demo/data-points/model.test.mjs
