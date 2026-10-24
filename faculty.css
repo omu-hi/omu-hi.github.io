@@ -3,6 +3,8 @@
 .profile img{width:168px;border-radius:8px;box-shadow:var(--shadow-card);flex-shrink:0}
 .profile-info{display:flex;flex-direction:column;gap:2px}
 .profile-name{font-size:1.5rem;font-weight:600;letter-spacing:-.96px;margin-bottom:6px}
+/* Japanese headings use proportional kana instead of the tight Latin tracking, as on the top page. */
+html[lang="ja"] .profile-name,html[lang="ja"] .section h2{font-feature-settings:"palt";letter-spacing:0}
 .profile-affiliation{font-size:1rem;font-weight:400;color:var(--color-text-secondary);line-height:1.6}
 .profile-role{font-size:1rem;font-weight:600;color:var(--color-text);margin-top:4px}
 .profile-contact{font-size:1rem;color:var(--color-text-secondary);line-height:1.7;margin-top:8px}

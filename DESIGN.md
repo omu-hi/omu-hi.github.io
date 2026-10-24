@@ -15,6 +15,21 @@ minimum, because they are used as teaching material.
 Keep pages compact: body text is 16px, and sections use moderate spacing
 (about 40–72px of vertical padding) rather than large empty bands.
 
+## Japanese text
+
+The reference below is written for Latin text set in Geist. On this site's
+Japanese pages:
+
+- Headings use proportional kana (`font-feature-settings: "palt"`) and no
+  negative letter-spacing. The negative tracking in the reference applies to
+  Latin headings only; the English pages keep a light version of it.
+- Headings and short labels break between phrases, never inside a word:
+  `word-break: auto-phrase` where supported, otherwise `word-break: keep-all`
+  with `<wbr>` between phrases in the HTML. Wrap terms that must stay on one
+  line, such as `GENIAC-PRIZE`, in `<span class="nowrap">`.
+- Put a subtitle on its own line instead of between dashes (―…―): a closing
+  dash after katakana reads as a long-vowel mark.
+
 ## 1. Visual Theme & Atmosphere
 
 Vercel's website is the visual thesis of developer infrastructure made invisible — a design system so restrained it borders on philosophical. The page is overwhelmingly white (`#ffffff`) with near-black (`#171717`) text, creating a gallery-like emptiness where every element earns its pixel. This isn't minimalism as decoration; it's minimalism as engineering principle. The Geist design system treats the interface like a compiler treats code — every unnecessary token is stripped away until only structure remains.
