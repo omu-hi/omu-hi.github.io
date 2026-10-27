@@ -36,6 +36,11 @@ html[lang="ja"] .profile-name,html[lang="ja"] .section h2{font-feature-settings:
 .software-card .preview-card-link{margin-top:auto}
 .explorer-card{max-width:400px}
 .explorer-card img{object-position:left center}
+/* A low-key one-line link at the end of the page, such as a provisional talk site. */
+.quiet-note{padding:20px 0}
+.quiet-note p{color:var(--color-text-secondary)}
+.quiet-note a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.quiet-note a:hover{color:var(--color-link)}
 @media(max-width:768px){.demo-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.lang-switch{background:none}}
 @media(max-width:600px){.profile{flex-direction:column;align-items:center;text-align:center}.profile img{width:144px}}
